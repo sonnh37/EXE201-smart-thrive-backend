@@ -1,0 +1,6 @@
+@EXE201.SmartThrive.API_HostAddress = http://localhost:5278
+
+GET {{EXE201.SmartThrive.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
