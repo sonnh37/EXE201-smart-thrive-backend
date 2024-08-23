@@ -5,9 +5,9 @@ VisualStudioVersion = 17.10.34928.147
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EXE201.SmartThrive.API", "EXE201.SmartThrive.API\EXE201.SmartThrive.API.csproj", "{12087F00-734E-4C54-8C72-7877533AE632}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EXE201.SmartThrive.Service", "EXE201.SmartThrive.Service\EXE201.SmartThrive.Service.csproj", "{C2ED0329-93DD-47D5-AC43-78EB86EAB7E8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EXE201.SmartThrive.Services", "EXE201.SmartThrive.Services\EXE201.SmartThrive.Services.csproj", "{C2ED0329-93DD-47D5-AC43-78EB86EAB7E8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EXE201.SmartThrive.Repository", "EXE201.SmartThrive.Repository\EXE201.SmartThrive.Repository.csproj", "{294DAA68-49F1-475A-848B-BE4BDFEDBD6E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EXE201.SmartThrive.Repositories", "EXE201.SmartThrive.Repositories\EXE201.SmartThrive.Repositories.csproj", "{294DAA68-49F1-475A-848B-BE4BDFEDBD6E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

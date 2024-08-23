@@ -1,0 +1,14 @@
+﻿namespace EXE201.SmartThrive.Repositories.Data.Entities;
+
+public class Module : BaseEntity
+{
+    public Guid? CourseId { get; set; }
+
+    public string? Name { get; set; }
+    
+    public string? Description { get; set; }
+    
+    public virtual Course? Course { get; set; }
+    
+    public virtual ICollection<Session>? Sessions { get; set; }
+}

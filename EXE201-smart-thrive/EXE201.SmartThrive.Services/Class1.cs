@@ -1,4 +1,4 @@
-﻿namespace EXE201.SmartThrive.Service
+﻿namespace EXE201.SmartThrive.Services
 {
     public class Class1
     {
