@@ -21,11 +21,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\EXE201.SmartThrive.Domain\EXE201.SmartThrive.Domain.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="UnitOfWorks\" />
+        <ProjectReference Include="..\EXE201.SmartThrive.Domain\EXE201.SmartThrive.Domain.csproj"/>
     </ItemGroup>
 
 </Project>

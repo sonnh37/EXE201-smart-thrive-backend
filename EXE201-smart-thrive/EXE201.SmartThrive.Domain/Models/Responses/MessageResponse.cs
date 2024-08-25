@@ -5,9 +5,9 @@ public class MessageResponse
     public bool IsSuccess { get; protected set; }
     public string Message { get; protected set; }
 
-    public MessageResponse(bool isData, string message)
+    public MessageResponse(bool isSuccess, string message)
     {
-        IsSuccess = isData;
+        IsSuccess = isSuccess;
         Message = message;
     }
 }

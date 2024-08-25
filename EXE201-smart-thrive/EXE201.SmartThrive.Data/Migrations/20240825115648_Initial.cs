@@ -12,7 +12,7 @@ namespace EXE201.SmartThrive.Data.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Assisant",
+                name: "Assistant",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWID()"),
@@ -27,7 +27,7 @@ namespace EXE201.SmartThrive.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Assisant", x => x.Id);
+                    table.PrimaryKey("PK_Assistant", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -692,7 +692,7 @@ namespace EXE201.SmartThrive.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Assisant");
+                name: "Assistant");
 
             migrationBuilder.DropTable(
                 name: "Blog");

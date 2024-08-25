@@ -210,7 +210,7 @@ public class STDbContext : BaseDbContext
             e.ToTable("StudentXPackage");
             e.HasKey(x => x.Id);
             e.Property(x => x.Id).ValueGeneratedOnAdd().HasDefaultValueSql("NEWID()");
-            
+
             e.HasOne(x => x.Student)
                 .WithMany(x => x.StudentXPackages)
                 .HasForeignKey(x => x.StudentId)
@@ -220,7 +220,7 @@ public class STDbContext : BaseDbContext
                 .HasForeignKey(x => x.PackageId)
                 .OnDelete(DeleteBehavior.Restrict);
         });
-        
+
         modelBuilder.Entity<OrderDetail>(e =>
         {
             e.ToTable("OrderDetail");
@@ -228,7 +228,7 @@ public class STDbContext : BaseDbContext
             e.Property(x => x.Id).ValueGeneratedOnAdd().HasDefaultValueSql("NEWID()");
             e.Property(x => x.Price).HasColumnType("decimal(18,2)");
             e.Property(x => x.PriceDiscount).HasColumnType("decimal(18,2)");
-            
+
             e.HasOne(x => x.Order)
                 .WithMany(x => x.OrderDetails)
                 .HasForeignKey(x => x.OrderId)
@@ -261,7 +261,7 @@ public class STDbContext : BaseDbContext
             e.ToTable("Voucher");
             e.HasKey(x => x.Id);
             e.Property(x => x.Id).ValueGeneratedOnAdd().HasDefaultValueSql("NEWID()");
-            
+
             e.HasOne(x => x.Order)
                 .WithOne(x => x.Voucher)
                 .HasForeignKey<Order>(x => x.VoucherId)
@@ -273,16 +273,16 @@ public class STDbContext : BaseDbContext
             e.ToTable("Blog");
             e.HasKey(x => x.Id);
             e.Property(x => x.Id).ValueGeneratedOnAdd().HasDefaultValueSql("NEWID()");
-            
+
             e.HasOne(x => x.User)
                 .WithMany(x => x.Blogs)
                 .HasForeignKey(x => x.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
         });
 
-        modelBuilder.Entity<Assisant>(e =>
+        modelBuilder.Entity<Assistant>(e =>
         {
-            e.ToTable("Assisant");
+            e.ToTable("Assistant");
             e.HasKey(x => x.Id);
             e.Property(x => x.Id).ValueGeneratedOnAdd().HasDefaultValueSql("NEWID()");
         });
@@ -293,7 +293,7 @@ public class STDbContext : BaseDbContext
             e.ToTable("DayInWeek");
             e.HasKey(x => x.Id);
             e.Property(x => x.Id).ValueGeneratedOnAdd().HasDefaultValueSql("NEWID()");
-            
+
             e.HasOne(x => x.Course)
                 .WithOne(x => x.DayInWeek)
                 .HasForeignKey<DayInWeek>(x => x.CourseId)
@@ -306,7 +306,7 @@ public class STDbContext : BaseDbContext
             e.ToTable("Feedback");
             e.HasKey(x => x.Id);
             e.Property(x => x.Id).ValueGeneratedOnAdd().HasDefaultValueSql("NEWID()");
-            
+
             e.HasOne(x => x.Student)
                 .WithOne(x => x.Feedback)
                 .HasForeignKey<Feedback>(x => x.StudentId)
@@ -323,12 +323,12 @@ public class STDbContext : BaseDbContext
             e.ToTable("Module");
             e.HasKey(x => x.Id);
             e.Property(x => x.Id).ValueGeneratedOnAdd().HasDefaultValueSql("NEWID()");
-            
+
             e.HasOne(x => x.Course)
                 .WithMany(x => x.Modules)
                 .HasForeignKey(x => x.CourseId)
                 .OnDelete(DeleteBehavior.Cascade);
-            
+
             e.HasMany(e => e.Sessions)
                 .WithOne(s => s.Module)
                 .HasForeignKey(s => s.ModuleId)
@@ -376,7 +376,7 @@ public class STDbContext : BaseDbContext
     public virtual DbSet<SessionSelfLearn> SessionSelfLearns { get; set; } = null!;
     public virtual DbSet<Voucher> Vouchers { get; set; } = null!;
     public virtual DbSet<Blog> Blogs { get; set; } = null!;
-    public virtual DbSet<Assisant> Assisants { get; set; } = null!;
+    public virtual DbSet<Assistant> Assisants { get; set; } = null!;
     public virtual DbSet<DayInWeek> DayInWeeks { get; set; } = null!;
     public virtual DbSet<Feedback> Feedbacks { get; set; } = null!;
     public virtual DbSet<Module> Modules { get; set; } = null!;
