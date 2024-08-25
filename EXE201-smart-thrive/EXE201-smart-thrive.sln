@@ -7,7 +7,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EXE201.SmartThrive.API", "E
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EXE201.SmartThrive.Services", "EXE201.SmartThrive.Services\EXE201.SmartThrive.Services.csproj", "{C2ED0329-93DD-47D5-AC43-78EB86EAB7E8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EXE201.SmartThrive.Repositories", "EXE201.SmartThrive.Repositories\EXE201.SmartThrive.Repositories.csproj", "{294DAA68-49F1-475A-848B-BE4BDFEDBD6E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EXE201.SmartThrive.Data", "EXE201.SmartThrive.Data\EXE201.SmartThrive.Data.csproj", "{294DAA68-49F1-475A-848B-BE4BDFEDBD6E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Business", "Business", "{B651313A-213A-4161-B813-C5FD6F4AD447}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{AA061513-D831-4D9A-86F0-CC78414B13B1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EXE201.SmartThrive.Domain", "EXE201.SmartThrive.Domain\EXE201.SmartThrive.Domain.csproj", "{C9A9B0F0-8AAC-434D-905A-16F0738617BC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EXE201.SmartThrive.Repositories", "EXE201.SmartThrive.Repositories\EXE201.SmartThrive.Repositories.csproj", "{6BCF121E-470C-43CE-B4F6-2EFDBD2AB62D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,11 +35,25 @@ Global
 		{294DAA68-49F1-475A-848B-BE4BDFEDBD6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{294DAA68-49F1-475A-848B-BE4BDFEDBD6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{294DAA68-49F1-475A-848B-BE4BDFEDBD6E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C9A9B0F0-8AAC-434D-905A-16F0738617BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9A9B0F0-8AAC-434D-905A-16F0738617BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9A9B0F0-8AAC-434D-905A-16F0738617BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9A9B0F0-8AAC-434D-905A-16F0738617BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6BCF121E-470C-43CE-B4F6-2EFDBD2AB62D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6BCF121E-470C-43CE-B4F6-2EFDBD2AB62D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6BCF121E-470C-43CE-B4F6-2EFDBD2AB62D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6BCF121E-470C-43CE-B4F6-2EFDBD2AB62D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1F15A666-C9CE-4390-9484-91B99B2723E9}
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C2ED0329-93DD-47D5-AC43-78EB86EAB7E8} = {B651313A-213A-4161-B813-C5FD6F4AD447}
+		{294DAA68-49F1-475A-848B-BE4BDFEDBD6E} = {AA061513-D831-4D9A-86F0-CC78414B13B1}
+		{C9A9B0F0-8AAC-434D-905A-16F0738617BC} = {B651313A-213A-4161-B813-C5FD6F4AD447}
+		{6BCF121E-470C-43CE-B4F6-2EFDBD2AB62D} = {AA061513-D831-4D9A-86F0-CC78414B13B1}
 	EndGlobalSection
 EndGlobal
