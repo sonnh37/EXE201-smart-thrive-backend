@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EXE201.SmartThrive.Data.Migrations
 {
     [DbContext(typeof(STDbContext))]
-    [Migration("20240825083923_Initial")]
+    [Migration("20240825115648_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -20,12 +20,12 @@ namespace EXE201.SmartThrive.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.0")
+                .HasAnnotation("ProductVersion", "8.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("EXE201.SmartThrive.Domain.Entities.Assisant", b =>
+            modelBuilder.Entity("EXE201.SmartThrive.Domain.Entities.Assistant", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -58,7 +58,7 @@ namespace EXE201.SmartThrive.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Assisant", (string)null);
+                    b.ToTable("Assistant", (string)null);
                 });
 
             modelBuilder.Entity("EXE201.SmartThrive.Domain.Entities.Blog", b =>

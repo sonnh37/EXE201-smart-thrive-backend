@@ -1,18 +1,18 @@
-﻿using EXE201.SmartThrive.Domain.Models.Requests;
-using EXE201.SmartThrive.Domain.Models.Requests.Base;
+﻿using EXE201.SmartThrive.Domain.Models.Requests.Commands.Base;
 using EXE201.SmartThrive.Domain.Models.Responses;
+using EXE201.SmartThrive.Domain.Models.Results;
 
 namespace EXE201.SmartThrive.Domain.Contracts.Bases;
 
 public interface IBaseService
 {
-    Task<ItemListResponse<TResult>> GetAll<TResult>() where TResult : MessageResponse;
+    Task<ItemListResponse<TResult>> GetAll<TResult>() where TResult : BaseResult;
 
-    Task<ItemResponse<TResult>> GetById<TResult>(Guid id) where TResult : MessageResponse;
+    Task<ItemResponse<TResult>> GetById<TResult>(Guid id) where TResult : BaseResult;
 
-    Task<MessageResponse> Create<TView>(BaseRequest tRequest) where TView : BaseRequest;
+    Task<MessageResponse> Create(CreateCommand tRequest);
     
-    Task<MessageResponse> Update<TView>(BaseRequest tRequest) where TView : BaseRequest;
+    Task<MessageResponse> Update(UpdateCommand tRequest);
 
-    Task<MessageResponse> DeleteById<TView>(Guid id) where TView : BaseRequest;
+    Task<MessageResponse> DeleteById(Guid id);
 }

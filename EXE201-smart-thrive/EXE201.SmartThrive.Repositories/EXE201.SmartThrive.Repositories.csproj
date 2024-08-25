@@ -7,11 +7,13 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\EXE201.SmartThrive.Domain\EXE201.SmartThrive.Domain.csproj" />
+        <ProjectReference Include="..\EXE201.SmartThrive.Data\EXE201.SmartThrive.Data.csproj"/>
+        <ProjectReference Include="..\EXE201.SmartThrive.Domain\EXE201.SmartThrive.Domain.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Base\" />
+        <PackageReference Include="AutoMapper" Version="13.0.1"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.0"/>
     </ItemGroup>
 
 </Project>

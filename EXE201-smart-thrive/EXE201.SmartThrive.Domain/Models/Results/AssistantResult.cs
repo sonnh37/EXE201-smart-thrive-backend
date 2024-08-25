@@ -1,6 +1,6 @@
 ﻿namespace EXE201.SmartThrive.Domain.Models.Results;
 
-public class AssisantResult : BaseResult
+public class AssistantResult : BaseResult
 {
     public string? FullName { get; set; }
 

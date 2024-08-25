@@ -1,6 +1,6 @@
 ﻿namespace EXE201.SmartThrive.Domain.Entities;
 
-public class Assisant : BaseEntity
+public class Assistant : BaseEntity
 {
     public string? FullName { get; set; }
     

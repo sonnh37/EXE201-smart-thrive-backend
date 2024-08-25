@@ -17,7 +17,7 @@ public interface IBaseRepository<TEntity> : IBaseRepository
 
     Task<IList<TEntity>> GetAll(CancellationToken cancellationToken = default);
 
-    Task<TEntity> GetById(Guid id);
+    Task<TEntity?> GetById(Guid id);
 
     Task<IList<TEntity>> GetByIds(IList<Guid> ids);
 
