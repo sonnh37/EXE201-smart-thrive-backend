@@ -90,7 +90,6 @@ public abstract class BaseService<TEntity> : BaseService, IBaseService
     private TEntity? SetBaseEntityCreate(TEntity? entity)
     {
         var user = InformationUser.User;
-        entity.Id = Guid.NewGuid();
         entity.CreatedDate = DateTime.Now;
         entity.UpdatedDate = DateTime.Now;
         entity.IsDeleted = false;

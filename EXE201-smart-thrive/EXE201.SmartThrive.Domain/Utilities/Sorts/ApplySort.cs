@@ -36,7 +36,8 @@ public static class ApplySort
 
         if (query.CreatedDate.HasValue)
         {
-            queryable = queryable.Where(m => m.CreatedDate == query.CreatedDate.Value);
+            var date = query.CreatedDate.Value.Date;
+            queryable = queryable.Where(m => m.CreatedDate.Date == date);
         }
 
         if (!string.IsNullOrEmpty(query.UpdatedBy))
