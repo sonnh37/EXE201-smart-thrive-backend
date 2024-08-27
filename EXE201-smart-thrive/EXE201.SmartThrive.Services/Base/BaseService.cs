@@ -33,8 +33,7 @@ public abstract class BaseService<TEntity> : BaseService, IBaseService
         var entity = await _baseRepository.GetById(id);
 
         var result = _mapper.Map<TResult>(entity);
-        var message = result != null ? Constant.Success : Constant.Fail;
-        var msgResult = AppResponse.SetItemResponse(message, result);
+        var msgResult = AppResponse.SetItemResponse(result);
 
         return msgResult;
     }
@@ -83,8 +82,7 @@ public abstract class BaseService<TEntity> : BaseService, IBaseService
         var entities = await _baseRepository.GetAll();
 
         var results = _mapper.Map<List<TResult>>(entities);
-        var message = (results != null && results.Any()) ? Constant.Success : Constant.Fail;
-        var msgResults = AppResponse.SetItemListResponse(message, results);
+        var msgResults = AppResponse.SetItemListResponse(results);
 
         return msgResults;
     }

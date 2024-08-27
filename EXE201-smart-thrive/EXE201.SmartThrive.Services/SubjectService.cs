@@ -28,8 +28,7 @@ public class SubjectService : BaseService<Subject>, ISubjectService
         var subjects = await _subjectRepository.GetAllFilter(query, cancellationToken);
         
         var results = _mapper.Map<List<SubjectResult>>(subjects);
-        var message = (results != null && results.Any()) ? Constant.Success : Constant.Fail;
-        var msgResults = AppResponse.SetItemListResponse(message, results);
+        var msgResults = AppResponse.SetItemListResponse(results);
 
         return msgResults;
     }
