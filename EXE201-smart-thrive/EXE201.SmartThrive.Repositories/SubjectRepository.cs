@@ -2,6 +2,7 @@
 using EXE201.SmartThrive.Domain.Contracts.Repositories;
 using EXE201.SmartThrive.Domain.Entities;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.Subject;
+using EXE201.SmartThrive.Domain.Utilities.Sorts;
 using EXE201.SmartThrive.Repositories.Base;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,22 +14,20 @@ public class SubjectRepository : BaseRepository<Subject>, ISubjectRepository
     {
     }
 
-    public async Task<List<Subject>> GetAllFilter(SubjectGetAllQuery query,
-        CancellationToken cancellationToken = default)
+    public async Task<(List<Subject>, int)> GetAllFiltered(SubjectGetAllQuery query)
     {
-        var queryable = GetQueryable();
+        var queryable = base.GetQueryable();
+        
+        // filter
+        queryable = ApplySort.Subject(queryable, query);
 
-        // Apply base filtering: not deleted
-        //queryable = queryable.Where(entity => !entity.IsDeleted);
-
-
-        // Additional filtering based on SubjectIds (exclude these IDs if given)
-
-        // Include related EventXSubjects
-
-        // Execute the query asynchronously
-        var results = await queryable.ToListAsync(cancellationToken);
-
-        return results;
+        var totalOrigin = queryable.Count();
+        
+        // sort & pagination
+        var results = await base.ApplySortingAndPaging(queryable, query);
+        
+        return (results, totalOrigin);
     }
+    
+    
 }

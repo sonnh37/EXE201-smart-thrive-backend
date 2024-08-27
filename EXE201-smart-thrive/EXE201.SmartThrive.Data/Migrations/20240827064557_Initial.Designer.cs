@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EXE201.SmartThrive.Data.Migrations
 {
     [DbContext(typeof(STDbContext))]
-    [Migration("20240825115648_Initial")]
+    [Migration("20240827064557_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -595,9 +595,7 @@ namespace EXE201.SmartThrive.Data.Migrations
             modelBuilder.Entity("EXE201.SmartThrive.Domain.Entities.Session", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasDefaultValueSql("NEWId()");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");

@@ -1,6 +1,8 @@
-﻿namespace EXE201.SmartThrive.Domain.Models.Responses;
+﻿using EXE201.SmartThrive.Domain.Models.Requests.Queries;
 
-public class PaginatedListResponse<TResult> : MessageResponse where TResult : class
+namespace EXE201.SmartThrive.Domain.Models.Responses;
+
+public class PaginatedResponse<TResult> : MessageResponse where TResult : class
 {
     public List<TResult>? Results { get; }
 
@@ -18,15 +20,15 @@ public class PaginatedListResponse<TResult> : MessageResponse where TResult : cl
 
     public int? SortOrder { get; protected set; }
 
-    public PaginatedListResponse(string message, List<TResult>? results = null, long totalOrigin = 0, int pageNumber = 1, int pageSize = 1, string? sortField = null, int? sortOrder = null) : base(results != null, message)
+    public PaginatedResponse(string message,PagedQuery pagedQuery, List<TResult>? results = null, int totalOrigin = 0) : base(results != null, message)
     {
-        PageNumber = pageNumber;
-        PageSize = pageSize;
-        SortField = sortField;
-        SortOrder = sortOrder;
+        PageNumber = pagedQuery.PageNumber;
+        PageSize = pagedQuery.PageSize;
+        SortField = pagedQuery.SortField;
+        SortOrder = pagedQuery.SortOrder;
         Results = results;
         TotalRecords = (int) totalOrigin;
-        TotalRecordsPerPage = results != null ? results.Count : 0;
+        TotalRecordsPerPage = results?.Count ?? 0;
         TotalPages = (int)Math.Ceiling(totalOrigin / (double)PageSize);
     }
 }

@@ -19,13 +19,27 @@ public class SubjectController : ControllerBase
         _subjectService = subjectService;
         _mapper = mapper;
     }
-
+    
     [HttpGet]
-    public async Task<IActionResult> GetAll([FromQuery] SubjectGetAllQuery subjectGetAllQuery)
+    public async Task<IActionResult> GetAll()
     {
         try
         {
-            var msg = await _subjectService.GetAll(subjectGetAllQuery);
+            var msg = await _subjectService.GetAll<SubjectResult>();
+            return Ok(msg);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpGet("filtered-sorted-paged")]
+    public async Task<IActionResult> GetAllFiltered([FromQuery] SubjectGetAllQuery subjectGetAllQuery)
+    {
+        try
+        {
+            var msg = await _subjectService.GetAllFiltered(subjectGetAllQuery);
             return Ok(msg);
         }
         catch (Exception ex)

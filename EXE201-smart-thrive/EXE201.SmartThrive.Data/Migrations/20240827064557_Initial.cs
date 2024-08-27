@@ -487,7 +487,7 @@ namespace EXE201.SmartThrive.Data.Migrations
                 name: "Session",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWId()"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ModuleId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Document = table.Column<string>(type: "nvarchar(max)", nullable: true),

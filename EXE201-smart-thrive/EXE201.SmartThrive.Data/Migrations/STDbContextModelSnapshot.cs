@@ -592,9 +592,7 @@ namespace EXE201.SmartThrive.Data.Migrations
             modelBuilder.Entity("EXE201.SmartThrive.Domain.Entities.Session", b =>
                 {
                     b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasDefaultValueSql("NEWId()");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");

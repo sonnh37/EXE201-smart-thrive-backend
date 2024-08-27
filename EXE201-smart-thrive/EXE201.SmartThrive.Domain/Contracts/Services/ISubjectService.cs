@@ -7,6 +7,5 @@ namespace EXE201.SmartThrive.Domain.Contracts.Services;
 
 public interface ISubjectService : IBaseService
 {
-    Task<ItemListResponse<SubjectResult>> GetAll(SubjectGetAllQuery query,
-        CancellationToken cancellationToken = default);
+    Task<PaginatedResponse<SubjectResult>> GetAllFiltered(SubjectGetAllQuery query);
 }

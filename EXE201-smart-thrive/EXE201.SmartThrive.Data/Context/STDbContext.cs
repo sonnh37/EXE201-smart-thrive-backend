@@ -128,7 +128,7 @@ public class STDbContext : BaseDbContext
         {
             e.ToTable("Session");
             e.HasKey(x => x.Id);
-            e.Property(x => x.Id).ValueGeneratedOnAdd().HasDefaultValueSql("NEWId()");
+            e.Property(x => x.Id).ValueGeneratedNever();
 
             e.HasOne(x => x.Module)
                 .WithMany(x => x.Sessions)
