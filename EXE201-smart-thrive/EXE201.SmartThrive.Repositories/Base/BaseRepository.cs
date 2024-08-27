@@ -1,7 +1,10 @@
 ﻿using System.Linq.Expressions;
+using System.Reflection;
 using AutoMapper;
 using EXE201.SmartThrive.Domain.Contracts.Bases;
 using EXE201.SmartThrive.Domain.Entities;
+using EXE201.SmartThrive.Domain.Models.Requests;
+using EXE201.SmartThrive.Domain.Models.Requests.Queries;
 using Microsoft.EntityFrameworkCore;
 
 namespace EXE201.SmartThrive.Repositories.Base;
@@ -35,8 +38,20 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
     public async Task<IList<TEntity>> GetAll(CancellationToken cancellationToken = default)
     {
         var queryable = GetQueryable(cancellationToken);
-        var result = await queryable.Where(entity => !entity.IsDeleted).ToListAsync(cancellationToken);
+        var result = await queryable.ToListAsync(cancellationToken);
         return result;
+    }
+    
+    public async Task<List<TEntity>> ApplySortingAndPaging(IQueryable<TEntity> queryable, PagedQuery pagedQuery)
+    {
+        queryable = Sort(queryable, pagedQuery);
+
+        if (queryable.Any())
+        {
+            queryable = GetQueryablePagination(queryable, pagedQuery);
+        }    
+            
+        return await queryable.ToListAsync();
     }
 
     #endregion
@@ -159,6 +174,41 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
         var dbSet = _dbContext.Set<T>();
         return dbSet;
     }
+    
+    public IQueryable<TEntity> GetQueryablePagination(IQueryable<TEntity> queryable, PagedQuery pagedQuery)
+    {
+        queryable = queryable.Skip((pagedQuery.PageNumber - 1) * pagedQuery.PageSize).Take(pagedQuery.PageSize);
+
+        return queryable;
+    }
+    
+    public IQueryable<TEntity> Sort(IQueryable<TEntity> queryable, PagedQuery pagedQuery)
+    {
+
+        if (queryable.Any())
+        {
+            var parameter = Expression.Parameter(typeof(TEntity), "o");
+            var property = typeof(TEntity).GetProperty(pagedQuery.SortField ?? "", BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
+
+            if (property == null)
+            {
+                // If the property doesn't exist, default to sorting by Id
+                property = typeof(TEntity).GetProperty("CreatedDate");
+            }
+
+            var propertyAccess = Expression.MakeMemberAccess(parameter, property);
+            var orderByExp = Expression.Lambda(propertyAccess, parameter);
+
+            string methodName = pagedQuery.SortOrder == 1 ? "OrderBy" : "OrderByDescending";
+            var resultExp = Expression.Call(typeof(Queryable), methodName, new Type[] { typeof(TEntity), property.PropertyType },
+                queryable.Expression, Expression.Quote(orderByExp));
+
+            queryable = queryable.Provider.CreateQuery<TEntity>(resultExp);
+        }
+
+        return queryable;
+    }
+
 
     #endregion
 }

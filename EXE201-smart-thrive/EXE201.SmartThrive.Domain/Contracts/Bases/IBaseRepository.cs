@@ -1,4 +1,6 @@
 ﻿using EXE201.SmartThrive.Domain.Entities;
+using EXE201.SmartThrive.Domain.Models.Requests;
+using EXE201.SmartThrive.Domain.Models.Requests.Queries;
 
 namespace EXE201.SmartThrive.Domain.Contracts.Bases;
 
@@ -16,6 +18,8 @@ public interface IBaseRepository<TEntity> : IBaseRepository
     Task<long> GetTotalCount();
 
     Task<IList<TEntity>> GetAll(CancellationToken cancellationToken = default);
+
+    Task<List<TEntity>> ApplySortingAndPaging(IQueryable<TEntity> queryable, PagedQuery pagedQuery);
 
     Task<TEntity?> GetById(Guid id);
 

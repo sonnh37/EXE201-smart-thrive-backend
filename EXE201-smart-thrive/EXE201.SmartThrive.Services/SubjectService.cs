@@ -22,15 +22,13 @@ public class SubjectService : BaseService<Subject>, ISubjectService
         _subjectRepository = _unitOfWork.SubjectRepository;
     }
 
-    public async Task<ItemListResponse<SubjectResult>> GetAll(SubjectGetAllQuery query,
-        CancellationToken cancellationToken = default)
+    public async Task<PaginatedResponse<SubjectResult>> GetAllFiltered(SubjectGetAllQuery query)
     {
-        var subjects = await _subjectRepository.GetAllFilter(query, cancellationToken);
-        
-        var results = _mapper.Map<List<SubjectResult>>(subjects);
-        var msgResults = AppResponse.SetItemListResponse(results);
+        var subjectsWithTotal = await _subjectRepository.GetAllFiltered(query);
+        var subjectsResult = _mapper.Map<List<SubjectResult>>(subjectsWithTotal.Item1);
+        var subjectsResultWithTotal = (subjectsResult, subjectsWithTotal.Item2);
 
-        return msgResults;
+        return AppResponse.CreatePaginated(subjectsResultWithTotal, query);
     }
 
 }
