@@ -1,4 +1,5 @@
 ﻿using EXE201.SmartThrive.Domain.Entities;
+using EXE201.SmartThrive.Domain.Models.Requests.Queries.Base;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.Subject;
 
 namespace EXE201.SmartThrive.Domain.Utilities.Sorts;
@@ -22,7 +23,7 @@ public static class ApplyFilter
         return queryable;
     }
 
-    private static IQueryable<TEntity> Base<TEntity>(IQueryable<TEntity> queryable, SubjectGetAllQuery query) where TEntity: BaseEntity
+    private static IQueryable<TEntity> Base<TEntity>(IQueryable<TEntity> queryable, BaseQuery query) where TEntity: BaseEntity
     {
         if (query.Id != Guid.Empty)
         {
