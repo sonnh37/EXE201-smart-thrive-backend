@@ -19,7 +19,7 @@ public class SubjectRepository : BaseRepository<Subject>, ISubjectRepository
         var queryable = base.GetQueryable();
         
         // filter
-        queryable = ApplySort.Subject(queryable, query);
+        queryable = ApplyFilter.Subject(queryable, query);
 
         var totalOrigin = queryable.Count();
         

@@ -3,7 +3,7 @@ using EXE201.SmartThrive.Domain.Models.Requests.Queries.Subject;
 
 namespace EXE201.SmartThrive.Domain.Utilities.Sorts;
 
-public static class ApplySort
+public static class ApplyFilter
 {
     public static IQueryable<Subject> Subject(IQueryable<Subject> queryable, SubjectGetAllQuery query)
     {
