@@ -22,7 +22,7 @@ public static class ApplySort
         return queryable;
     }
 
-    private static IQueryable<Subject> Base(IQueryable<Subject> queryable, SubjectGetAllQuery query)
+    private static IQueryable<TEntity> Base<TEntity>(IQueryable<TEntity> queryable, SubjectGetAllQuery query) where TEntity: BaseEntity
     {
         if (query.Id != Guid.Empty)
         {
