@@ -1,8 +1,6 @@
-﻿using EXE201.SmartThrive.Domain.Entities;
+﻿namespace EXE201.SmartThrive.Domain.Models.Requests.Queries.Course;
 
-namespace EXE201.SmartThrive.Domain.Models.Results;
-
-public class CourseResult : BaseResult
+public class CourseGetAllQuery : PagedQuery
 {
     public Guid? SubjectId { get; set; }
 
@@ -41,16 +39,4 @@ public class CourseResult : BaseResult
     public DateTime? StartDate { get; set; }
 
     public DateTime? EndDate { get; set; }
-
-    public virtual DayInWeekResult? DayInWeek { get; set; }
-
-    public virtual SubjectResult? Subject { get; set; }
-
-    public virtual ProviderResult? Provider { get; set; }
-
-    public List<ModuleResult>? Modules { get; set; }
-
-    public List<FeedbackResult>? Feedbacks { get; set; }
-
-    public List<PackageXCourseResult>? PackageXCourses { get; set; }
 }

@@ -1,22 +1,22 @@
-using AutoMapper;
+﻿using AutoMapper;
 using EXE201.SmartThrive.Domain.Contracts.Services;
-using EXE201.SmartThrive.Domain.Models.Requests.Commands.Subject;
-using EXE201.SmartThrive.Domain.Models.Requests.Queries.Subject;
+using EXE201.SmartThrive.Domain.Models.Requests.Commands.Course;
+using EXE201.SmartThrive.Domain.Models.Requests.Queries.Course;
 using EXE201.SmartThrive.Domain.Models.Results;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EXE201.SmartThrive.API.Controllers;
 
-[Route("api/subject")]
+[Route("api/course")]
 [ApiController]
-public class SubjectController : ControllerBase
+public class CourseController : ControllerBase
 {
+    private readonly ICourseService _courseService;
     private readonly IMapper _mapper;
-    private readonly ISubjectService _subjectService;
 
-    public SubjectController(ISubjectService subjectService, IMapper mapper)
+    public CourseController(ICourseService courseService, IMapper mapper)
     {
-        _subjectService = subjectService;
+        _courseService = courseService;
         _mapper = mapper;
     }
 
@@ -25,7 +25,7 @@ public class SubjectController : ControllerBase
     {
         try
         {
-            var msg = await _subjectService.GetAll<SubjectResult>();
+            var msg = await _courseService.GetAll<CourseResult>();
             return Ok(msg);
         }
         catch (Exception ex)
@@ -35,11 +35,11 @@ public class SubjectController : ControllerBase
     }
 
     [HttpGet("filtered-sorted-paged")]
-    public async Task<IActionResult> GetAllFiltered([FromQuery] SubjectGetAllQuery subjectGetAllQuery)
+    public async Task<IActionResult> GetAllFiltered([FromQuery] CourseGetAllQuery courseGetAllQuery)
     {
         try
         {
-            var msg = await _subjectService.GetAllFiltered(subjectGetAllQuery);
+            var msg = await _courseService.GetAllFiltered(courseGetAllQuery);
             return Ok(msg);
         }
         catch (Exception ex)
@@ -53,7 +53,7 @@ public class SubjectController : ControllerBase
     {
         try
         {
-            var msg = await _subjectService.GetById<SubjectResult>(id);
+            var msg = await _courseService.GetById<CourseResult>(id);
             return Ok(msg);
         }
         catch (Exception ex)
@@ -63,11 +63,11 @@ public class SubjectController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> Add(SubjectCreateCommand request)
+    public async Task<IActionResult> Add(CourseCreateCommand request)
     {
         try
         {
-            var msg = await _subjectService.Create(request);
+            var msg = await _courseService.Create(request);
             return Ok(msg);
         }
         catch (Exception ex)
@@ -81,7 +81,7 @@ public class SubjectController : ControllerBase
     {
         try
         {
-            var msg = await _subjectService.DeleteById(id);
+            var msg = await _courseService.DeleteById(id);
             return Ok(msg);
         }
         catch (Exception ex)
@@ -92,11 +92,11 @@ public class SubjectController : ControllerBase
 
 
     [HttpPut]
-    public async Task<IActionResult> Update(SubjectUpdateCommand request)
+    public async Task<IActionResult> Update(CourseUpdateCommand request)
     {
         try
         {
-            var msg = await _subjectService.Update(request);
+            var msg = await _courseService.Update(request);
             return Ok(msg);
         }
         catch (Exception ex)

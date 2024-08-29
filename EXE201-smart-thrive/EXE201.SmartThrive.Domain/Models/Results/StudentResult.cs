@@ -8,7 +8,7 @@ public class StudentResult : BaseResult
 
     public string? Gender { get; set; }
 
-    public DateTime? DOB { get; set; }
+    public DateTime? Dob { get; set; }
 
     public string? Phone { get; set; }
 

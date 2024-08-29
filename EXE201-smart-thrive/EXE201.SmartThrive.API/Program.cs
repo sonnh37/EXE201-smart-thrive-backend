@@ -61,7 +61,6 @@ builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
 builder.Services.AddScoped<ISubjectRepository, SubjectRepository>();
-builder.Services.AddScoped<IFeedbackRepository, FeedbackRepository>();
 // builder.Services.AddScoped<ICourseRepository, CourseRepository>();
 // builder.Services.AddScoped<ICourseXPackageRepository, CourseXPackageRepository>();
 // builder.Services.AddScoped<IOrderRepository, OrderRepository>();
@@ -69,7 +68,7 @@ builder.Services.AddScoped<IFeedbackRepository, FeedbackRepository>();
 // builder.Services.AddScoped<IProviderRepository, ProviderRepository>();
 // builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 // builder.Services.AddScoped<ISessionRepository, SessionRepository>();
-// builder.Services.AddScoped<IStudentRepository, StudentRepository>();
+builder.Services.AddScoped<IStudentRepository, StudentRepository>();
 // builder.Services.AddScoped<ISubjectRepository, SubjectRepository>();
 // builder.Services.AddScoped<IUserRepository, UserRepository>();
 //
@@ -78,12 +77,12 @@ builder.Services.AddScoped<IFeedbackService, FeedbackService>();
 // builder.Services.AddScoped<ISessionService, SessionService>();
 // builder.Services.AddScoped<IOrderService, OrderService>();
 // builder.Services.AddScoped<IPackageService, PackageService>();
-// builder.Services.AddScoped<ICourseService, CourseService>();
+builder.Services.AddScoped<ICourseService, CourseService>();
 // builder.Services.AddScoped<IProviderService, ProviderService>();
-// builder.Services.AddScoped<IStudentService, StudentService>();
+builder.Services.AddScoped<IStudentService, StudentService>();
 // builder.Services.AddScoped<IRoleService, RoleService>();
 // builder.Services.AddScoped<ISubjectService, SubjectService>();
-// builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
 // builder.Services.AddScoped<ICourseXPackageService, CouseXPackageService>();
 
 builder.Services.AddHttpContextAccessor();
@@ -115,7 +114,7 @@ builder.Services.AddAuthentication(options =>
             ValidateLifetime = true,
             ValidateIssuerSigningKey = false,
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
-                builder.Configuration.GetValue<string>("JWT:Token"))),
+                builder.Configuration.GetValue<string>("JWT:Token") ?? string.Empty)),
             ClockSkew = TimeSpan.Zero
         };
 
