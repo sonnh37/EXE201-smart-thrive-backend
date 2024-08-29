@@ -11,4 +11,9 @@ public class UnitOfWork : BaseUnitOfWork<STDbContext>, IUnitOfWork
     }
 
     public ISubjectRepository SubjectRepository => GetRepository<ISubjectRepository>();
+    public IFeedbackRepository FeedbackRepository => GetRepository<IFeedbackRepository>();
+    public ISessionRepository SessionRepository => GetRepository<ISessionRepository>();
+    public ISessionMeetingRepository SessionMeetingRepository => GetRepository<ISessionMeetingRepository>();
+    public ISessionOfflineRepository SessionOfflineRepository => GetRepository<ISessionOfflineRepository>();
+    public ISessionSelfLearnRepository SessionSelfLearnRepository => GetRepository<ISessionSelfLearnRepository>();
 }

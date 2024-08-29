@@ -61,6 +61,7 @@ builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
 builder.Services.AddScoped<ISubjectRepository, SubjectRepository>();
+builder.Services.AddScoped<IFeedbackRepository, FeedbackRepository>();
 // builder.Services.AddScoped<ICourseRepository, CourseRepository>();
 // builder.Services.AddScoped<ICourseXPackageRepository, CourseXPackageRepository>();
 // builder.Services.AddScoped<IOrderRepository, OrderRepository>();
@@ -73,6 +74,7 @@ builder.Services.AddScoped<ISubjectRepository, SubjectRepository>();
 // builder.Services.AddScoped<IUserRepository, UserRepository>();
 //
 builder.Services.AddScoped<ISubjectService, SubjectService>();
+builder.Services.AddScoped<IFeedbackService, FeedbackService>();
 // builder.Services.AddScoped<ISessionService, SessionService>();
 // builder.Services.AddScoped<IOrderService, OrderService>();
 // builder.Services.AddScoped<IPackageService, PackageService>();
