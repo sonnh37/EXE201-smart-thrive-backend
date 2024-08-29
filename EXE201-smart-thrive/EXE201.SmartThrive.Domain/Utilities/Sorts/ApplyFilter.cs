@@ -1,5 +1,6 @@
 ﻿using EXE201.SmartThrive.Domain.Entities;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.Base;
+using EXE201.SmartThrive.Domain.Models.Requests.Queries.Category;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.Subject;
 
 namespace EXE201.SmartThrive.Domain.Utilities.Sorts;
@@ -16,6 +17,18 @@ public static class ApplyFilter
         if (query.CategoryId != Guid.Empty)
         {
             queryable = queryable.Where(m => m.CategoryId == query.CategoryId);
+        }
+
+        queryable = Base(queryable, query);
+        
+        return queryable;
+    }
+    
+    public static IQueryable<Category> Category(IQueryable<Category> queryable, CategoryGetAllQuery query)
+    {
+        if (!string.IsNullOrEmpty(query.Name))
+        {
+            queryable = queryable.Where(m => m.Name != null && m.Name.Contains(query.Name));
         }
 
         queryable = Base(queryable, query);
