@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EXE201.SmartThrive.Data.Migrations
 {
     [DbContext(typeof(STDbContext))]
-    [Migration("20240829123051_UpdateOrderAndAddAdressTable")]
-    partial class UpdateOrderAndAddAdressTable
+    [Migration("20240829140254_UpdateOrderTableAndAddAddressTable")]
+    partial class UpdateOrderTableAndAddAddressTable
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -758,7 +758,7 @@ namespace EXE201.SmartThrive.Data.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("DOB")
+                    b.Property<DateTime?>("Dob")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Gender")

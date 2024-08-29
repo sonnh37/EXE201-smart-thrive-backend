@@ -1,6 +1,7 @@
 ﻿using EXE201.SmartThrive.Domain.Entities;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.Base;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.Category;
+using EXE201.SmartThrive.Domain.Models.Requests.Queries.Student;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.Subject;
 
 namespace EXE201.SmartThrive.Domain.Utilities.Sorts;
@@ -17,6 +18,23 @@ public static class ApplyFilter
         if (query.CategoryId != Guid.Empty)
         {
             queryable = queryable.Where(m => m.CategoryId == query.CategoryId);
+        }
+
+        queryable = Base(queryable, query);
+        
+        return queryable;
+    }
+    
+    public static IQueryable<Student> Student(IQueryable<Student> queryable, StudentGetAllQuery query)
+    {
+        if (!string.IsNullOrEmpty(query.StudentName))
+        {
+            queryable = queryable.Where(m => m.StudentName != null && m.StudentName.Contains(query.StudentName));
+        }
+        
+        if (query.UserId != Guid.Empty)
+        {
+            queryable = queryable.Where(m => m.UserId == query.UserId);
         }
 
         queryable = Base(queryable, query);

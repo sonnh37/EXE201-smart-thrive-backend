@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace EXE201.SmartThrive.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class UpdateOrderAndAddAdressTable : Migration
+    public partial class UpdateOrderTableAndAddAddressTable : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -25,6 +25,11 @@ namespace EXE201.SmartThrive.Data.Migrations
             migrationBuilder.DropColumn(
                 name: "Amount",
                 table: "Order");
+
+            migrationBuilder.RenameColumn(
+                name: "DOB",
+                table: "Student",
+                newName: "Dob");
 
             migrationBuilder.CreateTable(
                 name: "Address",
@@ -94,6 +99,11 @@ namespace EXE201.SmartThrive.Data.Migrations
             migrationBuilder.DropIndex(
                 name: "IX_Order_PackageId",
                 table: "Order");
+
+            migrationBuilder.RenameColumn(
+                name: "Dob",
+                table: "Student",
+                newName: "DOB");
 
             migrationBuilder.AddColumn<string>(
                 name: "Address",

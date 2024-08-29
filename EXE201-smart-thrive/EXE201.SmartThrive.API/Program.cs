@@ -61,6 +61,7 @@ builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
 builder.Services.AddScoped<ISubjectRepository, SubjectRepository>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 // builder.Services.AddScoped<ICourseRepository, CourseRepository>();
 // builder.Services.AddScoped<ICourseXPackageRepository, CourseXPackageRepository>();
 // builder.Services.AddScoped<IOrderRepository, OrderRepository>();
@@ -81,7 +82,7 @@ builder.Services.AddScoped<ISubjectService, SubjectService>();
  builder.Services.AddScoped<IStudentService, StudentService>();
 // builder.Services.AddScoped<IRoleService, RoleService>();
 // builder.Services.AddScoped<ISubjectService, SubjectService>();
-// builder.Services.AddScoped<ICategoryService, CategoryService>();
+ builder.Services.AddScoped<ICategoryService, CategoryService>();
 // builder.Services.AddScoped<ICourseXPackageService, CouseXPackageService>();
 
 builder.Services.AddHttpContextAccessor();
