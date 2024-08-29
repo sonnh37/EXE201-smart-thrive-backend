@@ -1,4 +1,6 @@
-﻿namespace EXE201.SmartThrive.Domain.Entities;
+﻿using EXE201.SmartThrive.Domain.Enums;
+
+namespace EXE201.SmartThrive.Domain.Entities;
 
 public class Order : BaseEntity
 {
@@ -12,7 +14,7 @@ public class Order : BaseEntity
 
     public string? Description { get; set; }
 
-    public string? Status { get; set; }
+    public OrderStatus? Status { get; set; }
 
     public virtual Package? Package { get; set; }
     

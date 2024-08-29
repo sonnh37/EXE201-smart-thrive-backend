@@ -1,4 +1,6 @@
-﻿namespace EXE201.SmartThrive.Domain.Models.Results;
+﻿using EXE201.SmartThrive.Domain.Enums;
+
+namespace EXE201.SmartThrive.Domain.Models.Results;
 
 public class VoucherResult : BaseResult
 {
@@ -12,7 +14,7 @@ public class VoucherResult : BaseResult
 
     public int? Condition { get; set; }
 
-    public string? Status { get; set; }
+    public VoucherStatus? Status { get; set; }
 
     public OrderResult? Order { get; set; }
 }

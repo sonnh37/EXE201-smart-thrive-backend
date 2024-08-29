@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace EXE201.SmartThrive.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class UpdateOrderTableAndAddAddressTable : Migration
+    public partial class UpdateEnum : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -19,6 +19,10 @@ namespace EXE201.SmartThrive.Data.Migrations
                 table: "Order");
 
             migrationBuilder.DropColumn(
+                name: "Status",
+                table: "StudentXPackage");
+
+            migrationBuilder.DropColumn(
                 name: "Address",
                 table: "Provider");
 
@@ -26,10 +30,37 @@ namespace EXE201.SmartThrive.Data.Migrations
                 name: "Amount",
                 table: "Order");
 
+            migrationBuilder.DropColumn(
+                name: "Status",
+                table: "CourseXPackage");
+
+            migrationBuilder.RenameColumn(
+                name: "RoleName",
+                table: "User",
+                newName: "Role");
+
             migrationBuilder.RenameColumn(
                 name: "DOB",
                 table: "Student",
                 newName: "Dob");
+
+            migrationBuilder.AlterColumn<int>(
+                name: "Status",
+                table: "Package",
+                type: "int",
+                nullable: true,
+                oldClrType: typeof(string),
+                oldType: "nvarchar(max)",
+                oldNullable: true);
+
+            migrationBuilder.AlterColumn<int>(
+                name: "Status",
+                table: "Blog",
+                type: "int",
+                nullable: true,
+                oldClrType: typeof(string),
+                oldType: "nvarchar(max)",
+                oldNullable: true);
 
             migrationBuilder.CreateTable(
                 name: "Address",
@@ -101,9 +132,20 @@ namespace EXE201.SmartThrive.Data.Migrations
                 table: "Order");
 
             migrationBuilder.RenameColumn(
+                name: "Role",
+                table: "User",
+                newName: "RoleName");
+
+            migrationBuilder.RenameColumn(
                 name: "Dob",
                 table: "Student",
                 newName: "DOB");
+
+            migrationBuilder.AddColumn<string>(
+                name: "Status",
+                table: "StudentXPackage",
+                type: "nvarchar(max)",
+                nullable: true);
 
             migrationBuilder.AddColumn<string>(
                 name: "Address",
@@ -111,11 +153,35 @@ namespace EXE201.SmartThrive.Data.Migrations
                 type: "nvarchar(max)",
                 nullable: true);
 
+            migrationBuilder.AlterColumn<string>(
+                name: "Status",
+                table: "Package",
+                type: "nvarchar(max)",
+                nullable: true,
+                oldClrType: typeof(int),
+                oldType: "int",
+                oldNullable: true);
+
             migrationBuilder.AddColumn<int>(
                 name: "Amount",
                 table: "Order",
                 type: "int",
                 nullable: true);
+
+            migrationBuilder.AddColumn<string>(
+                name: "Status",
+                table: "CourseXPackage",
+                type: "nvarchar(max)",
+                nullable: true);
+
+            migrationBuilder.AlterColumn<string>(
+                name: "Status",
+                table: "Blog",
+                type: "nvarchar(max)",
+                nullable: true,
+                oldClrType: typeof(int),
+                oldType: "int",
+                oldNullable: true);
 
             migrationBuilder.CreateTable(
                 name: "OrderDetail",

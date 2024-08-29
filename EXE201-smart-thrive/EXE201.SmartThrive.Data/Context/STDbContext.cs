@@ -1,5 +1,7 @@
 ﻿using EXE201.SmartThrive.Domain.Entities;
+using EXE201.SmartThrive.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Microsoft.Extensions.Configuration;
 
 namespace EXE201.SmartThrive.Data.Context;
@@ -12,12 +14,21 @@ public class STDbContext : BaseDbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        var converterUserStatus = new EnumToStringConverter<UserStatus>();
+        var converterUserRole = new EnumToStringConverter<Role>();
+        var converterUserGender = new EnumToStringConverter<Gender>();
         modelBuilder.Entity<User>(e =>
         {
             e.ToTable("User");
             e.HasKey(x => x.Id);
             e.Property(x => x.Id).ValueGeneratedOnAdd().HasDefaultValueSql("NEWId()");
-
+            e.Property(x => x.Status)
+                .HasConversion(converterUserStatus);
+            e.Property(x => x.Role)
+                .HasConversion(converterUserRole);
+            e.Property(x => x.Gender)
+                .HasConversion(converterUserGender);
+            
             e.HasOne(e => e.Provider)
                 .WithOne(p => p.User)
                 .HasForeignKey<Provider>(p => p.UserId)
@@ -72,7 +83,11 @@ public class STDbContext : BaseDbContext
             e.ToTable("Student");
             e.HasKey(x => x.Id);
             e.Property(x => x.Id).ValueGeneratedOnAdd().HasDefaultValueSql("NEWId()");
-
+            e.Property(x => x.Gender)
+                .HasConversion(converterUserGender);
+            e.Property(x => x.Status)
+                .HasConversion(converterUserStatus);
+            
             e.HasOne(x => x.User)
                 .WithMany(x => x.Students)
                 .HasForeignKey(x => x.UserId)
@@ -111,12 +126,15 @@ public class STDbContext : BaseDbContext
                 .OnDelete(DeleteBehavior.Cascade);
         });
 
+        var converterCourseStatus = new EnumToStringConverter<CourseStatus>();
         modelBuilder.Entity<Course>(e =>
         {
             e.ToTable("Course");
             e.HasKey(x => x.Id);
             e.Property(x => x.Id).ValueGeneratedOnAdd().HasDefaultValueSql("NEWId()");
             e.Property(x => x.Price).HasColumnType("decimal(18,2)");
+            e.Property(x => x.Status)
+                .HasConversion(converterCourseStatus);
 
             e.HasOne(x => x.Subject)
                 .WithMany(x => x.Courses)
@@ -195,12 +213,15 @@ public class STDbContext : BaseDbContext
                 .OnDelete(DeleteBehavior.Restrict); // Specify NO ACTION on delete;
         });
 
+        var converterOrderStatus = new EnumToStringConverter<OrderStatus>();
         modelBuilder.Entity<Order>(e =>
         {
             e.ToTable("Order");
             e.HasKey(x => x.Id);
             e.Property(x => x.Id).ValueGeneratedOnAdd().HasDefaultValueSql("NEWId()");
             e.Property(x => x.TotalPrice).HasColumnType("decimal(18,2)");
+            e.Property(x => x.Status)
+                .HasConversion(converterOrderStatus);
 
             e.HasOne(x => x.Package)
                 .WithMany(x => x.Orders)
@@ -249,13 +270,15 @@ public class STDbContext : BaseDbContext
             e.HasKey(x => x.Id);
             e.Property(x => x.Id).ValueGeneratedOnAdd().HasDefaultValueSql("NEWID()");
         });
-
+        var converterVoucherStatus = new EnumToStringConverter<VoucherStatus>();
         modelBuilder.Entity<Voucher>(e =>
         {
             e.ToTable("Voucher");
             e.HasKey(x => x.Id);
             e.Property(x => x.Id).ValueGeneratedOnAdd().HasDefaultValueSql("NEWID()");
-
+            e.Property(x => x.Status)
+                .HasConversion(converterVoucherStatus);
+            
             e.HasOne(x => x.Order)
                 .WithOne(x => x.Voucher)
                 .HasForeignKey<Order>(x => x.VoucherId)

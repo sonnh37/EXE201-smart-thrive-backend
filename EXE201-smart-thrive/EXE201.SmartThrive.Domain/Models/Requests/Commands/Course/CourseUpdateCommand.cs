@@ -1,4 +1,5 @@
-﻿using EXE201.SmartThrive.Domain.Models.Requests.Commands.Base;
+﻿using EXE201.SmartThrive.Domain.Enums;
+using EXE201.SmartThrive.Domain.Models.Requests.Commands.Base;
 
 namespace EXE201.SmartThrive.Domain.Models.Requests.Commands.Course;
 
@@ -34,7 +35,7 @@ public class CourseUpdateCommand : UpdateCommand
 
     public TimeSpan EndTime { get; set; }
     
-    public string? Status { get; set; }
+    public CourseStatus? Status { get; set; }
 
     public bool IsActive { get; set; }
 

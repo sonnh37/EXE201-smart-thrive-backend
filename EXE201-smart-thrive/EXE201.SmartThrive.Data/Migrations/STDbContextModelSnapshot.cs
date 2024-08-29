@@ -130,8 +130,8 @@ namespace EXE201.SmartThrive.Data.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Status")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("Status")
+                        .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
@@ -484,8 +484,8 @@ namespace EXE201.SmartThrive.Data.Migrations
                     b.Property<int?>("QuantityCourse")
                         .HasColumnType("int");
 
-                    b.Property<string>("Status")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("Status")
+                        .HasColumnType("int");
 
                     b.Property<Guid?>("StudentId")
                         .HasColumnType("uniqueidentifier");
@@ -527,9 +527,6 @@ namespace EXE201.SmartThrive.Data.Migrations
 
                     b.Property<Guid?>("PackageId")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Status")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UpdatedBy")
                         .HasColumnType("nvarchar(max)");
@@ -808,9 +805,6 @@ namespace EXE201.SmartThrive.Data.Migrations
                     b.Property<Guid?>("PackageId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Status")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<Guid?>("StudentId")
                         .HasColumnType("uniqueidentifier");
 
@@ -907,7 +901,7 @@ namespace EXE201.SmartThrive.Data.Migrations
                     b.Property<string>("Phone")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("RoleName")
+                    b.Property<string>("Role")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Status")
