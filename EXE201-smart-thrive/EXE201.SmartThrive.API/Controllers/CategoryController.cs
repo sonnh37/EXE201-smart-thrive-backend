@@ -11,15 +11,15 @@ namespace EXE201.SmartThrive.API.Controllers;
 [ApiController]
 public class CategoryController : ControllerBase
 {
-    private readonly IMapper _mapper;
     private readonly ICategoryService _categoryService;
+    private readonly IMapper _mapper;
 
     public CategoryController(ICategoryService categoryService, IMapper mapper)
     {
         _categoryService = categoryService;
         _mapper = mapper;
     }
-    
+
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
@@ -89,7 +89,7 @@ public class CategoryController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
-    
+
 
     [HttpPut]
     public async Task<IActionResult> Update(CategoryUpdateCommand request)

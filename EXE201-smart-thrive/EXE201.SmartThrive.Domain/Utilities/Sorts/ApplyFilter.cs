@@ -1,6 +1,7 @@
 ﻿using EXE201.SmartThrive.Domain.Entities;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.Base;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.Category;
+using EXE201.SmartThrive.Domain.Models.Requests.Queries.Course;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.Student;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.Subject;
 
@@ -41,6 +42,29 @@ public static class ApplyFilter
         
         return queryable;
     }
+    
+    public static IQueryable<Course> Course(IQueryable<Course> queryable, CourseGetAllQuery query)
+    {
+        if (!string.IsNullOrEmpty(query.CourseName))
+        {
+            queryable = queryable.Where(m => m.CourseName != null && m.CourseName.Contains(query.CourseName));
+        }
+        
+        if (query.SubjectId!= Guid.Empty)
+        {
+            queryable = queryable.Where(m => m.SubjectId == query.SubjectId);
+        }
+        
+        if (query.ProviderId!= Guid.Empty)
+        {
+            queryable = queryable.Where(m => m.ProviderId  == query.ProviderId);
+        }
+        
+        queryable = Base(queryable, query);
+        
+        return queryable;
+    }
+
     
     public static IQueryable<Category> Category(IQueryable<Category> queryable, CategoryGetAllQuery query)
     {
