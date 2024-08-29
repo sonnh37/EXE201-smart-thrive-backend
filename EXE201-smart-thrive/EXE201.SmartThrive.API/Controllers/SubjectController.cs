@@ -89,6 +89,7 @@ public class SubjectController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
+    
 
     [HttpPut]
     public async Task<IActionResult> Update(SubjectUpdateCommand request)
