@@ -10,6 +10,7 @@ public partial class MappingProfile : Profile
     private void SubjectMapping()
     {
         CreateMap<Subject, SubjectResult>().ReverseMap();
+        CreateMap<Subject, SubjectResult>();
         CreateMap<Subject, SubjectCreateCommand>().ReverseMap();
         CreateMap<Subject, SubjectUpdateCommand>().ReverseMap();
     }
