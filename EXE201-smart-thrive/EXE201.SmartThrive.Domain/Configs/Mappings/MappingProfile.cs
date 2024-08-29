@@ -5,5 +5,9 @@ public partial class MappingProfile
     public MappingProfile()
     {
         SubjectMapping();
+        CategoryMapping();
+        CourseMapping();
+        StudentMapping();
+        SubjectMapping();
     }
 }

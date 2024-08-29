@@ -10,4 +10,6 @@ public interface IUnitOfWork : IBaseUnitOfWork
     IStudentRepository StudentRepository { get; }
     
     ICategoryRepository CategoryRepository { get; }
+    
+    ICourseRepository CourseRepository { get; }
 }
