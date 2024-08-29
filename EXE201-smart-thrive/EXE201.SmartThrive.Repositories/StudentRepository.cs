@@ -10,12 +10,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using EXE201.SmartThrive.Data.Context;
 
 namespace EXE201.SmartThrive.Repositories
 {
     public class StudentRepository : BaseRepository<Student>, IStudentRepository
     {
-        public StudentRepository(DbContext dbContext) : base(dbContext)
+        public StudentRepository(STDbContext dbContext) : base(dbContext)
         {
         }
 
@@ -24,7 +25,7 @@ namespace EXE201.SmartThrive.Repositories
             var queryable = base.GetQueryable();
 
             // filter
-      //     queryable = ApplyFilter.Subject(queryable, query);
+            queryable = ApplyFilter.Student(queryable, query);
 
             var totalOrigin = queryable.Count();
 
@@ -32,7 +33,6 @@ namespace EXE201.SmartThrive.Repositories
             var results = await base.ApplySortingAndPaging(queryable, query);
 
             return (results, totalOrigin);
-
         }
     }
 }

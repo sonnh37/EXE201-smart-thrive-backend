@@ -1,23 +1,25 @@
 ﻿using AutoMapper;
 using EXE201.SmartThrive.Domain.Contracts.Services;
 using EXE201.SmartThrive.Domain.Models.Requests.Commands.Student;
-using EXE201.SmartThrive.Domain.Models.Requests.Commands.Subject;
+using EXE201.SmartThrive.Domain.Models.Requests.Commands.Student;
 using EXE201.SmartThrive.Domain.Models.Results;
 using EXE201.SmartThrive.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Runtime.InteropServices;
+using EXE201.SmartThrive.Domain.Models.Requests.Queries.Student;
 
 namespace EXE201.SmartThrive.API.Controllers
 {
-    public class StudentController : Controller
+    [Route("api/student")]
+    [ApiController]
+    public class StudentController : ControllerBase
     {
-        private readonly ISubjectService _studentService;
+        private readonly IStudentService _studentService;
         private readonly IMapper _mapper;
 
-        public StudentController(ISubjectService subjectService, IMapper mapper) {
-            _studentService = subjectService;
+        public StudentController(IStudentService studentService, IMapper mapper) {
+            _studentService = studentService;
             _mapper = mapper;
-
         }
 
         [HttpGet]
@@ -25,6 +27,20 @@ namespace EXE201.SmartThrive.API.Controllers
             try
             {
                 var msg = await _studentService.GetAll<StudentResult>();
+                return Ok(msg);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        
+        [HttpGet("filtered-sorted-paged")]
+        public async Task<IActionResult> GetAllFiltered([FromQuery] StudentGetAllQuery studentGetAllQuery)
+        {
+            try
+            {
+                var msg = await _studentService.GetAllFiltered(studentGetAllQuery);
                 return Ok(msg);
             }
             catch (Exception ex)
