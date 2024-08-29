@@ -5,5 +5,6 @@ public partial class MappingProfile
     public MappingProfile()
     {
         SubjectMapping();
+        
     }
 }
