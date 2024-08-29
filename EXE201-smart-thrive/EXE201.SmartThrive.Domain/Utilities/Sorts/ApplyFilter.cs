@@ -1,5 +1,8 @@
 ﻿using EXE201.SmartThrive.Domain.Entities;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.Base;
+using EXE201.SmartThrive.Domain.Models.Requests.Queries.Category;
+using EXE201.SmartThrive.Domain.Models.Requests.Queries.Course;
+using EXE201.SmartThrive.Domain.Models.Requests.Queries.Student;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.Subject;
 
 namespace EXE201.SmartThrive.Domain.Utilities.Sorts;
@@ -22,23 +25,7 @@ public static class ApplyFilter
         
         return queryable;
     }
-    public static IQueryable<Feedback> Feedback(IQueryable<Feedback> queryable, FeedbackGetAllQuery query)
-    {
-        if(query.StudentId != Guid.Empty)
-        {
-            queryable = queryable.Where(x => x.StudentId  == query.StudentId);
-        }
-        if(query.CourseId != Guid.Empty)
-        {
-            queryable = queryable.Where(x => x.CourseId == query.CourseId);
-        }
-        if(query.Rating != null)
-        {
-            queryable = queryable.Where(x => x.Rating == query.Rating);
-        }
-        queryable = Base(queryable, query);
-        return queryable;
-    }
+
     private static IQueryable<TEntity> Base<TEntity>(IQueryable<TEntity> queryable, BaseQuery query) where TEntity: BaseEntity
     {
         if (query.Id != Guid.Empty)

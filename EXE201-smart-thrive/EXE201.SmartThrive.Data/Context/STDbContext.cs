@@ -34,6 +34,18 @@ public class STDbContext : BaseDbContext
                 .HasForeignKey(s => s.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
         });
+        
+        modelBuilder.Entity<Address>(e =>
+        {
+            e.ToTable("Address");
+            e.HasKey(x => x.Id);
+            e.Property(x => x.Id).ValueGeneratedOnAdd().HasDefaultValueSql("NEWId()");
+
+            e.HasOne(e => e.Provider)
+                .WithMany(p => p.Addresses)
+                .HasForeignKey(p => p.ProviderId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
 
         modelBuilder.Entity<Provider>(e =>
         {
@@ -45,12 +57,16 @@ public class STDbContext : BaseDbContext
                 .WithOne(s => s.Provider)
                 .HasForeignKey(s => s.ProviderId)
                 .OnDelete(DeleteBehavior.Cascade);
+            e.HasMany(e => e.Addresses)
+                .WithOne(s => s.Provider)
+                .HasForeignKey(s => s.ProviderId)
+                .OnDelete(DeleteBehavior.Cascade);
             e.HasOne(e => e.User)
                 .WithOne(p => p.Provider)
                 .HasForeignKey<Provider>(p => p.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
         });
-
+        
         modelBuilder.Entity<Student>(e =>
         {
             e.ToTable("Student");
@@ -152,10 +168,6 @@ public class STDbContext : BaseDbContext
             e.Property(x => x.Id).ValueGeneratedOnAdd().HasDefaultValueSql("NEWId()");
             e.Property(x => x.TotalPrice).HasColumnType("decimal(18,2)");
 
-            e.HasOne(x => x.Order)
-                .WithOne(x => x.Package)
-                .HasForeignKey<Order>(x => x.PackageId)
-                .OnDelete(DeleteBehavior.Cascade);
             e.HasMany(e => e.PackageXCourses)
                 .WithOne(s => s.Package)
                 .HasForeignKey(s => s.PackageId)
@@ -191,16 +203,12 @@ public class STDbContext : BaseDbContext
             e.Property(x => x.TotalPrice).HasColumnType("decimal(18,2)");
 
             e.HasOne(x => x.Package)
-                .WithOne(x => x.Order)
-                .HasForeignKey<Order>(x => x.PackageId)
+                .WithMany(x => x.Orders)
+                .HasForeignKey(x => x.PackageId)
                 .OnDelete(DeleteBehavior.Cascade);
             e.HasOne(x => x.Voucher)
                 .WithOne(x => x.Order)
                 .HasForeignKey<Order>(x => x.VoucherId)
-                .OnDelete(DeleteBehavior.Cascade);
-            e.HasMany(e => e.OrderDetails)
-                .WithOne(s => s.Order)
-                .HasForeignKey(s => s.OrderId)
                 .OnDelete(DeleteBehavior.Cascade);
         });
 
@@ -219,20 +227,6 @@ public class STDbContext : BaseDbContext
                 .WithMany(x => x.StudentXPackages)
                 .HasForeignKey(x => x.PackageId)
                 .OnDelete(DeleteBehavior.Restrict);
-        });
-
-        modelBuilder.Entity<OrderDetail>(e =>
-        {
-            e.ToTable("OrderDetail");
-            e.HasKey(x => x.Id);
-            e.Property(x => x.Id).ValueGeneratedOnAdd().HasDefaultValueSql("NEWID()");
-            e.Property(x => x.Price).HasColumnType("decimal(18,2)");
-            e.Property(x => x.PriceDiscount).HasColumnType("decimal(18,2)");
-
-            e.HasOne(x => x.Order)
-                .WithMany(x => x.OrderDetails)
-                .HasForeignKey(x => x.OrderId)
-                .OnDelete(DeleteBehavior.Cascade);
         });
 
         modelBuilder.Entity<SessionMeeting>(e =>
@@ -368,15 +362,13 @@ public class STDbContext : BaseDbContext
     public virtual DbSet<Subject> Subjects { get; set; } = null!;
     public virtual DbSet<Student> Students { get; set; } = null!;
     public virtual DbSet<PackageXCourse> CourseXPackages { get; set; } = null!;
-
     public virtual DbSet<StudentXPackage> StudentXPackages { get; set; } = null!;
-    public virtual DbSet<OrderDetail> OrderDetails { get; set; } = null!;
     public virtual DbSet<SessionMeeting> SessionMeetings { get; set; } = null!;
     public virtual DbSet<SessionOffline> SessionOfflines { get; set; } = null!;
     public virtual DbSet<SessionSelfLearn> SessionSelfLearns { get; set; } = null!;
     public virtual DbSet<Voucher> Vouchers { get; set; } = null!;
     public virtual DbSet<Blog> Blogs { get; set; } = null!;
-    public virtual DbSet<Assistant> Assisants { get; set; } = null!;
+    public virtual DbSet<Assistant> Assistants { get; set; } = null!;
     public virtual DbSet<DayInWeek> DayInWeeks { get; set; } = null!;
     public virtual DbSet<Feedback> Feedbacks { get; set; } = null!;
     public virtual DbSet<Module> Modules { get; set; } = null!;

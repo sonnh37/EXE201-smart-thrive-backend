@@ -2,8 +2,6 @@
 
 public class PackageResult : BaseResult
 {
-    public Guid? StudentId { get; set; }
-
     public string? Name { get; set; }
 
     public int? QuantityCourse { get; set; }
@@ -14,9 +12,11 @@ public class PackageResult : BaseResult
 
     public string? Status { get; set; }
 
-    public OrderResult? Order { get; set; }
+    public StudentResult? Student { get; set; }
 
     public List<PackageXCourseResult>? PackageXCourses { get; set; }
+    
+    public List<OrderResult>? Orders { get; set; }
 
     public List<StudentXPackageResult>? StudentXPackages { get; set; }
 }

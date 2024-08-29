@@ -8,8 +8,6 @@ public class OrderResult : BaseResult
 
     public string? PaymentMethod { get; set; }
 
-    public int? Amount { get; set; }
-
     public decimal? TotalPrice { get; set; }
 
     public string? Description { get; set; }
@@ -20,5 +18,4 @@ public class OrderResult : BaseResult
 
     public VoucherResult? Voucher { get; set; }
 
-    public List<OrderDetailResult>? OrderDetails { get; set; }
 }
