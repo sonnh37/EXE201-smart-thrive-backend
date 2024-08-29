@@ -12,6 +12,7 @@ public partial class MappingProfile : Profile
         CreateMap<Subject, SubjectResult>().ReverseMap();
         
         CreateMap<Subject, SubjectCreateCommand>().ReverseMap();
+        
         CreateMap<Subject, SubjectUpdateCommand>().ReverseMap();
     }
 }
