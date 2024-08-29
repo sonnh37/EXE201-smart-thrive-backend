@@ -1,4 +1,6 @@
-﻿namespace EXE201.SmartThrive.Domain.Models.Requests.Queries.Course;
+﻿using EXE201.SmartThrive.Domain.Enums;
+
+namespace EXE201.SmartThrive.Domain.Models.Requests.Queries.Course;
 
 public class CourseGetAllQuery : PagedQuery
 {
@@ -32,7 +34,7 @@ public class CourseGetAllQuery : PagedQuery
 
     public TimeSpan EndTime { get; set; }
     
-    public string? Status { get; set; }
+    public CourseStatus? Status { get; set; }
 
     public bool IsActive { get; set; }
 

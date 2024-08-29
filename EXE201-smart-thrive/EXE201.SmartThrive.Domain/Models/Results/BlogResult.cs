@@ -1,4 +1,6 @@
-﻿namespace EXE201.SmartThrive.Domain.Models.Results;
+﻿using EXE201.SmartThrive.Domain.Enums;
+
+namespace EXE201.SmartThrive.Domain.Models.Results;
 
 public class BlogResult : BaseResult
 {
@@ -10,7 +12,7 @@ public class BlogResult : BaseResult
 
     public bool IsActive { get; set; }
 
-    public string? Status { get; set; }
+    public BlogStatus? Status { get; set; }
 
     public string? BackgroundImage { get; set; }
 

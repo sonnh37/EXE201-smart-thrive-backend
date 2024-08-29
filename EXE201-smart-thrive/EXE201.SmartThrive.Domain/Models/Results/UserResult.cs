@@ -1,4 +1,6 @@
-﻿namespace EXE201.SmartThrive.Domain.Models.Results;
+﻿using EXE201.SmartThrive.Domain.Enums;
+
+namespace EXE201.SmartThrive.Domain.Models.Results;
 
 public class UserResult : BaseResult
 {
@@ -18,13 +20,13 @@ public class UserResult : BaseResult
 
     public string? Address { get; set; }
 
-    public string? Gender { get; set; }
+    public Gender? Gender { get; set; }
 
     public string? Phone { get; set; }
 
-    public string? Status { get; set; }
+    public UserStatus? Status { get; set; }
 
-    public string? RoleName { get; set; }
+    public Role? Role { get; set; }
 
     public List<BlogResult>? Blogs { get; set; }
 

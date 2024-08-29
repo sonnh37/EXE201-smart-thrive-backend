@@ -1,4 +1,4 @@
-﻿using EXE201.SmartThrive.Domain.Entities;
+﻿using EXE201.SmartThrive.Domain.Enums;
 
 namespace EXE201.SmartThrive.Domain.Models.Results;
 
@@ -34,7 +34,7 @@ public class CourseResult : BaseResult
 
     public TimeSpan EndTime { get; set; }
     
-    public string? Status { get; set; }
+    public CourseStatus? Status { get; set; }
 
     public bool IsActive { get; set; }
 
