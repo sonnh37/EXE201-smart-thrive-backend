@@ -68,7 +68,7 @@ builder.Services.AddScoped<ISubjectRepository, SubjectRepository>();
 // builder.Services.AddScoped<IProviderRepository, ProviderRepository>();
 // builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 // builder.Services.AddScoped<ISessionRepository, SessionRepository>();
-// builder.Services.AddScoped<IStudentRepository, StudentRepository>();
+ builder.Services.AddScoped<IStudentRepository, StudentRepository>();
 // builder.Services.AddScoped<ISubjectRepository, SubjectRepository>();
 // builder.Services.AddScoped<IUserRepository, UserRepository>();
 //
@@ -78,7 +78,7 @@ builder.Services.AddScoped<ISubjectService, SubjectService>();
 // builder.Services.AddScoped<IPackageService, PackageService>();
 // builder.Services.AddScoped<ICourseService, CourseService>();
 // builder.Services.AddScoped<IProviderService, ProviderService>();
-// builder.Services.AddScoped<IStudentService, StudentService>();
+ builder.Services.AddScoped<IStudentService, StudentService>();
 // builder.Services.AddScoped<IRoleService, RoleService>();
 // builder.Services.AddScoped<ISubjectService, SubjectService>();
 // builder.Services.AddScoped<ICategoryService, CategoryService>();

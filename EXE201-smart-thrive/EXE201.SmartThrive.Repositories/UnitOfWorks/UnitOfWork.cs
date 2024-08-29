@@ -11,4 +11,6 @@ public class UnitOfWork : BaseUnitOfWork<STDbContext>, IUnitOfWork
     }
 
     public ISubjectRepository SubjectRepository => GetRepository<ISubjectRepository>();
+    public IStudentRepository StudentRepository => GetRepository<IStudentRepository>();
+
 }

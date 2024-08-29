@@ -6,4 +6,5 @@ namespace EXE201.SmartThrive.Domain.Contracts.UnitOfWorks;
 public interface IUnitOfWork : IBaseUnitOfWork
 {
     ISubjectRepository SubjectRepository { get; }
+    IStudentRepository StudentRepository { get; }
 }
