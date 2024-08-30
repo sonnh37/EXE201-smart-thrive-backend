@@ -1,9 +1,9 @@
-﻿namespace EXE201.SmartThrive.Domain.Models.Results;
+﻿using EXE201.SmartThrive.Domain.Enums;
+
+namespace EXE201.SmartThrive.Domain.Models.Results;
 
 public class PackageResult : BaseResult
 {
-    public Guid? StudentId { get; set; }
-
     public string? Name { get; set; }
 
     public int? QuantityCourse { get; set; }
@@ -12,11 +12,11 @@ public class PackageResult : BaseResult
 
     public bool IsActive { get; set; }
 
-    public string? Status { get; set; }
-
-    public OrderResult? Order { get; set; }
+    public PackageStatus? Status { get; set; }
 
     public List<PackageXCourseResult>? PackageXCourses { get; set; }
+    
+    public List<OrderResult>? Orders { get; set; }
 
     public List<StudentXPackageResult>? StudentXPackages { get; set; }
 }

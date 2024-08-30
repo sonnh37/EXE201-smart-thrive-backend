@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EXE201.SmartThrive.Data.Migrations
 {
     [DbContext(typeof(STDbContext))]
-    [Migration("20240827064557_Initial")]
+    [Migration("20240830093021_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -24,6 +24,53 @@ namespace EXE201.SmartThrive.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("EXE201.SmartThrive.Domain.Entities.Address", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("NEWId()");
+
+                    b.Property<string>("BuildingNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("City")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("District")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid?>("ProviderId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Street")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Town")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProviderId");
+
+                    b.ToTable("Address", (string)null);
+                });
 
             modelBuilder.Entity("EXE201.SmartThrive.Domain.Entities.Assistant", b =>
                 {
@@ -85,9 +132,6 @@ namespace EXE201.SmartThrive.Data.Migrations
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
-
-                    b.Property<string>("Status")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
@@ -166,7 +210,7 @@ namespace EXE201.SmartThrive.Data.Migrations
                     b.Property<DateTime?>("EndDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<TimeSpan>("EndTime")
+                    b.Property<TimeSpan?>("EndTime")
                         .HasColumnType("time");
 
                     b.Property<bool>("IsActive")
@@ -190,7 +234,7 @@ namespace EXE201.SmartThrive.Data.Migrations
                     b.Property<DateTime?>("StartDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<TimeSpan>("StartTime")
+                    b.Property<TimeSpan?>("StartTime")
                         .HasColumnType("time");
 
                     b.Property<string>("Status")
@@ -348,6 +392,9 @@ namespace EXE201.SmartThrive.Data.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
+                    b.Property<int?>("ModuleNumber")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -371,9 +418,6 @@ namespace EXE201.SmartThrive.Data.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasDefaultValueSql("NEWId()");
 
-                    b.Property<int?>("Amount")
-                        .HasColumnType("int");
-
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
@@ -389,8 +433,8 @@ namespace EXE201.SmartThrive.Data.Migrations
                     b.Property<Guid?>("PackageId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("PaymentMethod")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("PaymentMethod")
+                        .HasColumnType("int");
 
                     b.Property<string>("Status")
                         .HasColumnType("nvarchar(max)");
@@ -409,59 +453,13 @@ namespace EXE201.SmartThrive.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PackageId")
-                        .IsUnique()
-                        .HasFilter("[PackageId] IS NOT NULL");
+                    b.HasIndex("PackageId");
 
                     b.HasIndex("VoucherId")
                         .IsUnique()
                         .HasFilter("[VoucherId] IS NOT NULL");
 
                     b.ToTable("Order", (string)null);
-                });
-
-            modelBuilder.Entity("EXE201.SmartThrive.Domain.Entities.OrderDetail", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier")
-                        .HasDefaultValueSql("NEWID()");
-
-                    b.Property<Guid?>("CourseId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<Guid?>("OrderId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<decimal?>("Price")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal?>("PriceDiscount")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("Status")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UpdatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OrderId");
-
-                    b.ToTable("OrderDetail", (string)null);
                 });
 
             modelBuilder.Entity("EXE201.SmartThrive.Domain.Entities.Package", b =>
@@ -489,11 +487,8 @@ namespace EXE201.SmartThrive.Data.Migrations
                     b.Property<int?>("QuantityCourse")
                         .HasColumnType("int");
 
-                    b.Property<string>("Status")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid?>("StudentId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int?>("Status")
+                        .HasColumnType("int");
 
                     b.Property<decimal?>("TotalPrice")
                         .HasColumnType("decimal(18,2)");
@@ -531,9 +526,6 @@ namespace EXE201.SmartThrive.Data.Migrations
                     b.Property<Guid?>("PackageId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Status")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("UpdatedBy")
                         .HasColumnType("nvarchar(max)");
 
@@ -546,7 +538,7 @@ namespace EXE201.SmartThrive.Data.Migrations
 
                     b.HasIndex("PackageId");
 
-                    b.ToTable("CourseXPackage", (string)null);
+                    b.ToTable("PackageXCourse", (string)null);
                 });
 
             modelBuilder.Entity("EXE201.SmartThrive.Domain.Entities.Provider", b =>
@@ -555,9 +547,6 @@ namespace EXE201.SmartThrive.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier")
                         .HasDefaultValueSql("NEWId()");
-
-                    b.Property<string>("Address")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CompanyName")
                         .HasColumnType("nvarchar(max)");
@@ -595,7 +584,9 @@ namespace EXE201.SmartThrive.Data.Migrations
             modelBuilder.Entity("EXE201.SmartThrive.Domain.Entities.Session", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("NEWId()");
 
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
@@ -614,6 +605,9 @@ namespace EXE201.SmartThrive.Data.Migrations
 
                     b.Property<Guid?>("ModuleId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<int?>("SessionNumber")
+                        .HasColumnType("int");
 
                     b.Property<string>("SessionType")
                         .HasColumnType("nvarchar(max)");
@@ -641,13 +635,13 @@ namespace EXE201.SmartThrive.Data.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasDefaultValueSql("NEWID()");
 
-                    b.Property<string>("AccessCode")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("Date")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Host")
@@ -662,6 +656,9 @@ namespace EXE201.SmartThrive.Data.Migrations
                     b.Property<string>("MeetingUrl")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid?>("SessionId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("UpdatedBy")
                         .HasColumnType("nvarchar(max)");
 
@@ -669,6 +666,10 @@ namespace EXE201.SmartThrive.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("SessionId")
+                        .IsUnique()
+                        .HasFilter("[SessionId] IS NOT NULL");
 
                     b.ToTable("SessionMeeting", (string)null);
                 });
@@ -680,16 +681,13 @@ namespace EXE201.SmartThrive.Data.Migrations
                         .HasColumnType("uniqueidentifier")
                         .HasDefaultValueSql("NEWID()");
 
-                    b.Property<string>("Address")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Attribute")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("Date")
                         .HasColumnType("datetime2");
 
                     b.Property<int?>("Duration")
@@ -698,8 +696,11 @@ namespace EXE201.SmartThrive.Data.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime?>("Time")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("Location")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("SessionId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("UpdatedBy")
                         .HasColumnType("nvarchar(max)");
@@ -708,6 +709,10 @@ namespace EXE201.SmartThrive.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("SessionId")
+                        .IsUnique()
+                        .HasFilter("[SessionId] IS NOT NULL");
 
                     b.ToTable("SessionOffline", (string)null);
                 });
@@ -731,6 +736,9 @@ namespace EXE201.SmartThrive.Data.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
+                    b.Property<Guid?>("SessionId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<int?>("SessionNumber")
                         .HasColumnType("int");
 
@@ -740,10 +748,14 @@ namespace EXE201.SmartThrive.Data.Migrations
                     b.Property<DateTime?>("UpdatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("VideoURL")
+                    b.Property<string>("VideoUrl")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("SessionId")
+                        .IsUnique()
+                        .HasFilter("[SessionId] IS NOT NULL");
 
                     b.ToTable("SessionSelfLearn", (string)null);
                 });
@@ -761,7 +773,7 @@ namespace EXE201.SmartThrive.Data.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("DOB")
+                    b.Property<DateTime?>("Dob")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Gender")
@@ -769,9 +781,6 @@ namespace EXE201.SmartThrive.Data.Migrations
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
-
-                    b.Property<string>("Phone")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Status")
                         .HasColumnType("nvarchar(max)");
@@ -813,9 +822,6 @@ namespace EXE201.SmartThrive.Data.Migrations
 
                     b.Property<Guid?>("PackageId")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Status")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid?>("StudentId")
                         .HasColumnType("uniqueidentifier");
@@ -913,7 +919,7 @@ namespace EXE201.SmartThrive.Data.Migrations
                     b.Property<string>("Phone")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("RoleName")
+                    b.Property<string>("Role")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Status")
@@ -976,6 +982,16 @@ namespace EXE201.SmartThrive.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Voucher", (string)null);
+                });
+
+            modelBuilder.Entity("EXE201.SmartThrive.Domain.Entities.Address", b =>
+                {
+                    b.HasOne("EXE201.SmartThrive.Domain.Entities.Provider", "Provider")
+                        .WithMany("Addresses")
+                        .HasForeignKey("ProviderId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.Navigation("Provider");
                 });
 
             modelBuilder.Entity("EXE201.SmartThrive.Domain.Entities.Blog", b =>
@@ -1045,8 +1061,8 @@ namespace EXE201.SmartThrive.Data.Migrations
             modelBuilder.Entity("EXE201.SmartThrive.Domain.Entities.Order", b =>
                 {
                     b.HasOne("EXE201.SmartThrive.Domain.Entities.Package", "Package")
-                        .WithOne("Order")
-                        .HasForeignKey("EXE201.SmartThrive.Domain.Entities.Order", "PackageId")
+                        .WithMany("Orders")
+                        .HasForeignKey("PackageId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("EXE201.SmartThrive.Domain.Entities.Voucher", "Voucher")
@@ -1057,16 +1073,6 @@ namespace EXE201.SmartThrive.Data.Migrations
                     b.Navigation("Package");
 
                     b.Navigation("Voucher");
-                });
-
-            modelBuilder.Entity("EXE201.SmartThrive.Domain.Entities.OrderDetail", b =>
-                {
-                    b.HasOne("EXE201.SmartThrive.Domain.Entities.Order", "Order")
-                        .WithMany("OrderDetails")
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("EXE201.SmartThrive.Domain.Entities.PackageXCourse", b =>
@@ -1110,9 +1116,8 @@ namespace EXE201.SmartThrive.Data.Migrations
                 {
                     b.HasOne("EXE201.SmartThrive.Domain.Entities.Session", "Session")
                         .WithOne("SessionMeeting")
-                        .HasForeignKey("EXE201.SmartThrive.Domain.Entities.SessionMeeting", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("EXE201.SmartThrive.Domain.Entities.SessionMeeting", "SessionId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Session");
                 });
@@ -1121,9 +1126,8 @@ namespace EXE201.SmartThrive.Data.Migrations
                 {
                     b.HasOne("EXE201.SmartThrive.Domain.Entities.Session", "Session")
                         .WithOne("SessionOffline")
-                        .HasForeignKey("EXE201.SmartThrive.Domain.Entities.SessionOffline", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("EXE201.SmartThrive.Domain.Entities.SessionOffline", "SessionId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Session");
                 });
@@ -1132,9 +1136,8 @@ namespace EXE201.SmartThrive.Data.Migrations
                 {
                     b.HasOne("EXE201.SmartThrive.Domain.Entities.Session", "Session")
                         .WithOne("SessionSelfLearn")
-                        .HasForeignKey("EXE201.SmartThrive.Domain.Entities.SessionSelfLearn", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("EXE201.SmartThrive.Domain.Entities.SessionSelfLearn", "SessionId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Session");
                 });
@@ -1197,14 +1200,9 @@ namespace EXE201.SmartThrive.Data.Migrations
                     b.Navigation("Sessions");
                 });
 
-            modelBuilder.Entity("EXE201.SmartThrive.Domain.Entities.Order", b =>
-                {
-                    b.Navigation("OrderDetails");
-                });
-
             modelBuilder.Entity("EXE201.SmartThrive.Domain.Entities.Package", b =>
                 {
-                    b.Navigation("Order");
+                    b.Navigation("Orders");
 
                     b.Navigation("PackageXCourses");
 
@@ -1213,6 +1211,8 @@ namespace EXE201.SmartThrive.Data.Migrations
 
             modelBuilder.Entity("EXE201.SmartThrive.Domain.Entities.Provider", b =>
                 {
+                    b.Navigation("Addresses");
+
                     b.Navigation("Courses");
                 });
 

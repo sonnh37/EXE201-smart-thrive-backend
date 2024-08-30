@@ -1,5 +1,8 @@
 ﻿using EXE201.SmartThrive.Domain.Entities;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.Base;
+using EXE201.SmartThrive.Domain.Models.Requests.Queries.Category;
+using EXE201.SmartThrive.Domain.Models.Requests.Queries.Course;
+using EXE201.SmartThrive.Domain.Models.Requests.Queries.Student;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.Order;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.Provider;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.Subject;
@@ -16,7 +19,7 @@ public static class ApplyFilter
             queryable = queryable.Where(m => m.Name != null && m.Name.Contains(query.Name));
         }
         
-        if (query.CategoryId != Guid.Empty)
+        if (query.CategoryId != Guid.Empty && query.CategoryId != null)
         {
             queryable = queryable.Where(m => m.CategoryId == query.CategoryId);
         }
@@ -25,6 +28,59 @@ public static class ApplyFilter
         
         return queryable;
     }
+    
+    public static IQueryable<Student> Student(IQueryable<Student> queryable, StudentGetAllQuery query)
+    {
+        if (!string.IsNullOrEmpty(query.StudentName))
+        {
+            queryable = queryable.Where(m => m.StudentName != null && m.StudentName.Contains(query.StudentName));
+        }
+        
+        if (query.UserId != Guid.Empty && query.UserId != null)
+        {
+            queryable = queryable.Where(m => m.UserId == query.UserId);
+        }
+
+        queryable = Base(queryable, query);
+        
+        return queryable;
+    }
+    
+    public static IQueryable<Course> Course(IQueryable<Course> queryable, CourseGetAllQuery query)
+    {
+        if (!string.IsNullOrEmpty(query.CourseName))
+        {
+            queryable = queryable.Where(m => m.CourseName != null && m.CourseName.Contains(query.CourseName));
+        }
+        
+        if (query.SubjectId != null && query.SubjectId!= Guid.Empty)
+        {
+            queryable = queryable.Where(m => m.SubjectId == query.SubjectId);
+        }
+        
+        if (query.ProviderId!= Guid.Empty && query.SubjectId != null)
+        {
+            queryable = queryable.Where(m => m.ProviderId  == query.ProviderId);
+        }
+        
+        queryable = Base(queryable, query);
+        
+        return queryable;
+    }
+
+    
+    public static IQueryable<Category> Category(IQueryable<Category> queryable, CategoryGetAllQuery query)
+    {
+        if (!string.IsNullOrEmpty(query.Name))
+        {
+            queryable = queryable.Where(m => m.Name != null && m.Name.Contains(query.Name));
+        }
+
+        queryable = Base(queryable, query);
+        
+        return queryable;
+    }
+
 
     public static IQueryable<User> User(IQueryable<User> queryable, UserGetAllQuery query)
     {

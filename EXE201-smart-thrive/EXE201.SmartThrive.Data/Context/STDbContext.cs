@@ -1,5 +1,7 @@
 ﻿using EXE201.SmartThrive.Domain.Entities;
+using EXE201.SmartThrive.Domain.Enums;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Microsoft.Extensions.Configuration;
 
 namespace EXE201.SmartThrive.Data.Context;
@@ -12,11 +14,20 @@ public class STDbContext : BaseDbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        var converterUserStatus = new EnumToStringConverter<UserStatus>();
+        var converterUserRole = new EnumToStringConverter<Role>();
+        var converterUserGender = new EnumToStringConverter<Gender>();
         modelBuilder.Entity<User>(e =>
         {
             e.ToTable("User");
             e.HasKey(x => x.Id);
             e.Property(x => x.Id).ValueGeneratedOnAdd().HasDefaultValueSql("NEWId()");
+            e.Property(x => x.Status)
+                .HasConversion(converterUserStatus);
+            e.Property(x => x.Role)
+                .HasConversion(converterUserRole);
+            e.Property(x => x.Gender)
+                .HasConversion(converterUserGender);
 
             e.HasOne(e => e.Provider)
                 .WithOne(p => p.User)
@@ -35,6 +46,18 @@ public class STDbContext : BaseDbContext
                 .OnDelete(DeleteBehavior.Cascade);
         });
 
+        modelBuilder.Entity<Address>(e =>
+        {
+            e.ToTable("Address");
+            e.HasKey(x => x.Id);
+            e.Property(x => x.Id).ValueGeneratedOnAdd().HasDefaultValueSql("NEWId()");
+
+            e.HasOne(e => e.Provider)
+                .WithMany(p => p.Addresses)
+                .HasForeignKey(p => p.ProviderId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
         modelBuilder.Entity<Provider>(e =>
         {
             e.ToTable("Provider");
@@ -42,6 +65,10 @@ public class STDbContext : BaseDbContext
             e.Property(x => x.Id).ValueGeneratedOnAdd().HasDefaultValueSql("NEWId()");
 
             e.HasMany(e => e.Courses)
+                .WithOne(s => s.Provider)
+                .HasForeignKey(s => s.ProviderId)
+                .OnDelete(DeleteBehavior.Cascade);
+            e.HasMany(e => e.Addresses)
                 .WithOne(s => s.Provider)
                 .HasForeignKey(s => s.ProviderId)
                 .OnDelete(DeleteBehavior.Cascade);
@@ -56,6 +83,10 @@ public class STDbContext : BaseDbContext
             e.ToTable("Student");
             e.HasKey(x => x.Id);
             e.Property(x => x.Id).ValueGeneratedOnAdd().HasDefaultValueSql("NEWId()");
+            e.Property(x => x.Gender)
+                .HasConversion(converterUserGender);
+            e.Property(x => x.Status)
+                .HasConversion(converterUserStatus);
 
             e.HasOne(x => x.User)
                 .WithMany(x => x.Students)
@@ -95,12 +126,18 @@ public class STDbContext : BaseDbContext
                 .OnDelete(DeleteBehavior.Cascade);
         });
 
+        var converterCourseStatus = new EnumToStringConverter<CourseStatus>();
+        var converterCourseType = new EnumToStringConverter<CourseType>();
         modelBuilder.Entity<Course>(e =>
         {
             e.ToTable("Course");
             e.HasKey(x => x.Id);
             e.Property(x => x.Id).ValueGeneratedOnAdd().HasDefaultValueSql("NEWId()");
             e.Property(x => x.Price).HasColumnType("decimal(18,2)");
+            e.Property(x => x.Type)
+                .HasConversion(converterCourseType);
+            e.Property(x => x.Status)
+                .HasConversion(converterCourseStatus);
 
             e.HasOne(x => x.Subject)
                 .WithMany(x => x.Courses)
@@ -124,25 +161,32 @@ public class STDbContext : BaseDbContext
                 .OnDelete(DeleteBehavior.Cascade);
         });
 
+        var converterSessionType = new EnumToStringConverter<SessionType>();
         modelBuilder.Entity<Session>(e =>
         {
             e.ToTable("Session");
             e.HasKey(x => x.Id);
-            e.Property(x => x.Id).ValueGeneratedNever();
+            e.Property(x => x.Id).ValueGeneratedOnAdd().HasDefaultValueSql("NEWId()");
+            e.Property(x => x.SessionType)
+                .HasConversion(converterSessionType);
 
             e.HasOne(x => x.Module)
                 .WithMany(x => x.Sessions)
                 .HasForeignKey(x => x.ModuleId)
                 .OnDelete(DeleteBehavior.Cascade);
+            
             e.HasOne(s => s.SessionOffline)
                 .WithOne(so => so.Session)
-                .HasForeignKey<SessionOffline>(so => so.Id);
+                .HasForeignKey<SessionOffline>(so => so.SessionId)
+                .OnDelete(DeleteBehavior.Cascade);
             e.HasOne(s => s.SessionMeeting)
                 .WithOne(sm => sm.Session)
-                .HasForeignKey<SessionMeeting>(sm => sm.Id);
+                .HasForeignKey<SessionMeeting>(sm => sm.SessionId)
+                .OnDelete(DeleteBehavior.Cascade);
             e.HasOne(s => s.SessionSelfLearn)
                 .WithOne(ss => ss.Session)
-                .HasForeignKey<SessionSelfLearn>(ss => ss.Id);
+                .HasForeignKey<SessionSelfLearn>(ss => ss.SessionId)
+                .OnDelete(DeleteBehavior.Cascade);
         });
 
         modelBuilder.Entity<Package>(e =>
@@ -152,10 +196,6 @@ public class STDbContext : BaseDbContext
             e.Property(x => x.Id).ValueGeneratedOnAdd().HasDefaultValueSql("NEWId()");
             e.Property(x => x.TotalPrice).HasColumnType("decimal(18,2)");
 
-            e.HasOne(x => x.Order)
-                .WithOne(x => x.Package)
-                .HasForeignKey<Order>(x => x.PackageId)
-                .OnDelete(DeleteBehavior.Cascade);
             e.HasMany(e => e.PackageXCourses)
                 .WithOne(s => s.Package)
                 .HasForeignKey(s => s.PackageId)
@@ -169,7 +209,7 @@ public class STDbContext : BaseDbContext
 
         modelBuilder.Entity<PackageXCourse>(e =>
         {
-            e.ToTable("CourseXPackage");
+            e.ToTable("PackageXCourse");
             e.HasKey(cp => cp.Id);
             e.Property(x => x.Id).ValueGeneratedOnAdd().HasDefaultValueSql("NEWId()");
 
@@ -183,24 +223,23 @@ public class STDbContext : BaseDbContext
                 .OnDelete(DeleteBehavior.Restrict); // Specify NO ACTION on delete;
         });
 
+        var converterOrderStatus = new EnumToStringConverter<OrderStatus>();
         modelBuilder.Entity<Order>(e =>
         {
             e.ToTable("Order");
             e.HasKey(x => x.Id);
             e.Property(x => x.Id).ValueGeneratedOnAdd().HasDefaultValueSql("NEWId()");
             e.Property(x => x.TotalPrice).HasColumnType("decimal(18,2)");
+            e.Property(x => x.Status)
+                .HasConversion(converterOrderStatus);
 
             e.HasOne(x => x.Package)
-                .WithOne(x => x.Order)
-                .HasForeignKey<Order>(x => x.PackageId)
+                .WithMany(x => x.Orders)
+                .HasForeignKey(x => x.PackageId)
                 .OnDelete(DeleteBehavior.Cascade);
             e.HasOne(x => x.Voucher)
                 .WithOne(x => x.Order)
                 .HasForeignKey<Order>(x => x.VoucherId)
-                .OnDelete(DeleteBehavior.Cascade);
-            e.HasMany(e => e.OrderDetails)
-                .WithOne(s => s.Order)
-                .HasForeignKey(s => s.OrderId)
                 .OnDelete(DeleteBehavior.Cascade);
         });
 
@@ -219,20 +258,6 @@ public class STDbContext : BaseDbContext
                 .WithMany(x => x.StudentXPackages)
                 .HasForeignKey(x => x.PackageId)
                 .OnDelete(DeleteBehavior.Restrict);
-        });
-
-        modelBuilder.Entity<OrderDetail>(e =>
-        {
-            e.ToTable("OrderDetail");
-            e.HasKey(x => x.Id);
-            e.Property(x => x.Id).ValueGeneratedOnAdd().HasDefaultValueSql("NEWID()");
-            e.Property(x => x.Price).HasColumnType("decimal(18,2)");
-            e.Property(x => x.PriceDiscount).HasColumnType("decimal(18,2)");
-
-            e.HasOne(x => x.Order)
-                .WithMany(x => x.OrderDetails)
-                .HasForeignKey(x => x.OrderId)
-                .OnDelete(DeleteBehavior.Cascade);
         });
 
         modelBuilder.Entity<SessionMeeting>(e =>
@@ -256,11 +281,17 @@ public class STDbContext : BaseDbContext
             e.Property(x => x.Id).ValueGeneratedOnAdd().HasDefaultValueSql("NEWID()");
         });
 
+        var converterVoucherStatus = new EnumToStringConverter<VoucherStatus>();
+        var converterVoucherType = new EnumToStringConverter<VoucherType>();
         modelBuilder.Entity<Voucher>(e =>
         {
             e.ToTable("Voucher");
             e.HasKey(x => x.Id);
             e.Property(x => x.Id).ValueGeneratedOnAdd().HasDefaultValueSql("NEWID()");
+            e.Property(x => x.Status)
+                .HasConversion(converterVoucherStatus);
+            e.Property(x => x.VoucherType)
+                .HasConversion(converterVoucherType);
 
             e.HasOne(x => x.Order)
                 .WithOne(x => x.Voucher)
@@ -334,6 +365,7 @@ public class STDbContext : BaseDbContext
                 .HasForeignKey(s => s.ModuleId)
                 .OnDelete(DeleteBehavior.Cascade);
         });
+        
     }
 
     #region Config
@@ -367,16 +399,14 @@ public class STDbContext : BaseDbContext
     public virtual DbSet<Session> Sessions { get; set; } = null!;
     public virtual DbSet<Subject> Subjects { get; set; } = null!;
     public virtual DbSet<Student> Students { get; set; } = null!;
-    public virtual DbSet<PackageXCourse> CourseXPackages { get; set; } = null!;
-
+    public virtual DbSet<PackageXCourse> PackageXCourses { get; set; } = null!;
     public virtual DbSet<StudentXPackage> StudentXPackages { get; set; } = null!;
-    public virtual DbSet<OrderDetail> OrderDetails { get; set; } = null!;
     public virtual DbSet<SessionMeeting> SessionMeetings { get; set; } = null!;
     public virtual DbSet<SessionOffline> SessionOfflines { get; set; } = null!;
     public virtual DbSet<SessionSelfLearn> SessionSelfLearns { get; set; } = null!;
     public virtual DbSet<Voucher> Vouchers { get; set; } = null!;
     public virtual DbSet<Blog> Blogs { get; set; } = null!;
-    public virtual DbSet<Assistant> Assisants { get; set; } = null!;
+    public virtual DbSet<Assistant> Assistants { get; set; } = null!;
     public virtual DbSet<DayInWeek> DayInWeeks { get; set; } = null!;
     public virtual DbSet<Feedback> Feedbacks { get; set; } = null!;
     public virtual DbSet<Module> Modules { get; set; } = null!;
