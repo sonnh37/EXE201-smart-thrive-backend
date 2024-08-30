@@ -28,7 +28,7 @@ public class STDbContext : BaseDbContext
                 .HasConversion(converterUserRole);
             e.Property(x => x.Gender)
                 .HasConversion(converterUserGender);
-            
+
             e.HasOne(e => e.Provider)
                 .WithOne(p => p.User)
                 .HasForeignKey<Provider>(p => p.UserId)
@@ -45,7 +45,7 @@ public class STDbContext : BaseDbContext
                 .HasForeignKey(s => s.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
         });
-        
+
         modelBuilder.Entity<Address>(e =>
         {
             e.ToTable("Address");
@@ -77,7 +77,7 @@ public class STDbContext : BaseDbContext
                 .HasForeignKey<Provider>(p => p.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
         });
-        
+
         modelBuilder.Entity<Student>(e =>
         {
             e.ToTable("Student");
@@ -87,7 +87,7 @@ public class STDbContext : BaseDbContext
                 .HasConversion(converterUserGender);
             e.Property(x => x.Status)
                 .HasConversion(converterUserStatus);
-            
+
             e.HasOne(x => x.User)
                 .WithMany(x => x.Students)
                 .HasForeignKey(x => x.UserId)
@@ -127,12 +127,15 @@ public class STDbContext : BaseDbContext
         });
 
         var converterCourseStatus = new EnumToStringConverter<CourseStatus>();
+        var converterCourseType = new EnumToStringConverter<CourseType>();
         modelBuilder.Entity<Course>(e =>
         {
             e.ToTable("Course");
             e.HasKey(x => x.Id);
             e.Property(x => x.Id).ValueGeneratedOnAdd().HasDefaultValueSql("NEWId()");
             e.Property(x => x.Price).HasColumnType("decimal(18,2)");
+            e.Property(x => x.Type)
+                .HasConversion(converterCourseType);
             e.Property(x => x.Status)
                 .HasConversion(converterCourseStatus);
 
@@ -158,25 +161,32 @@ public class STDbContext : BaseDbContext
                 .OnDelete(DeleteBehavior.Cascade);
         });
 
+        var converterSessionType = new EnumToStringConverter<SessionType>();
         modelBuilder.Entity<Session>(e =>
         {
             e.ToTable("Session");
             e.HasKey(x => x.Id);
-            e.Property(x => x.Id).ValueGeneratedNever();
+            e.Property(x => x.Id).ValueGeneratedOnAdd().HasDefaultValueSql("NEWId()");
+            e.Property(x => x.SessionType)
+                .HasConversion(converterSessionType);
 
             e.HasOne(x => x.Module)
                 .WithMany(x => x.Sessions)
                 .HasForeignKey(x => x.ModuleId)
                 .OnDelete(DeleteBehavior.Cascade);
+            
             e.HasOne(s => s.SessionOffline)
                 .WithOne(so => so.Session)
-                .HasForeignKey<SessionOffline>(so => so.Id);
+                .HasForeignKey<SessionOffline>(so => so.SessionId)
+                .OnDelete(DeleteBehavior.Cascade);
             e.HasOne(s => s.SessionMeeting)
                 .WithOne(sm => sm.Session)
-                .HasForeignKey<SessionMeeting>(sm => sm.Id);
+                .HasForeignKey<SessionMeeting>(sm => sm.SessionId)
+                .OnDelete(DeleteBehavior.Cascade);
             e.HasOne(s => s.SessionSelfLearn)
                 .WithOne(ss => ss.Session)
-                .HasForeignKey<SessionSelfLearn>(ss => ss.Id);
+                .HasForeignKey<SessionSelfLearn>(ss => ss.SessionId)
+                .OnDelete(DeleteBehavior.Cascade);
         });
 
         modelBuilder.Entity<Package>(e =>
@@ -199,7 +209,7 @@ public class STDbContext : BaseDbContext
 
         modelBuilder.Entity<PackageXCourse>(e =>
         {
-            e.ToTable("CourseXPackage");
+            e.ToTable("PackageXCourse");
             e.HasKey(cp => cp.Id);
             e.Property(x => x.Id).ValueGeneratedOnAdd().HasDefaultValueSql("NEWId()");
 
@@ -270,7 +280,9 @@ public class STDbContext : BaseDbContext
             e.HasKey(x => x.Id);
             e.Property(x => x.Id).ValueGeneratedOnAdd().HasDefaultValueSql("NEWID()");
         });
+
         var converterVoucherStatus = new EnumToStringConverter<VoucherStatus>();
+        var converterVoucherType = new EnumToStringConverter<VoucherType>();
         modelBuilder.Entity<Voucher>(e =>
         {
             e.ToTable("Voucher");
@@ -278,7 +290,9 @@ public class STDbContext : BaseDbContext
             e.Property(x => x.Id).ValueGeneratedOnAdd().HasDefaultValueSql("NEWID()");
             e.Property(x => x.Status)
                 .HasConversion(converterVoucherStatus);
-            
+            e.Property(x => x.VoucherType)
+                .HasConversion(converterVoucherType);
+
             e.HasOne(x => x.Order)
                 .WithOne(x => x.Voucher)
                 .HasForeignKey<Order>(x => x.VoucherId)
@@ -351,6 +365,7 @@ public class STDbContext : BaseDbContext
                 .HasForeignKey(s => s.ModuleId)
                 .OnDelete(DeleteBehavior.Cascade);
         });
+        
     }
 
     #region Config
@@ -384,7 +399,7 @@ public class STDbContext : BaseDbContext
     public virtual DbSet<Session> Sessions { get; set; } = null!;
     public virtual DbSet<Subject> Subjects { get; set; } = null!;
     public virtual DbSet<Student> Students { get; set; } = null!;
-    public virtual DbSet<PackageXCourse> CourseXPackages { get; set; } = null!;
+    public virtual DbSet<PackageXCourse> PackageXCourses { get; set; } = null!;
     public virtual DbSet<StudentXPackage> StudentXPackages { get; set; } = null!;
     public virtual DbSet<SessionMeeting> SessionMeetings { get; set; } = null!;
     public virtual DbSet<SessionOffline> SessionOfflines { get; set; } = null!;

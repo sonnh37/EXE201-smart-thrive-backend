@@ -16,9 +16,7 @@ namespace EXE201.SmartThrive.Domain.Models.Requests.Queries.Student
         public Gender? Gender { get; set; }
 
         public DateTime? Dob { get; set; }
-
-        public string? Phone { get; set; }
-
+    
         public UserStatus? Status { get; set; }
     }
 }

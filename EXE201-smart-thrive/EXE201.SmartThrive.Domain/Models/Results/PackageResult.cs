@@ -14,8 +14,6 @@ public class PackageResult : BaseResult
 
     public PackageStatus? Status { get; set; }
 
-    public StudentResult? Student { get; set; }
-
     public List<PackageXCourseResult>? PackageXCourses { get; set; }
     
     public List<OrderResult>? Orders { get; set; }

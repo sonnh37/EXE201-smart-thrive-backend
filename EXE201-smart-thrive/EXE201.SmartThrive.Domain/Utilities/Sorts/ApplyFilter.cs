@@ -16,7 +16,7 @@ public static class ApplyFilter
             queryable = queryable.Where(m => m.Name != null && m.Name.Contains(query.Name));
         }
         
-        if (query.CategoryId != Guid.Empty)
+        if (query.CategoryId != Guid.Empty && query.CategoryId != null)
         {
             queryable = queryable.Where(m => m.CategoryId == query.CategoryId);
         }
@@ -33,7 +33,7 @@ public static class ApplyFilter
             queryable = queryable.Where(m => m.StudentName != null && m.StudentName.Contains(query.StudentName));
         }
         
-        if (query.UserId != Guid.Empty)
+        if (query.UserId != Guid.Empty && query.UserId != null)
         {
             queryable = queryable.Where(m => m.UserId == query.UserId);
         }
@@ -50,12 +50,12 @@ public static class ApplyFilter
             queryable = queryable.Where(m => m.CourseName != null && m.CourseName.Contains(query.CourseName));
         }
         
-        if (query.SubjectId!= Guid.Empty)
+        if (query.SubjectId != null && query.SubjectId!= Guid.Empty)
         {
             queryable = queryable.Where(m => m.SubjectId == query.SubjectId);
         }
         
-        if (query.ProviderId!= Guid.Empty)
+        if (query.ProviderId!= Guid.Empty && query.SubjectId != null)
         {
             queryable = queryable.Where(m => m.ProviderId  == query.ProviderId);
         }

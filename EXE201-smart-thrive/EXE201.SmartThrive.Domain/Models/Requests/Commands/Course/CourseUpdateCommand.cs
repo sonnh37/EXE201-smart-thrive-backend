@@ -11,7 +11,7 @@ public class CourseUpdateCommand : UpdateCommand
 
     public string? TeacherName { get; set; }
     
-    public string? Type { get; set; }
+    public CourseType? Type { get; set; }
     
     public string? Name { get; set; }
 
@@ -31,9 +31,9 @@ public class CourseUpdateCommand : UpdateCommand
 
     public int? TotalSessions { get; set; }
     
-    public TimeSpan StartTime { get; set; }
+    public TimeSpan? StartTime { get; set; }
 
-    public TimeSpan EndTime { get; set; }
+    public TimeSpan? EndTime { get; set; }
     
     public CourseStatus? Status { get; set; }
 

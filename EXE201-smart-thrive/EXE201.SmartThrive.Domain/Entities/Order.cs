@@ -8,7 +8,7 @@ public class Order : BaseEntity
     
     public Guid? VoucherId { get; set; }
 
-    public string? PaymentMethod { get; set; }
+    public PaymentMethod? PaymentMethod { get; set; }
 
     public decimal? TotalPrice { get; set; }
 

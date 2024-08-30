@@ -4,7 +4,7 @@ namespace EXE201.SmartThrive.Domain.Entities;
 
 public class Voucher : BaseEntity
 {
-    public string? VoucherType { get; set; }
+    public VoucherType? VoucherType { get; set; }
     
     public string? Name { get; set; }
     

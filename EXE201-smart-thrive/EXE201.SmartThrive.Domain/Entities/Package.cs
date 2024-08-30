@@ -14,8 +14,6 @@ public class Package : BaseEntity
     
     public PackageStatus? Status { get; set; }
 
-    public virtual Student? Student { get; set; }
-    
     public virtual ICollection<PackageXCourse>? PackageXCourses { get; set; }
     
     public virtual ICollection<Order>? Orders { get; set; }

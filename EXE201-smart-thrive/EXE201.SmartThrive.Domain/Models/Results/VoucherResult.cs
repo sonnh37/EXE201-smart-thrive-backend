@@ -4,7 +4,7 @@ namespace EXE201.SmartThrive.Domain.Models.Results;
 
 public class VoucherResult : BaseResult
 {
-    public string? VoucherType { get; set; }
+    public VoucherType? VoucherType { get; set; }
 
     public string? Name { get; set; }
 
