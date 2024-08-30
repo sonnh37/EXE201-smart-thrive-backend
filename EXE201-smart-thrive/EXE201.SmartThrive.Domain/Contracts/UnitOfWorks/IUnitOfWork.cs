@@ -9,4 +9,7 @@ public interface IUnitOfWork : IBaseUnitOfWork
     IStudentRepository StudentRepository { get; }
     IBlogRepository BlogRepository { get; }
     IFeedbackRepository FeedbackRepository { get; }
+    IVoucherRepository VoucherRepository { get; }
+    IModuleRepository ModuleRepository { get; }
+
 }

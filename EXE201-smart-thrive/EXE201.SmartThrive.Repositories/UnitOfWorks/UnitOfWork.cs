@@ -16,4 +16,8 @@ public class UnitOfWork : BaseUnitOfWork<STDbContext>, IUnitOfWork
     public IBlogRepository BlogRepository => GetRepository<IBlogRepository>();
 
     public IFeedbackRepository FeedbackRepository => GetRepository<IFeedbackRepository>();
+
+    public IVoucherRepository VoucherRepository => GetRepository<IVoucherRepository>();
+
+    public IModuleRepository ModuleRepository => GetRepository<IModuleRepository>();
 } 
