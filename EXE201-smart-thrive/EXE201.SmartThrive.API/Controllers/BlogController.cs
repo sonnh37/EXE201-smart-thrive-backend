@@ -1,32 +1,33 @@
 ﻿using AutoMapper;
 using EXE201.SmartThrive.Domain.Contracts.Services;
-using EXE201.SmartThrive.Domain.Models.Requests.Commands.Student;
+using EXE201.SmartThrive.Domain.Models.Requests.Commands.Blog;
 using EXE201.SmartThrive.Domain.Models.Requests.Commands.Subject;
+using EXE201.SmartThrive.Domain.Models.Requests.Queries.Subject;
 using EXE201.SmartThrive.Domain.Models.Results;
-using EXE201.SmartThrive.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Runtime.InteropServices;
 
 namespace EXE201.SmartThrive.API.Controllers
 {
-    [Route("api/student")]
+    [Route("api/blog")]
     [ApiController]
-    public class StudentController : ControllerBase
+    public class BlogController : ControllerBase
     {
-        private readonly ISubjectService _studentService;
         private readonly IMapper _mapper;
+        private readonly IBlogService _blogService;
 
-        public StudentController(ISubjectService subjectService, IMapper mapper) {
-            _studentService = subjectService;
+        public BlogController(IBlogService blogService, IMapper mapper)
+        {
+            _blogService = blogService;
             _mapper = mapper;
-
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll() {
+        public async Task<IActionResult> GetAll()
+        {
             try
             {
-                var msg = await _studentService.GetAll<StudentResult>();
+                var msg = await _blogService.GetAll<BlogResult>();
                 return Ok(msg);
             }
             catch (Exception ex)
@@ -35,28 +36,31 @@ namespace EXE201.SmartThrive.API.Controllers
             }
         }
 
+     
+
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> Get(Guid id)
         {
             try
             {
-                var msg = await _studentService.GetById<StudentResult>(id);
+                var msg = await _blogService.GetById<BlogResult>(id);
                 return Ok(msg);
             }
-            catch(Exception ex) 
+            catch (Exception ex)
             {
-            return BadRequest(ex.Message);}
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add(StudentCreateCommand request)
+        public async Task<IActionResult> Add(BlogCreateCommand request)
         {
             try
             {
-                var msg = await _studentService.Create(request);
+                var msg = await _blogService.Create(request);
                 return Ok(msg);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
@@ -67,7 +71,7 @@ namespace EXE201.SmartThrive.API.Controllers
         {
             try
             {
-                var msg = await _studentService.DeleteById(id);
+                var msg = await _blogService.DeleteById(id);
                 return Ok(msg);
             }
             catch (Exception ex)
@@ -76,12 +80,13 @@ namespace EXE201.SmartThrive.API.Controllers
             }
         }
 
+
         [HttpPut]
-        public async Task<IActionResult> Update(StudentUpdateCommand request)
+        public async Task<IActionResult> Update(BlogUpdateCommand request)
         {
             try
             {
-                var msg = await _studentService.Update(request);
+                var msg = await _blogService.Update(request);
                 return Ok(msg);
             }
             catch (Exception ex)
@@ -91,4 +96,3 @@ namespace EXE201.SmartThrive.API.Controllers
         }
     }
 }
- 

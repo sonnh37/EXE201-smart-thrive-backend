@@ -7,4 +7,6 @@ public interface IUnitOfWork : IBaseUnitOfWork
 {
     ISubjectRepository SubjectRepository { get; }
     IStudentRepository StudentRepository { get; }
+    IBlogRepository BlogRepository { get; }
+    IFeedbackRepository FeedbackRepository { get; }
 }
