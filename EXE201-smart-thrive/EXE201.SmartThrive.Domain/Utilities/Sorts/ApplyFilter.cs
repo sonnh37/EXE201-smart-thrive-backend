@@ -1,6 +1,9 @@
 ﻿using EXE201.SmartThrive.Domain.Entities;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.Base;
+using EXE201.SmartThrive.Domain.Models.Requests.Queries.Order;
+using EXE201.SmartThrive.Domain.Models.Requests.Queries.Provider;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.Subject;
+using EXE201.SmartThrive.Domain.Models.Requests.Queries.User;
 
 namespace EXE201.SmartThrive.Domain.Utilities.Sorts;
 
@@ -20,6 +23,179 @@ public static class ApplyFilter
 
         queryable = Base(queryable, query);
         
+        return queryable;
+    }
+
+    public static IQueryable<User> User(IQueryable<User> queryable, UserGetAllQuery query)
+    {
+        if (!string.IsNullOrEmpty(query.Username))
+        {
+            queryable = queryable.Where(e => e.Username.Contains(query.Username));
+        }
+
+        if (!string.IsNullOrEmpty(query.FirstName))
+        {
+            queryable = queryable.Where(e => e.FirstName.Contains(query.FirstName));
+        }
+
+        if (!string.IsNullOrEmpty(query.LastName))
+        {
+            queryable = queryable.Where(e => e.LastName.Contains(query.LastName));
+        }
+
+        if (!string.IsNullOrEmpty(query.Email))
+        {
+            queryable = queryable.Where(e => e.Email.Contains(query.Email));
+        }
+
+        if (query.Dob.HasValue)
+        {
+            queryable = queryable.Where(e => e.Dob == query.Dob);
+        }
+
+        if (!string.IsNullOrEmpty(query.Address))
+        {
+            queryable = queryable.Where(e => e.Address.Contains(query.Address));
+        }
+
+        if (!string.IsNullOrEmpty(query.Status))
+        {
+            queryable = queryable.Where(e => e.Status == query.Status);
+        }
+
+        if (!string.IsNullOrEmpty(query.Gender))
+        {
+            queryable = queryable.Where(e => e.Gender == query.Gender);
+        }
+
+        if (!string.IsNullOrEmpty(query.Email))
+        {
+            queryable = queryable.Where(e => e.RoleName == query.RoleName);
+        }
+
+        queryable = Base(queryable, query);
+
+        return queryable;
+    }
+
+    public static IQueryable<Provider> Provider(IQueryable<Provider> queryable, ProviderGetAllQuery query)
+    {
+        if (query.UserId != Guid.Empty)
+        {
+            queryable = queryable.Where(m => m.UserId == query.UserId);
+        }
+
+        if (!string.IsNullOrEmpty(query.CompanyName))
+        {
+            queryable = queryable.Where(e => e.CompanyName != null && e.CompanyName.Contains(query.CompanyName));
+        }
+
+        if (!string.IsNullOrEmpty(query.Address))
+        {
+            queryable = queryable.Where(e => e.Address != null && e.Address.Contains(query.Address));
+        }
+
+        if (!string.IsNullOrEmpty(query.Website))
+        {
+            queryable = queryable.Where(e => e.Website != null && e.Website.Contains(query.Website));
+        }
+
+        queryable = Base(queryable, query);
+
+        return queryable;
+    }
+
+    public static IQueryable<Provider> Order(IQueryable<Order> queryable, OrderGetAllQuery query)
+    {
+        if (query.PackageId != Guid.Empty)
+        {
+            queryable = queryable.Where(m => m.PackageId == query.PackageId);
+        }
+
+        if (query.VoucherId != Guid.Empty)
+        {
+            queryable = queryable.Where(m => m.VoucherId == query.VoucherId);
+        }
+
+        if (!string.IsNullOrEmpty(query.PaymentMethod))
+        {
+            queryable = queryable.Where(e => e.PaymentMethod == query.PaymentMethod);
+        }
+
+        if (query.Amount.HasValue)
+        {
+            queryable = queryable.Where(e => e.Amount == query.Amount);
+        }
+
+        //if (!string.IsNullOrEmpty(query.Website))
+        //{
+        //    queryable = queryable.Where(e => e.Website != null && e.Website.Contains(query.Website));
+        //}
+
+        //if (!string.IsNullOrEmpty(query.Website))
+        //{
+        //    queryable = queryable.Where(e => e.Website != null && e.Website.Contains(query.Website));
+        //}
+
+        if (!string.IsNullOrEmpty(query.Description))
+        {
+            queryable = queryable.Where(e => e.Description != null && e.Description.Contains(query.Description));
+        }
+
+        if (!string.IsNullOrEmpty(query.Status))
+        {
+            queryable = queryable.Where(e => e.Status == query.Status);
+        }
+
+        queryable = Base(queryable, query);
+
+        return queryable;
+    }
+
+    public static IQueryable<Provider> OrderDetail(IQueryable<Order> queryable, OrderGetAllQuery query)
+    {
+        if (query.PackageId != Guid.Empty)
+        {
+            queryable = queryable.Where(m => m.PackageId == query.PackageId);
+        }
+
+        if (query.VoucherId != Guid.Empty)
+        {
+            queryable = queryable.Where(m => m.VoucherId == query.VoucherId);
+        }
+
+        if (!string.IsNullOrEmpty(query.PaymentMethod))
+        {
+            queryable = queryable.Where(e => e.PaymentMethod == query.PaymentMethod);
+        }
+
+        if (query.Amount.HasValue)
+        {
+            queryable = queryable.Where(e => e.Amount == query.Amount);
+        }
+
+        //if (!string.IsNullOrEmpty(query.Website))
+        //{
+        //    queryable = queryable.Where(e => e.Website != null && e.Website.Contains(query.Website));
+        //}
+
+        //if (!string.IsNullOrEmpty(query.Website))
+        //{
+        //    queryable = queryable.Where(e => e.Website != null && e.Website.Contains(query.Website));
+        //}
+
+        if (!string.IsNullOrEmpty(query.Description))
+        {
+            queryable = queryable.Where(e => e.Description != null && e.Description.Contains(query.Description));
+        }
+
+        if (!string.IsNullOrEmpty(query.Status))
+        {
+            queryable = queryable.Where(e => e.Status == query.Status);
+        }
+
+        queryable = Base(queryable, query);
+
         return queryable;
     }
 
