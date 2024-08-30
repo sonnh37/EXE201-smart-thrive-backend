@@ -31,9 +31,9 @@ public class CourseUpdateCommand : UpdateCommand
 
     public int? TotalSessions { get; set; }
     
-    public TimeSpan StartTime { get; set; }
+    public TimeSpan? StartTime { get; set; }
 
-    public TimeSpan EndTime { get; set; }
+    public TimeSpan? EndTime { get; set; }
     
     public CourseStatus? Status { get; set; }
 
