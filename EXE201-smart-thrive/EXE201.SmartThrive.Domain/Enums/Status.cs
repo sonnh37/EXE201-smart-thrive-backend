@@ -15,33 +15,32 @@ public enum CourseStatus
 {
     Pending,
     Approved,
-    Denied
+    Rejected
 }
 
 public enum OrderStatus
 {
     Pending,
-    Approved,
-    Denied
+    Completed,
+    Cancelled
 }
 
-public enum BlogStatus
-{
-    Pending,
-    Approved,
-    Denied
-}
+// public enum BlogStatus
+// {
+//     Pending,
+//     Approved,
+//     Rejected
+// }
 
 public enum PackageStatus
 {
     Pending,
     Approved,
-    Denied
+    Rejected
 }
 
 public enum VoucherStatus
 {
-    Pending,
-    Approved,
-    Denied
+    Active,
+    Inactive
 }

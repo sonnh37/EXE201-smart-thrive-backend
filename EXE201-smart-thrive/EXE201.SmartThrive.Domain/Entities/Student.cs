@@ -12,8 +12,6 @@ public class Student : BaseEntity
 
     public DateTime? Dob { get; set; }
     
-    public string? Phone { get; set; }
-    
     public UserStatus? Status { get; set; }
 
     public virtual User? User { get; set; }

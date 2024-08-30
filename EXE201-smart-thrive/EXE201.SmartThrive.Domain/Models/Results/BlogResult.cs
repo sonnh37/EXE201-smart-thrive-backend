@@ -12,8 +12,6 @@ public class BlogResult : BaseResult
 
     public bool IsActive { get; set; }
 
-    public BlogStatus? Status { get; set; }
-
     public string? BackgroundImage { get; set; }
 
     public UserResult? User { get; set; }

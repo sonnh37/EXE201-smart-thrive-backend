@@ -1,5 +1,6 @@
 using System.Text;
 using System.Text.Json.Serialization;
+using EXE201.SmartThrive.Data;
 using EXE201.SmartThrive.Data.Context;
 using EXE201.SmartThrive.Domain.Configs.Mappings;
 using EXE201.SmartThrive.Domain.Contracts.Bases;
@@ -139,6 +140,14 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseMiddleware<TokenUserMiddleware>();
+
+// Seed dữ liệu sau khi database được tạo
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<STDbContext>();
+    DummyData.SeedDatabase(context);
+}
+
 app.UseRouting();
 
 app.UseHttpsRedirection();

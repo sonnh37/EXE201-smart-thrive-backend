@@ -11,7 +11,7 @@ public class CourseCreateCommand : CreateCommand
 
     public string? TeacherName { get; set; }
     
-    public string? Type { get; set; }
+    public CourseType? Type { get; set; }
     
     public string? Name { get; set; }
 
