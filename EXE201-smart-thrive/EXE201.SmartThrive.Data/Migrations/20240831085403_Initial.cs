@@ -637,9 +637,7 @@ namespace EXE201.SmartThrive.Data.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Order_VoucherId",
                 table: "Order",
-                column: "VoucherId",
-                unique: true,
-                filter: "[VoucherId] IS NOT NULL");
+                column: "VoucherId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PackageXCourse_CourseId",
