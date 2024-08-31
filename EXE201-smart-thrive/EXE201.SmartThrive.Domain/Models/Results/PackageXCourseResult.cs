@@ -6,8 +6,6 @@ public class PackageXCourseResult : BaseResult
 
     public Guid? PackageId { get; set; }
 
-    public string? Status { get; set; }
-
     public CourseResult? Course { get; set; }
 
     public PackageResult? Package { get; set; }

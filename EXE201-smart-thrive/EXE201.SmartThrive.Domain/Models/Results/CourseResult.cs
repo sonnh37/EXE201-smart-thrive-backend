@@ -1,4 +1,4 @@
-﻿using EXE201.SmartThrive.Domain.Entities;
+﻿using EXE201.SmartThrive.Domain.Enums;
 
 namespace EXE201.SmartThrive.Domain.Models.Results;
 
@@ -9,9 +9,9 @@ public class CourseResult : BaseResult
     public Guid? ProviderId { get; set; }
 
     public string? TeacherName { get; set; }
-
-    public string? Type { get; set; }
-
+    
+    public CourseType? Type { get; set; }
+    
     public string? Name { get; set; }
 
     public string? Code { get; set; }
@@ -19,7 +19,7 @@ public class CourseResult : BaseResult
     public string? CourseName { get; set; }
 
     public string? Description { get; set; }
-
+    
     public string? BackgroundImage { get; set; }
 
     public decimal? Price { get; set; }
@@ -29,12 +29,12 @@ public class CourseResult : BaseResult
     public int? TotalSlots { get; set; }
 
     public int? TotalSessions { get; set; }
+    
+    public TimeSpan? StartTime { get; set; }
 
-    public TimeSpan StartTime { get; set; }
-
-    public TimeSpan EndTime { get; set; }
-
-    public string? Status { get; set; }
+    public TimeSpan? EndTime { get; set; }
+    
+    public CourseStatus? Status { get; set; }
 
     public bool IsActive { get; set; }
 
@@ -42,11 +42,11 @@ public class CourseResult : BaseResult
 
     public DateTime? EndDate { get; set; }
 
-    public virtual DayInWeek? DayInWeek { get; set; }
+    public virtual DayInWeekResult? DayInWeek { get; set; }
 
-    public virtual Subject? Subject { get; set; }
+    public virtual SubjectResult? Subject { get; set; }
 
-    public virtual Provider? Provider { get; set; }
+    public virtual ProviderResult? Provider { get; set; }
 
     public List<ModuleResult>? Modules { get; set; }
 

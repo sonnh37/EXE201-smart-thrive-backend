@@ -19,7 +19,7 @@ public class SubjectController : ControllerBase
         _subjectService = subjectService;
         _mapper = mapper;
     }
-    
+
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
@@ -89,7 +89,7 @@ public class SubjectController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
-    
+
 
     [HttpPut]
     public async Task<IActionResult> Update(SubjectUpdateCommand request)

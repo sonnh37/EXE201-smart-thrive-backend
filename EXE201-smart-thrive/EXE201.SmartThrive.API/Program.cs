@@ -1,5 +1,6 @@
 using System.Text;
 using System.Text.Json.Serialization;
+using EXE201.SmartThrive.Data;
 using EXE201.SmartThrive.Data.Context;
 using EXE201.SmartThrive.Domain.Configs.Mappings;
 using EXE201.SmartThrive.Domain.Contracts.Bases;
@@ -65,6 +66,8 @@ builder.Services.AddScoped<IFeedbackRepository, FeedbackRepository>();
 builder.Services.AddScoped<IModuleRepository,ModuleRepository>();
 builder.Services.AddScoped<IVoucherRepository, VoucherRepository>();
 // builder.Services.AddScoped<ICourseRepository, CourseRepository>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<ICourseRepository, CourseRepository>();
 // builder.Services.AddScoped<ICourseXPackageRepository, CourseXPackageRepository>();
 // builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 // builder.Services.AddScoped<IPackageRepository, PackageRepository>();
@@ -80,7 +83,7 @@ builder.Services.AddScoped<ISubjectService, SubjectService>();
 // builder.Services.AddScoped<ISessionService, SessionService>();
 // builder.Services.AddScoped<IOrderService, OrderService>();
 // builder.Services.AddScoped<IPackageService, PackageService>();
-// builder.Services.AddScoped<ICourseService, CourseService>();
+builder.Services.AddScoped<ICourseService, CourseService>();
 // builder.Services.AddScoped<IProviderService, ProviderService>();
  builder.Services.AddScoped<IStudentService, StudentService>();
 builder.Services.AddScoped<IBlogService, BlogService>();
@@ -89,7 +92,7 @@ builder.Services.AddScoped<IVoucherService, VoucherService>();
 builder.Services.AddScoped<IModuleService, ModuleService>();
 // builder.Services.AddScoped<IRoleService, RoleService>();
 // builder.Services.AddScoped<ISubjectService, SubjectService>();
-// builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
 // builder.Services.AddScoped<ICourseXPackageService, CouseXPackageService>();
 
 builder.Services.AddHttpContextAccessor();
@@ -146,6 +149,14 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseMiddleware<TokenUserMiddleware>();
+
+// Seed dữ liệu sau khi database được tạo
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<STDbContext>();
+    DummyData.SeedDatabase(context);
+}
+
 app.UseRouting();
 
 app.UseHttpsRedirection();

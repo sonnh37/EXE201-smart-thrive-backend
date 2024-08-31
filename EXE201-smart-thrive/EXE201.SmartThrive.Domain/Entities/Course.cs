@@ -1,4 +1,6 @@
-﻿namespace EXE201.SmartThrive.Domain.Entities;
+﻿using EXE201.SmartThrive.Domain.Enums;
+
+namespace EXE201.SmartThrive.Domain.Entities;
 
 public class Course : BaseEntity
 {
@@ -8,7 +10,7 @@ public class Course : BaseEntity
 
     public string? TeacherName { get; set; }
     
-    public string? Type { get; set; }
+    public CourseType? Type { get; set; }
     
     public string? Name { get; set; }
 
@@ -28,11 +30,11 @@ public class Course : BaseEntity
 
     public int? TotalSessions { get; set; }
     
-    public TimeSpan StartTime { get; set; }
+    public TimeSpan? StartTime { get; set; }
 
-    public TimeSpan EndTime { get; set; }
+    public TimeSpan? EndTime { get; set; }
     
-    public string? Status { get; set; }
+    public CourseStatus? Status { get; set; }
 
     public bool IsActive { get; set; }
 

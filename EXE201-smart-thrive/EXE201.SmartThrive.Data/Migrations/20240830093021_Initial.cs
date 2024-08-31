@@ -52,12 +52,11 @@ namespace EXE201.SmartThrive.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWId()"),
-                    StudentId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     QuantityCourse = table.Column<int>(type: "int", nullable: true),
                     TotalPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Status = table.Column<int>(type: "int", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -85,7 +84,7 @@ namespace EXE201.SmartThrive.Data.Migrations
                     Gender = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Phone = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    RoleName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Role = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -152,7 +151,6 @@ namespace EXE201.SmartThrive.Data.Migrations
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     BackgroundImage = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -178,7 +176,6 @@ namespace EXE201.SmartThrive.Data.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWId()"),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CompanyName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Website = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -205,8 +202,7 @@ namespace EXE201.SmartThrive.Data.Migrations
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     StudentName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Gender = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DOB = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Dob = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -232,8 +228,7 @@ namespace EXE201.SmartThrive.Data.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWId()"),
                     PackageId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     VoucherId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    PaymentMethod = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Amount = table.Column<int>(type: "int", nullable: true),
+                    PaymentMethod = table.Column<int>(type: "int", nullable: true),
                     TotalPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -261,6 +256,34 @@ namespace EXE201.SmartThrive.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Address",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWId()"),
+                    ProviderId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    City = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    District = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Town = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Street = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    BuildingNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Address", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Address_Provider_ProviderId",
+                        column: x => x.ProviderId,
+                        principalTable: "Provider",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Course",
                 columns: table => new
                 {
@@ -278,8 +301,8 @@ namespace EXE201.SmartThrive.Data.Migrations
                     SoldCourses = table.Column<int>(type: "int", nullable: true),
                     TotalSlots = table.Column<int>(type: "int", nullable: true),
                     TotalSessions = table.Column<int>(type: "int", nullable: true),
-                    StartTime = table.Column<TimeSpan>(type: "time", nullable: false),
-                    EndTime = table.Column<TimeSpan>(type: "time", nullable: false),
+                    StartTime = table.Column<TimeSpan>(type: "time", nullable: true),
+                    EndTime = table.Column<TimeSpan>(type: "time", nullable: true),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -314,7 +337,6 @@ namespace EXE201.SmartThrive.Data.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWID()"),
                     StudentId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     PackageId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -334,64 +356,6 @@ namespace EXE201.SmartThrive.Data.Migrations
                         name: "FK_StudentXPackage_Student_StudentId",
                         column: x => x.StudentId,
                         principalTable: "Student",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "OrderDetail",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWID()"),
-                    OrderId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    CourseId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
-                    PriceDiscount = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_OrderDetail", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_OrderDetail_Order_OrderId",
-                        column: x => x.OrderId,
-                        principalTable: "Order",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "CourseXPackage",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWId()"),
-                    CourseId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    PackageId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CourseXPackage", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_CourseXPackage_Course_CourseId",
-                        column: x => x.CourseId,
-                        principalTable: "Course",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_CourseXPackage_Package_PackageId",
-                        column: x => x.PackageId,
-                        principalTable: "Package",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -464,6 +428,7 @@ namespace EXE201.SmartThrive.Data.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWID()"),
                     CourseId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    ModuleNumber = table.Column<int>(type: "int", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -484,12 +449,43 @@ namespace EXE201.SmartThrive.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "PackageXCourse",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWId()"),
+                    CourseId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    PackageId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PackageXCourse", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PackageXCourse_Course_CourseId",
+                        column: x => x.CourseId,
+                        principalTable: "Course",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_PackageXCourse_Package_PackageId",
+                        column: x => x.PackageId,
+                        principalTable: "Package",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Session",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWId()"),
                     ModuleId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SessionNumber = table.Column<int>(type: "int", nullable: true),
                     Document = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     SessionType = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -515,10 +511,11 @@ namespace EXE201.SmartThrive.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWID()"),
+                    SessionId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     Host = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: true),
                     MeetingUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     MeetingPlatform = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    AccessCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -529,8 +526,8 @@ namespace EXE201.SmartThrive.Data.Migrations
                 {
                     table.PrimaryKey("PK_SessionMeeting", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_SessionMeeting_Session_Id",
-                        column: x => x.Id,
+                        name: "FK_SessionMeeting_Session_SessionId",
+                        column: x => x.SessionId,
                         principalTable: "Session",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -541,10 +538,10 @@ namespace EXE201.SmartThrive.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWID()"),
-                    Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Time = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    SessionId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    Location = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Duration = table.Column<int>(type: "int", nullable: true),
-                    Attribute = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -555,8 +552,8 @@ namespace EXE201.SmartThrive.Data.Migrations
                 {
                     table.PrimaryKey("PK_SessionOffline", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_SessionOffline_Session_Id",
-                        column: x => x.Id,
+                        name: "FK_SessionOffline_Session_SessionId",
+                        column: x => x.SessionId,
                         principalTable: "Session",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -567,8 +564,9 @@ namespace EXE201.SmartThrive.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWID()"),
+                    SessionId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     SessionNumber = table.Column<int>(type: "int", nullable: true),
-                    VideoURL = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    VideoUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IsComplete = table.Column<bool>(type: "bit", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -580,12 +578,17 @@ namespace EXE201.SmartThrive.Data.Migrations
                 {
                     table.PrimaryKey("PK_SessionSelfLearn", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_SessionSelfLearn_Session_Id",
-                        column: x => x.Id,
+                        name: "FK_SessionSelfLearn_Session_SessionId",
+                        column: x => x.SessionId,
                         principalTable: "Session",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Address_ProviderId",
+                table: "Address",
+                column: "ProviderId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Blog_UserId",
@@ -601,16 +604,6 @@ namespace EXE201.SmartThrive.Data.Migrations
                 name: "IX_Course_SubjectId",
                 table: "Course",
                 column: "SubjectId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_CourseXPackage_CourseId",
-                table: "CourseXPackage",
-                column: "CourseId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_CourseXPackage_PackageId",
-                table: "CourseXPackage",
-                column: "PackageId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_DayInWeek_CourseId",
@@ -639,9 +632,7 @@ namespace EXE201.SmartThrive.Data.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Order_PackageId",
                 table: "Order",
-                column: "PackageId",
-                unique: true,
-                filter: "[PackageId] IS NOT NULL");
+                column: "PackageId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Order_VoucherId",
@@ -651,9 +642,14 @@ namespace EXE201.SmartThrive.Data.Migrations
                 filter: "[VoucherId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OrderDetail_OrderId",
-                table: "OrderDetail",
-                column: "OrderId");
+                name: "IX_PackageXCourse_CourseId",
+                table: "PackageXCourse",
+                column: "CourseId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PackageXCourse_PackageId",
+                table: "PackageXCourse",
+                column: "PackageId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Provider_UserId",
@@ -666,6 +662,27 @@ namespace EXE201.SmartThrive.Data.Migrations
                 name: "IX_Session_ModuleId",
                 table: "Session",
                 column: "ModuleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SessionMeeting_SessionId",
+                table: "SessionMeeting",
+                column: "SessionId",
+                unique: true,
+                filter: "[SessionId] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SessionOffline_SessionId",
+                table: "SessionOffline",
+                column: "SessionId",
+                unique: true,
+                filter: "[SessionId] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SessionSelfLearn_SessionId",
+                table: "SessionSelfLearn",
+                column: "SessionId",
+                unique: true,
+                filter: "[SessionId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Student_UserId",
@@ -692,13 +709,13 @@ namespace EXE201.SmartThrive.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Address");
+
+            migrationBuilder.DropTable(
                 name: "Assistant");
 
             migrationBuilder.DropTable(
                 name: "Blog");
-
-            migrationBuilder.DropTable(
-                name: "CourseXPackage");
 
             migrationBuilder.DropTable(
                 name: "DayInWeek");
@@ -707,7 +724,10 @@ namespace EXE201.SmartThrive.Data.Migrations
                 name: "Feedback");
 
             migrationBuilder.DropTable(
-                name: "OrderDetail");
+                name: "Order");
+
+            migrationBuilder.DropTable(
+                name: "PackageXCourse");
 
             migrationBuilder.DropTable(
                 name: "SessionMeeting");
@@ -722,19 +742,16 @@ namespace EXE201.SmartThrive.Data.Migrations
                 name: "StudentXPackage");
 
             migrationBuilder.DropTable(
-                name: "Order");
+                name: "Voucher");
 
             migrationBuilder.DropTable(
                 name: "Session");
 
             migrationBuilder.DropTable(
-                name: "Student");
-
-            migrationBuilder.DropTable(
                 name: "Package");
 
             migrationBuilder.DropTable(
-                name: "Voucher");
+                name: "Student");
 
             migrationBuilder.DropTable(
                 name: "Module");

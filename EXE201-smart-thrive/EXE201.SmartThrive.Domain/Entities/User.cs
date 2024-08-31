@@ -1,4 +1,6 @@
-﻿namespace EXE201.SmartThrive.Domain.Entities;
+﻿using EXE201.SmartThrive.Domain.Enums;
+
+namespace EXE201.SmartThrive.Domain.Entities;
 
 public class User : BaseEntity
 {
@@ -18,13 +20,13 @@ public class User : BaseEntity
 
     public string? Address { get; set; }
 
-    public string? Gender { get; set; }
+    public Gender? Gender { get; set; }
 
     public string? Phone { get; set; }
 
-    public string? Status { get; set; }
+    public UserStatus? Status { get; set; }
 
-    public string? RoleName { get; set; }
+    public Role? Role { get; set; }
     
     public virtual ICollection<Blog>? Blogs { get; set; }
 
