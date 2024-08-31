@@ -2,7 +2,6 @@
 
 public enum Type
 {
-    
 }
 
 public enum CourseType
@@ -21,6 +20,5 @@ public enum SessionType
 public enum VoucherType
 {
     DiscountCash,
-    DiscountPercent,
+    DiscountPercent
 }
-

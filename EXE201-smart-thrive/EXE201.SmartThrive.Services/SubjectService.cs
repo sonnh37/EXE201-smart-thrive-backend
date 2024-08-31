@@ -30,5 +30,4 @@ public class SubjectService : BaseService<Subject>, ISubjectService
 
         return AppResponse.CreatePaginated(subjectsResultWithTotal, query);
     }
-
 }

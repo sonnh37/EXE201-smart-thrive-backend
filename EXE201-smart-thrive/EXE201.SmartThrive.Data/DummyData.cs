@@ -7,7 +7,7 @@ namespace EXE201.SmartThrive.Data;
 
 // Using Bogus for Faker.NET
 
-public class DummyData
+public static class DummyData
 {
     public static void SeedDatabase(DbContext context)
     {
@@ -142,7 +142,7 @@ public class DummyData
             var courses = context.Set<Course>().ToList();
             foreach (var course in courses)
             {
-                int moduleNumber = 1; // Khởi tạo ModuleNumber cho mỗi Course
+                var moduleNumber = 1; // Khởi tạo ModuleNumber cho mỗi Course
 
                 var moduleFaker = new Faker<Module>()
                     .RuleFor(m => m.Id, f => Guid.NewGuid())
@@ -164,15 +164,9 @@ public class DummyData
                 // Đã có 10 module trong 1 khóa học
                 // Check khóa học là offline hay online
 
-                if (course.Type == CourseType.Offline)
-                {
-                    GenerateSessionOfflines(context, count);
-                }
+                if (course.Type == CourseType.Offline) GenerateSessionOfflines(context, count);
 
-                if (course.Type == CourseType.Online)
-                {
-                    GenerateSessionOnlines(context, count);
-                }
+                if (course.Type == CourseType.Online) GenerateSessionOnlines(context, count);
             }
         }
     }
@@ -189,7 +183,7 @@ public class DummyData
 
         foreach (var module in modules)
         {
-            int sessionNumber = 1;
+            var sessionNumber = 1;
 
             // Create Session data
             var sessionFaker = new Faker<Session>()
@@ -255,7 +249,7 @@ public class DummyData
 
         foreach (var module in modules)
         {
-            int sessionNumber = 1;
+            var sessionNumber = 1;
 
             // Create Session data
             var sessionFaker = new Faker<Session>()
@@ -264,7 +258,7 @@ public class DummyData
                 .RuleFor(s => s.Title, f => f.Lorem.Sentence())
                 .RuleFor(s => s.SessionNumber, f => sessionNumber++)
                 .RuleFor(s => s.Document, f => f.Lorem.Word())
-                .RuleFor(s => s.SessionType, f => f.PickRandom(new[] { SessionType.Meeting, SessionType.SelfLearn }))
+                .RuleFor(s => s.SessionType, f => f.PickRandom(SessionType.Meeting, SessionType.SelfLearn))
                 .RuleFor(s => s.Description, f => f.Lorem.Paragraph())
                 .RuleFor(s => s.CreatedBy, f => "tsql@gmail.com")
                 .RuleFor(s => s.CreatedDate, f => f.Date.Past(2))
@@ -278,15 +272,10 @@ public class DummyData
 
             foreach (var session in sessions)
             {
-                if (session.SessionType == SessionType.Meeting)
-                {
-                    GenerateSessionMeetingOnlines(context, count, session);
-                }
+                if (session.SessionType == SessionType.Meeting) GenerateSessionMeetingOnlines(context, count, session);
 
                 if (session.SessionType == SessionType.SelfLearn)
-                {
                     GenerateSessionSelfLearnOnlines(context, count, session);
-                }
             }
         }
     }
@@ -323,7 +312,7 @@ public class DummyData
     private static void GenerateSessionSelfLearnOnlines(DbContext context, int count, Session session)
     {
         context.ChangeTracker.Clear();
-        int sessionNumber = 1;
+        var sessionNumber = 1;
         // Create SessionOffline data
         var sessionMeetingFaker = new Faker<SessionSelfLearn>()
             .RuleFor(s => s.Id, f => Guid.NewGuid())

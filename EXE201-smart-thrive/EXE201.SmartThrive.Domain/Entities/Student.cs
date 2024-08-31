@@ -11,13 +11,12 @@ public class Student : BaseEntity
     public Gender? Gender { get; set; }
 
     public DateTime? Dob { get; set; }
-    
+
     public UserStatus? Status { get; set; }
 
     public virtual User? User { get; set; }
-    
+
     public virtual Feedback? Feedback { get; set; }
 
     public virtual ICollection<StudentXPackage>? StudentXPackages { get; set; }
-
 }

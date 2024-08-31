@@ -5,7 +5,7 @@ namespace EXE201.SmartThrive.Domain.Entities;
 public class Order : BaseEntity
 {
     public Guid? PackageId { get; set; }
-    
+
     public Guid? VoucherId { get; set; }
 
     public PaymentMethod? PaymentMethod { get; set; }
@@ -17,6 +17,6 @@ public class Order : BaseEntity
     public OrderStatus? Status { get; set; }
 
     public virtual Package? Package { get; set; }
-    
+
     public virtual Voucher? Voucher { get; set; }
 }

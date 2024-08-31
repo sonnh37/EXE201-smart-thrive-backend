@@ -1,23 +1,21 @@
-using AutoMapper;
 using EXE201.SmartThrive.Domain.Contracts.Services;
 using EXE201.SmartThrive.Domain.Models.Requests.Commands.Subject;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.Subject;
 using EXE201.SmartThrive.Domain.Models.Results;
+using EXE201.SmartThrive.Domain.Utilities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EXE201.SmartThrive.API.Controllers;
 
-[Route("api/subject")]
+[Route(AppConstant.Subjects)]
 [ApiController]
 public class SubjectController : ControllerBase
 {
-    private readonly IMapper _mapper;
     private readonly ISubjectService _subjectService;
 
-    public SubjectController(ISubjectService subjectService, IMapper mapper)
+    public SubjectController(ISubjectService subjectService)
     {
         _subjectService = subjectService;
-        _mapper = mapper;
     }
 
     [HttpGet]

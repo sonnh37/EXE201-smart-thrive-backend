@@ -5,5 +5,4 @@ namespace EXE201.SmartThrive.Domain.Contracts.Repositories;
 
 public interface IFeedbackRepository : IBaseRepository<Feedback>
 {
-    
 }

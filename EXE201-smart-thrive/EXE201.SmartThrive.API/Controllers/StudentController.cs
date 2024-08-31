@@ -1,23 +1,21 @@
-﻿using AutoMapper;
-using EXE201.SmartThrive.Domain.Contracts.Services;
+﻿using EXE201.SmartThrive.Domain.Contracts.Services;
 using EXE201.SmartThrive.Domain.Models.Requests.Commands.Student;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.Student;
 using EXE201.SmartThrive.Domain.Models.Results;
+using EXE201.SmartThrive.Domain.Utilities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EXE201.SmartThrive.API.Controllers;
 
-[Route("api/student")]
+[Route(AppConstant.Students)]
 [ApiController]
 public class StudentController : ControllerBase
 {
-    private readonly IMapper _mapper;
     private readonly IStudentService _studentService;
 
-    public StudentController(IStudentService studentService, IMapper mapper)
+    public StudentController(IStudentService studentService)
     {
         _studentService = studentService;
-        _mapper = mapper;
     }
 
     [HttpGet]
