@@ -1,4 +1,6 @@
-﻿namespace EXE201.SmartThrive.Domain.Entities;
+﻿using EXE201.SmartThrive.Domain.Enums;
+
+namespace EXE201.SmartThrive.Domain.Entities;
 
 public class Package : BaseEntity
 {
@@ -10,10 +12,8 @@ public class Package : BaseEntity
 
     public bool IsActive { get; set; }
     
-    public string? Status { get; set; }
+    public PackageStatus? Status { get; set; }
 
-    public virtual Student? Student { get; set; }
-    
     public virtual ICollection<PackageXCourse>? PackageXCourses { get; set; }
     
     public virtual ICollection<Order>? Orders { get; set; }

@@ -1,4 +1,5 @@
-﻿using EXE201.SmartThrive.Domain.Models.Requests.Commands.Base;
+﻿using EXE201.SmartThrive.Domain.Enums;
+using EXE201.SmartThrive.Domain.Models.Requests.Commands.Base;
 
 namespace EXE201.SmartThrive.Domain.Models.Requests.Commands.Course;
 
@@ -10,7 +11,7 @@ public class CourseUpdateCommand : UpdateCommand
 
     public string? TeacherName { get; set; }
     
-    public string? Type { get; set; }
+    public CourseType? Type { get; set; }
     
     public string? Name { get; set; }
 
@@ -30,11 +31,11 @@ public class CourseUpdateCommand : UpdateCommand
 
     public int? TotalSessions { get; set; }
     
-    public TimeSpan StartTime { get; set; }
+    public TimeSpan? StartTime { get; set; }
 
-    public TimeSpan EndTime { get; set; }
+    public TimeSpan? EndTime { get; set; }
     
-    public string? Status { get; set; }
+    public CourseStatus? Status { get; set; }
 
     public bool IsActive { get; set; }
 

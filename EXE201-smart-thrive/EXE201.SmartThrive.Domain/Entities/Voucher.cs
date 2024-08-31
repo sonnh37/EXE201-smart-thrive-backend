@@ -1,8 +1,10 @@
-﻿namespace EXE201.SmartThrive.Domain.Entities;
+﻿using EXE201.SmartThrive.Domain.Enums;
+
+namespace EXE201.SmartThrive.Domain.Entities;
 
 public class Voucher : BaseEntity
 {
-    public string? VoucherType { get; set; }
+    public VoucherType? VoucherType { get; set; }
     
     public string? Name { get; set; }
     
@@ -12,7 +14,7 @@ public class Voucher : BaseEntity
     
     public int? Condition { get; set; }
     
-    public string? Status { get; set; }
+    public VoucherStatus? Status { get; set; }
 
     public virtual Order? Order { get; set; }
 }

@@ -1,9 +1,5 @@
 ﻿using EXE201.SmartThrive.Domain.Models.Requests.Commands.Base;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using EXE201.SmartThrive.Domain.Enums;
 
 namespace EXE201.SmartThrive.Domain.Models.Requests.Commands.Student
 {
@@ -13,12 +9,10 @@ namespace EXE201.SmartThrive.Domain.Models.Requests.Commands.Student
 
         public string? StudentName { get; set; }
 
-        public string? Gender { get; set; }
+        public Gender? Gender { get; set; }
 
-        public DateTime? DOB { get; set; }
+        public DateTime? Dob { get; set; }
 
-        public string? Phone { get; set; }
-
-        public string? Status { get; set; }
+        public UserStatus? Status { get; set; }
     }
 }

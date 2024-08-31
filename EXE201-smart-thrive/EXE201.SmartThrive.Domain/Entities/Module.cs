@@ -3,6 +3,8 @@
 public class Module : BaseEntity
 {
     public Guid? CourseId { get; set; }
+    
+    public int? ModuleNumber { get; set; }
 
     public string? Name { get; set; }
     
