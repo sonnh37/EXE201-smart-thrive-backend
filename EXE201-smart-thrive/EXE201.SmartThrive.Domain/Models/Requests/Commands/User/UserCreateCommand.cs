@@ -1,13 +1,14 @@
 ﻿using EXE201.SmartThrive.Domain.Enums;
+using EXE201.SmartThrive.Domain.Models.Requests.Commands.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EXE201.SmartThrive.Domain.Models.Requests.Queries.User
+namespace EXE201.SmartThrive.Domain.Models.Requests.Commands.User
 {
-    public class UserGetAllQuery: PagedQuery
+    public class UserCreateCommand: CreateCommand
     {
         public string? Username { get; set; }
 

@@ -88,7 +88,6 @@ public class SubjectController : ControllerBase
         }
     }
 
-
     [HttpPut]
     public async Task<IActionResult> Update(SubjectUpdateCommand request)
     {

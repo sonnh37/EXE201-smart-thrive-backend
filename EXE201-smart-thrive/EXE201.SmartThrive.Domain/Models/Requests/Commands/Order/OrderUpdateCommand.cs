@@ -1,13 +1,14 @@
 ﻿using EXE201.SmartThrive.Domain.Enums;
+using EXE201.SmartThrive.Domain.Models.Requests.Commands.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EXE201.SmartThrive.Domain.Models.Requests.Queries.Order
+namespace EXE201.SmartThrive.Domain.Models.Requests.Commands.Order
 {
-    public class OrderGetAllQuery: PagedQuery
+    public class OrderUpdateCommand: UpdateCommand
     {
         public Guid? PackageId { get; set; }
 
