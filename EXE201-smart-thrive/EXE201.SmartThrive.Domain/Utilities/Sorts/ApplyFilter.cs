@@ -18,57 +18,56 @@ public static class ApplyFilter
         {
             queryable = queryable.Where(m => m.Name != null && m.Name.Contains(query.Name));
         }
-        
+
         if (query.CategoryId != Guid.Empty && query.CategoryId != null)
         {
             queryable = queryable.Where(m => m.CategoryId == query.CategoryId);
         }
 
         queryable = Base(queryable, query);
-        
+
         return queryable;
     }
-    
+
     public static IQueryable<Student> Student(IQueryable<Student> queryable, StudentGetAllQuery query)
     {
         if (!string.IsNullOrEmpty(query.StudentName))
         {
             queryable = queryable.Where(m => m.StudentName != null && m.StudentName.Contains(query.StudentName));
         }
-        
+
         if (query.UserId != Guid.Empty && query.UserId != null)
         {
             queryable = queryable.Where(m => m.UserId == query.UserId);
         }
 
         queryable = Base(queryable, query);
-        
+
         return queryable;
     }
-    
+
     public static IQueryable<Course> Course(IQueryable<Course> queryable, CourseGetAllQuery query)
     {
         if (!string.IsNullOrEmpty(query.CourseName))
         {
             queryable = queryable.Where(m => m.CourseName != null && m.CourseName.Contains(query.CourseName));
         }
-        
-        if (query.SubjectId != null && query.SubjectId!= Guid.Empty)
+
+        if (query.SubjectId != null && query.SubjectId != Guid.Empty)
         {
             queryable = queryable.Where(m => m.SubjectId == query.SubjectId);
         }
-        
-        if (query.ProviderId!= Guid.Empty && query.SubjectId != null)
+
+        if (query.ProviderId != Guid.Empty && query.SubjectId != null)
         {
-            queryable = queryable.Where(m => m.ProviderId  == query.ProviderId);
+            queryable = queryable.Where(m => m.ProviderId == query.ProviderId);
         }
-        
+
         queryable = Base(queryable, query);
-        
+
         return queryable;
     }
 
-    
     public static IQueryable<Category> Category(IQueryable<Category> queryable, CategoryGetAllQuery query)
     {
         if (!string.IsNullOrEmpty(query.Name))
@@ -77,10 +76,9 @@ public static class ApplyFilter
         }
 
         queryable = Base(queryable, query);
-        
+
         return queryable;
     }
-
 
     public static IQueryable<User> User(IQueryable<User> queryable, UserGetAllQuery query)
     {
@@ -114,19 +112,24 @@ public static class ApplyFilter
             queryable = queryable.Where(e => e.Address.Contains(query.Address));
         }
 
-        if (!string.IsNullOrEmpty(query.Status))
+        if (!string.IsNullOrEmpty(query.Status.ToString()))
         {
             queryable = queryable.Where(e => e.Status == query.Status);
         }
 
-        if (!string.IsNullOrEmpty(query.Gender))
+        if (!string.IsNullOrEmpty(query.Gender.ToString()))
         {
             queryable = queryable.Where(e => e.Gender == query.Gender);
         }
 
-        if (!string.IsNullOrEmpty(query.Email))
+        if (!string.IsNullOrEmpty(query.Role.ToString()))
         {
-            queryable = queryable.Where(e => e.RoleName == query.RoleName);
+            queryable = queryable.Where(e => e.Role == query.Role);
+        }
+
+        if (!string.IsNullOrEmpty(query.Phone))
+        {
+            queryable = queryable.Where(e => e.Phone.Contains(query.Phone));
         }
 
         queryable = Base(queryable, query);
@@ -146,11 +149,6 @@ public static class ApplyFilter
             queryable = queryable.Where(e => e.CompanyName != null && e.CompanyName.Contains(query.CompanyName));
         }
 
-        if (!string.IsNullOrEmpty(query.Address))
-        {
-            queryable = queryable.Where(e => e.Address != null && e.Address.Contains(query.Address));
-        }
-
         if (!string.IsNullOrEmpty(query.Website))
         {
             queryable = queryable.Where(e => e.Website != null && e.Website.Contains(query.Website));
@@ -161,7 +159,7 @@ public static class ApplyFilter
         return queryable;
     }
 
-    public static IQueryable<Provider> Order(IQueryable<Order> queryable, OrderGetAllQuery query)
+    public static IQueryable<Order> Order(IQueryable<Order> queryable, OrderGetAllQuery query)
     {
         if (query.PackageId != Guid.Empty)
         {
@@ -173,32 +171,22 @@ public static class ApplyFilter
             queryable = queryable.Where(m => m.VoucherId == query.VoucherId);
         }
 
-        if (!string.IsNullOrEmpty(query.PaymentMethod))
+        if (!string.IsNullOrEmpty(query.PaymentMethod.ToString()))
         {
             queryable = queryable.Where(e => e.PaymentMethod == query.PaymentMethod);
         }
 
-        if (query.Amount.HasValue)
+        if (query.TotalPrice.HasValue)
         {
-            queryable = queryable.Where(e => e.Amount == query.Amount);
+            queryable = queryable.Where(e => e.TotalPrice == query.TotalPrice);
         }
-
-        //if (!string.IsNullOrEmpty(query.Website))
-        //{
-        //    queryable = queryable.Where(e => e.Website != null && e.Website.Contains(query.Website));
-        //}
-
-        //if (!string.IsNullOrEmpty(query.Website))
-        //{
-        //    queryable = queryable.Where(e => e.Website != null && e.Website.Contains(query.Website));
-        //}
 
         if (!string.IsNullOrEmpty(query.Description))
         {
             queryable = queryable.Where(e => e.Description != null && e.Description.Contains(query.Description));
         }
 
-        if (!string.IsNullOrEmpty(query.Status))
+        if (!string.IsNullOrEmpty(query.Status.ToString()))
         {
             queryable = queryable.Where(e => e.Status == query.Status);
         }
@@ -208,60 +196,13 @@ public static class ApplyFilter
         return queryable;
     }
 
-    public static IQueryable<Provider> OrderDetail(IQueryable<Order> queryable, OrderGetAllQuery query)
-    {
-        if (query.PackageId != Guid.Empty)
-        {
-            queryable = queryable.Where(m => m.PackageId == query.PackageId);
-        }
-
-        if (query.VoucherId != Guid.Empty)
-        {
-            queryable = queryable.Where(m => m.VoucherId == query.VoucherId);
-        }
-
-        if (!string.IsNullOrEmpty(query.PaymentMethod))
-        {
-            queryable = queryable.Where(e => e.PaymentMethod == query.PaymentMethod);
-        }
-
-        if (query.Amount.HasValue)
-        {
-            queryable = queryable.Where(e => e.Amount == query.Amount);
-        }
-
-        //if (!string.IsNullOrEmpty(query.Website))
-        //{
-        //    queryable = queryable.Where(e => e.Website != null && e.Website.Contains(query.Website));
-        //}
-
-        //if (!string.IsNullOrEmpty(query.Website))
-        //{
-        //    queryable = queryable.Where(e => e.Website != null && e.Website.Contains(query.Website));
-        //}
-
-        if (!string.IsNullOrEmpty(query.Description))
-        {
-            queryable = queryable.Where(e => e.Description != null && e.Description.Contains(query.Description));
-        }
-
-        if (!string.IsNullOrEmpty(query.Status))
-        {
-            queryable = queryable.Where(e => e.Status == query.Status);
-        }
-
-        queryable = Base(queryable, query);
-
-        return queryable;
-    }
-
-    private static IQueryable<TEntity> Base<TEntity>(IQueryable<TEntity> queryable, BaseQuery query) where TEntity: BaseEntity
+    private static IQueryable<TEntity> Base<TEntity>(IQueryable<TEntity> queryable, BaseQuery query) where TEntity : BaseEntity
     {
         if (query.Id != Guid.Empty)
         {
             queryable = queryable.Where(m => m.Id == query.Id);
         }
-        
+
         if (!string.IsNullOrEmpty(query.CreatedBy))
         {
             queryable = queryable.Where(m => m.CreatedBy != null && m.CreatedBy.Contains(query.CreatedBy));
