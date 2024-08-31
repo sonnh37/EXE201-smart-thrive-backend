@@ -1,4 +1,5 @@
-﻿using EXE201.SmartThrive.Domain.Contracts.Repositories;
+﻿using EXE201.SmartThrive.Data.Context;
+using EXE201.SmartThrive.Domain.Contracts.Repositories;
 using EXE201.SmartThrive.Domain.Entities;
 using EXE201.SmartThrive.Repositories.Base;
 using Microsoft.EntityFrameworkCore;
@@ -12,7 +13,7 @@ namespace EXE201.SmartThrive.Repositories
 {
     public class FeedbackRepository : BaseRepository<Feedback>, IFeedbackRepository
     {
-        public FeedbackRepository(DbContext dbContext) : base(dbContext)
+        public FeedbackRepository(STDbContext dbContext) : base(dbContext)
         {
         }
     }

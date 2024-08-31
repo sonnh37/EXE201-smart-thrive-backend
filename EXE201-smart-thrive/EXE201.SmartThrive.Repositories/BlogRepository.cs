@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using EXE201.SmartThrive.Data.Context;
 using EXE201.SmartThrive.Domain.Contracts.Bases;
 using EXE201.SmartThrive.Domain.Contracts.Repositories;
 using EXE201.SmartThrive.Domain.Entities;
@@ -14,7 +15,7 @@ namespace EXE201.SmartThrive.Repositories
 {
     public class BlogRepository : BaseRepository<Blog>, IBlogRepository
     {
-        public BlogRepository(DbContext dbContext) : base(dbContext)
+        public BlogRepository(STDbContext dbContext) : base(dbContext)
         {
         }
     }

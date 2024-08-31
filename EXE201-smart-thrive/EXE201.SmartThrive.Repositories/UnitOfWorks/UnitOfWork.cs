@@ -20,7 +20,6 @@ public class UnitOfWork : BaseUnitOfWork<STDbContext>, IUnitOfWork
     public IVoucherRepository VoucherRepository => GetRepository<IVoucherRepository>();
 
     public IModuleRepository ModuleRepository => GetRepository<IModuleRepository>();
-} 
     public ICategoryRepository CategoryRepository => GetRepository<ICategoryRepository>();
     public ICourseRepository CourseRepository => GetRepository<ICourseRepository>();
 }
