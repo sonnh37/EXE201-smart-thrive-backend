@@ -58,7 +58,8 @@ public static class ApplyFilter
             queryable = queryable.Where(m => m.SubjectId == query.SubjectId);
         }
 
-        if (query.ProviderId != Guid.Empty && query.SubjectId != null)
+        // query.SubjectId != null => query.ProviderId != null
+        if (query.ProviderId != Guid.Empty && query.ProviderId != null)
         {
             queryable = queryable.Where(m => m.ProviderId == query.ProviderId);
         }
@@ -161,12 +162,11 @@ public static class ApplyFilter
 
     public static IQueryable<Order> Order(IQueryable<Order> queryable, OrderGetAllQuery query)
     {
-        if (query.PackageId != Guid.Empty)
+        if (query.PackageId != Guid.Empty && query.PackageId != null)
         {
             queryable = queryable.Where(m => m.PackageId == query.PackageId);
         }
-
-        if (query.VoucherId != Guid.Empty)
+        if (query.VoucherId != Guid.Empty && query.VoucherId != null)
         {
             queryable = queryable.Where(m => m.VoucherId == query.VoucherId);
         }
