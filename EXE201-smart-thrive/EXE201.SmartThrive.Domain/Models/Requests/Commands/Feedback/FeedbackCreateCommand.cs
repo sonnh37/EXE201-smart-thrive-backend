@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EXE201.SmartThrive.Domain.Models.Requests.Commands.Feedback
 {
-    public class FeedbackCreateCommand: CreateCommand
+    public class FeedbackCreateCommand : CreateCommand
     {
         public Guid? StudentId { get; set; }
 

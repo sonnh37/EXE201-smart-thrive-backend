@@ -4,6 +4,7 @@ using EXE201.SmartThrive.Domain.Entities;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.Subject;
 using EXE201.SmartThrive.Domain.Utilities.Sorts;
 using EXE201.SmartThrive.Repositories.Base;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,7 @@ namespace EXE201.SmartThrive.Repositories
     public class FeedbackRepository: BaseRepository<Feedback>, IFeedbackRepository
     {
         public FeedbackRepository(STDbContext context) : base(context)
-        {
+    {
 
         }
 

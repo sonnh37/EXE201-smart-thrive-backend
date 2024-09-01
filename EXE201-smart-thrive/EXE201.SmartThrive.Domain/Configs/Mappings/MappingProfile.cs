@@ -10,5 +10,8 @@ public partial class MappingProfile
         StudentMapping();
         SubjectMapping();
         FeedbackMapping();
+        ModuleMapping();
+        VoucherMapping();
+        BlogMapping();
     }
 }

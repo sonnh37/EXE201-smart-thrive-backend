@@ -1,26 +1,24 @@
 ﻿using AutoMapper;
 using EXE201.SmartThrive.Domain.Contracts.Services;
-using EXE201.SmartThrive.Domain.Models.Requests.Commands.Feedback;
-using EXE201.SmartThrive.Domain.Models.Requests.Commands.Subject;
-using EXE201.SmartThrive.Domain.Models.Requests.Queries.Subject;
+using EXE201.SmartThrive.Domain.Models.Requests.Commands.Blog;
+using EXE201.SmartThrive.Domain.Models.Requests.Commands.Voucher;
 using EXE201.SmartThrive.Domain.Models.Results;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EXE201.SmartThrive.API.Controllers
 {
-    [Route("api/feedback")]
+    [Route("api/voucher")]
     [ApiController]
-    public class FeedbackController : ControllerBase
+    public class VoucherController : ControllerBase
     {
         private readonly IMapper _mapper;
-        private readonly IFeedbackService _feedbackService;
+        private readonly IVoucherService _voucherService;
 
-        public FeedbackController(IFeedbackService feedbackService, IMapper mapper)
+        public VoucherController(IVoucherService voucherService, IMapper mapper)
         {
-            _feedbackService = feedbackService;
+            _voucherService = voucherService;
             _mapper = mapper;
-            _feedbackService = feedbackService;
         }
 
         [HttpGet]
@@ -28,7 +26,7 @@ namespace EXE201.SmartThrive.API.Controllers
         {
             try
             {
-                var msg = await _feedbackService.GetAll<FeedbackResult>();
+                var msg = await _voucherService.GetAll<VoucherResult>();
                 return Ok(msg);
             }
             catch (Exception ex)
@@ -37,26 +35,14 @@ namespace EXE201.SmartThrive.API.Controllers
             }
         }
 
-     /*   [HttpGet("filtered-sorted-paged")]
-        public async Task<IActionResult> GetAllFiltered([FromQuery] SubjectGetAllQuery subjectGetAllQuery)
-        {
-            try
-            {
-                var msg = await _feedbackService.GetAllFiltered(subjectGetAllQuery);
-                return Ok(msg);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }*/
+
 
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> Get(Guid id)
         {
             try
             {
-                var msg = await _feedbackService.GetById<FeedbackResult>(id);
+                var msg = await _voucherService.GetById<VoucherResult>(id);
                 return Ok(msg);
             }
             catch (Exception ex)
@@ -66,11 +52,11 @@ namespace EXE201.SmartThrive.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add(FeedbackCreateCommand request)
+        public async Task<IActionResult> Add(VoucherCreateCommand request)
         {
             try
             {
-                var msg = await _feedbackService.Create(request);
+                var msg = await _voucherService.Create(request);
                 return Ok(msg);
             }
             catch (Exception ex)
@@ -84,7 +70,7 @@ namespace EXE201.SmartThrive.API.Controllers
         {
             try
             {
-                var msg = await _feedbackService.DeleteById(id);
+                var msg = await _voucherService.DeleteById(id);
                 return Ok(msg);
             }
             catch (Exception ex)
@@ -95,11 +81,11 @@ namespace EXE201.SmartThrive.API.Controllers
 
 
         [HttpPut]
-        public async Task<IActionResult> Update(FeedbackUpdateCommand request)
+        public async Task<IActionResult> Update(VoucherUpdateCommand request)
         {
             try
             {
-                var msg = await _feedbackService.Update(request);
+                var msg = await _voucherService.Update(request);
                 return Ok(msg);
             }
             catch (Exception ex)
@@ -108,4 +94,5 @@ namespace EXE201.SmartThrive.API.Controllers
             }
         }
     }
+
 }

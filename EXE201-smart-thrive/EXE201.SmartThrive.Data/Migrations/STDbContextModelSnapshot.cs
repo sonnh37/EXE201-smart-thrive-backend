@@ -452,9 +452,7 @@ namespace EXE201.SmartThrive.Data.Migrations
 
                     b.HasIndex("PackageId");
 
-                    b.HasIndex("VoucherId")
-                        .IsUnique()
-                        .HasFilter("[VoucherId] IS NOT NULL");
+                    b.HasIndex("VoucherId");
 
                     b.ToTable("Order", (string)null);
                 });
@@ -1063,8 +1061,8 @@ namespace EXE201.SmartThrive.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("EXE201.SmartThrive.Domain.Entities.Voucher", "Voucher")
-                        .WithOne("Order")
-                        .HasForeignKey("EXE201.SmartThrive.Domain.Entities.Order", "VoucherId")
+                        .WithMany("Orders")
+                        .HasForeignKey("VoucherId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Package");
@@ -1245,7 +1243,7 @@ namespace EXE201.SmartThrive.Data.Migrations
 
             modelBuilder.Entity("EXE201.SmartThrive.Domain.Entities.Voucher", b =>
                 {
-                    b.Navigation("Order");
+                    b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618
         }
