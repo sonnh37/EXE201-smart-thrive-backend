@@ -104,17 +104,6 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-    //app.UseSwaggerUI(c =>
-    //{
-    //    c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
-    //    c.RoutePrefix = string.Empty; // Set Swagger UI at the app's root
-    //});
-
-    app.UseReDoc(options =>
-    {
-        options.DocumentTitle = "SmartThrive API Documentation";
-        options.SpecUrl = "/swagger/v1/swagger.json";
-    });
 }
 
 app.UseMiddleware<RequestTokenUserMiddleware>();

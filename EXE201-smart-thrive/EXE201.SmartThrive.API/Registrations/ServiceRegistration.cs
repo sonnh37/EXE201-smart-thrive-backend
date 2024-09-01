@@ -9,7 +9,6 @@ public static class ServiceRegistration
 {
     public static void AddCustomServices(this IServiceCollection services)
     {
-        services.AddScoped(typeof(IBaseService), typeof(BaseService));
         services.AddScoped<IBlogService, BlogService>();
         services.AddScoped<ICategoryService, CategoryService>();
         services.AddScoped<ICourseService, CourseService>();

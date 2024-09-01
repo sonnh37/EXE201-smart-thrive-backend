@@ -16,6 +16,8 @@ public interface IUnitOfWork : IBaseUnitOfWork
     ISessionOfflineRepository SessionOfflineRepository { get; }
     
     ISessionSelfLearnRepository SessionSelfLearnRepository { get; }
+    
+    IFeedbackRepository FeedbackRepository { get; }
 
     IStudentRepository StudentRepository { get; }
     

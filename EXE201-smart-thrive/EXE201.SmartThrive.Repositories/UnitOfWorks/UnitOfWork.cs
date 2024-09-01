@@ -14,6 +14,8 @@ public class UnitOfWork : BaseUnitOfWork<STDbContext>, IUnitOfWork
 
     public ISessionSelfLearnRepository SessionSelfLearnRepository => GetRepository<ISessionSelfLearnRepository>();
     
+    public IFeedbackRepository FeedbackRepository => GetRepository<IFeedbackRepository>();
+
     public IStudentRepository StudentRepository => GetRepository<IStudentRepository>();
 
     public IBlogRepository BlogRepository => GetRepository<IBlogRepository>();
