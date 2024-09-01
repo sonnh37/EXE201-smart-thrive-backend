@@ -9,6 +9,10 @@ public partial class MappingProfile
         CourseMapping();
         StudentMapping();
         SubjectMapping();
+        FeedbackMapping();
+        ModuleMapping();
+        VoucherMapping();
+        BlogMapping();
         UserMapping();
         ProviderMapping();
         OrderMapping();

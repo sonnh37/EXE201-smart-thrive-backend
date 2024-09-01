@@ -28,7 +28,28 @@ public static class ApplyFilter
 
         return queryable;
     }
+    public static IQueryable<Feedback> Feedback(IQueryable<Feedback> queryable, FeedbackGetAllQuery query)
+    {
+        if (query.StudentId != Guid.Empty)
+        {
+            queryable = queryable.Where(m => m.StudentId == query.StudentId);
+        }
+        
+        if (query.CourseId != Guid.Empty)
+        {
+            queryable = queryable.Where(m => m.CourseId == query.CourseId);
+        }
 
+        if(query.Rating != null)
+        {
+            queryable = queryable.Where(m => m.Rating == query.Rating);
+        }
+
+        queryable = Base(queryable, query);
+
+        return queryable;
+    }
+    
     public static IQueryable<Student> Student(IQueryable<Student> queryable, StudentGetAllQuery query)
     {
         if (!string.IsNullOrEmpty(query.StudentName))
