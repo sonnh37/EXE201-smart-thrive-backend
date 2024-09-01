@@ -63,7 +63,7 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
 builder.Services.AddScoped<ISubjectRepository, SubjectRepository>();
 builder.Services.AddScoped<IFeedbackRepository, FeedbackRepository>();
-builder.Services.AddScoped<IModuleRepository,ModuleRepository>();
+builder.Services.AddScoped<IModuleRepository, ModuleRepository>();
 builder.Services.AddScoped<IVoucherRepository, VoucherRepository>();
 // builder.Services.AddScoped<ICourseRepository, CourseRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
@@ -75,17 +75,20 @@ builder.Services.AddScoped<ICourseRepository, CourseRepository>();
 // builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 // builder.Services.AddScoped<ISessionRepository, SessionRepository>();
 builder.Services.AddScoped<IStudentRepository, StudentRepository>();
- builder.Services.AddScoped<IBlogRepository, BlogRepository>();
+builder.Services.AddScoped<IBlogRepository, BlogRepository>();
 // builder.Services.AddScoped<ISubjectRepository, SubjectRepository>();
 // builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<ISessionMeetingRepository, SessionMeetingRepository>();
+builder.Services.AddScoped<ISessionOfflineRepository, SessionOfflineRepository>();
+builder.Services.AddScoped<ISessionSelfLearnRepository, SessionSelfLearnRepository>();
 //
 builder.Services.AddScoped<ISubjectService, SubjectService>();
-// builder.Services.AddScoped<ISessionService, SessionService>();
+builder.Services.AddScoped<ISessionService, SessionService>();
 // builder.Services.AddScoped<IOrderService, OrderService>();
 // builder.Services.AddScoped<IPackageService, PackageService>();
 builder.Services.AddScoped<ICourseService, CourseService>();
 // builder.Services.AddScoped<IProviderService, ProviderService>();
- builder.Services.AddScoped<IStudentService, StudentService>();
+builder.Services.AddScoped<IStudentService, StudentService>();
 builder.Services.AddScoped<IBlogService, BlogService>();
 builder.Services.AddScoped<IFeedbackService, FeedbackService>();
 builder.Services.AddScoped<IVoucherService, VoucherService>();
@@ -96,6 +99,8 @@ builder.Services.AddScoped<ICategoryService, CategoryService>();
 // builder.Services.AddScoped<ICourseXPackageService, CouseXPackageService>();
 
 builder.Services.AddHttpContextAccessor();
+//Register session type
+SessionService.RegisterProductType("Meeting", typeof(SessionService.SessionMeetingService));
 
 builder.Services.AddCors(options =>
 {

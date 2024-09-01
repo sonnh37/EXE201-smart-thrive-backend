@@ -15,14 +15,35 @@ public static class ApplyFilter
         {
             queryable = queryable.Where(m => m.Name != null && m.Name.Contains(query.Name));
         }
-        
+
         if (query.CategoryId != Guid.Empty && query.CategoryId != null)
         {
             queryable = queryable.Where(m => m.CategoryId == query.CategoryId);
         }
 
         queryable = Base(queryable, query);
+
+        return queryable;
+    }
+    public static IQueryable<Feedback> Feedback(IQueryable<Feedback> queryable, FeedbackGetAllQuery query)
+    {
+        if (query.StudentId != Guid.Empty)
+        {
+            queryable = queryable.Where(m => m.StudentId == query.StudentId);
+        }
         
+        if (query.CourseId != Guid.Empty)
+        {
+            queryable = queryable.Where(m => m.CourseId == query.CourseId);
+        }
+
+        if(query.Rating != null)
+        {
+            queryable = queryable.Where(m => m.Rating == query.Rating);
+        }
+
+        queryable = Base(queryable, query);
+
         return queryable;
     }
     
@@ -32,40 +53,40 @@ public static class ApplyFilter
         {
             queryable = queryable.Where(m => m.StudentName != null && m.StudentName.Contains(query.StudentName));
         }
-        
-        if (query.UserId != Guid.Empty && query.UserId != null)
+
+        if (query.UserId != Guid.Empty)
         {
             queryable = queryable.Where(m => m.UserId == query.UserId);
         }
 
         queryable = Base(queryable, query);
-        
+
         return queryable;
     }
-    
+
     public static IQueryable<Course> Course(IQueryable<Course> queryable, CourseGetAllQuery query)
     {
         if (!string.IsNullOrEmpty(query.CourseName))
         {
             queryable = queryable.Where(m => m.CourseName != null && m.CourseName.Contains(query.CourseName));
         }
-        
-        if (query.SubjectId != null && query.SubjectId!= Guid.Empty)
+
+        if (query.SubjectId != Guid.Empty)
         {
             queryable = queryable.Where(m => m.SubjectId == query.SubjectId);
         }
-        
-        if (query.ProviderId!= Guid.Empty && query.SubjectId != null)
+
+        if (query.ProviderId != Guid.Empty)
         {
-            queryable = queryable.Where(m => m.ProviderId  == query.ProviderId);
+            queryable = queryable.Where(m => m.ProviderId == query.ProviderId);
         }
-        
+
         queryable = Base(queryable, query);
-        
+
         return queryable;
     }
 
-    
+
     public static IQueryable<Category> Category(IQueryable<Category> queryable, CategoryGetAllQuery query)
     {
         if (!string.IsNullOrEmpty(query.Name))
@@ -74,7 +95,7 @@ public static class ApplyFilter
         }
 
         queryable = Base(queryable, query);
-        
+
         return queryable;
     }
 

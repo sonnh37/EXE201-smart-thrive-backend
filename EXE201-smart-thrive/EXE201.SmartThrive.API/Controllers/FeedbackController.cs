@@ -20,6 +20,7 @@ namespace EXE201.SmartThrive.API.Controllers
         {
             _feedbackService = feedbackService;
             _mapper = mapper;
+            _feedbackService = feedbackService;
         }
 
         [HttpGet]
