@@ -1,104 +1,111 @@
-﻿using EXE201.SmartThrive.Domain.Contracts.Services;
+﻿using AutoMapper;
+using EXE201.SmartThrive.Domain.Contracts.Services;
 using EXE201.SmartThrive.Domain.Models.Requests.Commands.Feedback;
+using EXE201.SmartThrive.Domain.Models.Requests.Commands.Subject;
+using EXE201.SmartThrive.Domain.Models.Requests.Queries.Subject;
 using EXE201.SmartThrive.Domain.Models.Results;
-using EXE201.SmartThrive.Domain.Utilities;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace EXE201.SmartThrive.API.Controllers;
-
-[Route(AppConstant.Feedbacks)]
-[ApiController]
-public class FeedbackController : ControllerBase
+namespace EXE201.SmartThrive.API.Controllers
 {
-    private readonly IFeedbackService _feedbackService;
-
-    public FeedbackController(IFeedbackService feedbackService)
+    [Route("api/feedback")]
+    [ApiController]
+    public class FeedbackController : ControllerBase
     {
-        _feedbackService = feedbackService;
-    }
+        private readonly IMapper _mapper;
+        private readonly IFeedbackService _feedbackService;
 
-    [HttpGet]
-    public async Task<IActionResult> GetAll()
-    {
-        try
+        public FeedbackController(IFeedbackService feedbackService, IMapper mapper)
         {
-            var msg = await _feedbackService.GetAll<FeedbackResult>();
-            return Ok(msg);
+            _feedbackService = feedbackService;
+            _mapper = mapper;
+            _feedbackService = feedbackService;
         }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
-    }
 
-    /*   [HttpGet("filtered-sorted-paged")]
-       public async Task<IActionResult> GetAllFiltered([FromQuery] SubjectGetAllQuery subjectGetAllQuery)
-       {
-           try
-           {
-               var msg = await _feedbackService.GetAllFiltered(subjectGetAllQuery);
-               return Ok(msg);
-           }
-           catch (Exception ex)
-           {
-               return BadRequest(ex.Message);
-           }
-       }*/
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            try
+            {
+                var msg = await _feedbackService.GetAll<FeedbackResult>();
+                return Ok(msg);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
-    [HttpGet("{id:guid}")]
-    public async Task<IActionResult> Get(Guid id)
-    {
-        try
+     /*   [HttpGet("filtered-sorted-paged")]
+        public async Task<IActionResult> GetAllFiltered([FromQuery] SubjectGetAllQuery subjectGetAllQuery)
         {
-            var msg = await _feedbackService.GetById<FeedbackResult>(id);
-            return Ok(msg);
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
-    }
+            try
+            {
+                var msg = await _feedbackService.GetAllFiltered(subjectGetAllQuery);
+                return Ok(msg);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }*/
 
-    [HttpPost]
-    public async Task<IActionResult> Add(FeedbackCreateCommand request)
-    {
-        try
+        [HttpGet("{id:guid}")]
+        public async Task<IActionResult> Get(Guid id)
         {
-            var msg = await _feedbackService.Create(request);
-            return Ok(msg);
+            try
+            {
+                var msg = await _feedbackService.GetById<FeedbackResult>(id);
+                return Ok(msg);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
-    }
 
-    [HttpDelete("{id:guid}")]
-    public async Task<IActionResult> Delete([FromRoute] Guid id)
-    {
-        try
+        [HttpPost]
+        public async Task<IActionResult> Add(FeedbackCreateCommand request)
         {
-            var msg = await _feedbackService.DeleteById(id);
-            return Ok(msg);
+            try
+            {
+                var msg = await _feedbackService.Create(request);
+                return Ok(msg);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
-        catch (Exception ex)
+
+        [HttpDelete("{id:guid}")]
+        public async Task<IActionResult> Delete([FromRoute] Guid id)
         {
-            return BadRequest(ex.Message);
+            try
+            {
+                var msg = await _feedbackService.DeleteById(id);
+                return Ok(msg);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
-    }
 
 
-    [HttpPut]
-    public async Task<IActionResult> Update(FeedbackUpdateCommand request)
-    {
-        try
+        [HttpPut]
+        public async Task<IActionResult> Update(FeedbackUpdateCommand request)
         {
-            var msg = await _feedbackService.Update(request);
-            return Ok(msg);
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
+            try
+            {
+                var msg = await _feedbackService.Update(request);
+                return Ok(msg);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

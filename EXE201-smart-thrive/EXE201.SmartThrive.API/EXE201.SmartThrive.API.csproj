@@ -7,27 +7,27 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="ExcelDataReader" Version="3.7.0"/>
-        <PackageReference Include="Google.Apis.Auth" Version="1.68.0"/>
-        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.0"/>
+        <PackageReference Include="ExcelDataReader" Version="3.7.0" />
+        <PackageReference Include="Google.Apis.Auth" Version="1.68.0" />
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.0" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.0">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.8"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.8" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.0">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.4"/>
-        <PackageReference Include="Redoc.AspNetCore" Version="1.0.0"/>
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0"/>
+        <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.4" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\EXE201.SmartThrive.Data\EXE201.SmartThrive.Data.csproj"/>
-        <ProjectReference Include="..\EXE201.SmartThrive.Repositories\EXE201.SmartThrive.Repositories.csproj"/>
-        <ProjectReference Include="..\EXE201.SmartThrive.Services\EXE201.SmartThrive.Services.csproj"/>
+        <ProjectReference Include="..\EXE201.SmartThrive.Data\EXE201.SmartThrive.Data.csproj" />
+        <ProjectReference Include="..\EXE201.SmartThrive.Repositories\EXE201.SmartThrive.Repositories.csproj" />
+        <ProjectReference Include="..\EXE201.SmartThrive.Services\EXE201.SmartThrive.Services.csproj" />
     </ItemGroup>
 
 </Project>
