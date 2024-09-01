@@ -22,4 +22,10 @@ public interface IUnitOfWork : IBaseUnitOfWork
     IVoucherRepository VoucherRepository { get; }
     IModuleRepository ModuleRepository { get; }
 
+
+    IUserRepository UserRepository { get; }
+
+    IProviderRepository ProviderRepository { get; }
+
+    IOrderRepository OrderRepository { get; }
 }

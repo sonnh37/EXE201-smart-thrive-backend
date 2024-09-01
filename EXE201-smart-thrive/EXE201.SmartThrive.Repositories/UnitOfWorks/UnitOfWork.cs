@@ -27,4 +27,7 @@ public class UnitOfWork : BaseUnitOfWork<STDbContext>, IUnitOfWork
     public IModuleRepository ModuleRepository => GetRepository<IModuleRepository>();
     public ICategoryRepository CategoryRepository => GetRepository<ICategoryRepository>();
     public ICourseRepository CourseRepository => GetRepository<ICourseRepository>();
+    public IUserRepository UserRepository => GetRepository<IUserRepository>();
+    public IProviderRepository ProviderRepository => GetRepository<IProviderRepository>();
+    public IOrderRepository OrderRepository => GetRepository<IOrderRepository>();
 }
