@@ -1,9 +1,8 @@
 ﻿using EXE201.SmartThrive.Data.Context;
-using EXE201.SmartThrive.Domain.Contracts.Bases;
 using EXE201.SmartThrive.Domain.Contracts.Repositories;
 using EXE201.SmartThrive.Domain.Entities;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.User;
-using EXE201.SmartThrive.Domain.Utilities.Sorts;
+using EXE201.SmartThrive.Domain.Utilities;
 using EXE201.SmartThrive.Repositories.Base;
 using Microsoft.EntityFrameworkCore;
 using System;

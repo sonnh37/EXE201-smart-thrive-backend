@@ -2,15 +2,8 @@
 using EXE201.SmartThrive.Domain.Contracts.Repositories;
 using EXE201.SmartThrive.Domain.Entities;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.Provider;
-using EXE201.SmartThrive.Domain.Models.Requests.Queries.User;
-using EXE201.SmartThrive.Domain.Utilities.Sorts;
+using EXE201.SmartThrive.Domain.Utilities;
 using EXE201.SmartThrive.Repositories.Base;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EXE201.SmartThrive.Repositories
 {

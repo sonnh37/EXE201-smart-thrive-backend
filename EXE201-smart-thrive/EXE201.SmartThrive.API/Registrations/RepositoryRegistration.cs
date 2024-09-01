@@ -13,13 +13,17 @@ public static class RepositoryRegistration
     {
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
-        services.AddScoped<ISubjectRepository, SubjectRepository>();
-        services.AddScoped<IFeedbackRepository, FeedbackRepository>();
-        services.AddScoped<IModuleRepository, ModuleRepository>();
-        services.AddScoped<IVoucherRepository, VoucherRepository>();
+        services.AddScoped<IBlogRepository, BlogRepository>();
         services.AddScoped<ICategoryRepository, CategoryRepository>();
         services.AddScoped<ICourseRepository, CourseRepository>();
+        services.AddScoped<IFeedbackRepository, FeedbackRepository>();
+        services.AddScoped<IModuleRepository, ModuleRepository>();
+        services.AddScoped<IOrderRepository, OrderRepository>();
+        services.AddScoped<IProviderRepository, ProviderRepository>();
+        services.AddScoped<ISessionRepository, SessionRepository>();
         services.AddScoped<IStudentRepository, StudentRepository>();
-        services.AddScoped<IBlogRepository, BlogRepository>();
+        services.AddScoped<ISubjectRepository, SubjectRepository>();
+        services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IVoucherRepository, VoucherRepository>();
     }
 }
