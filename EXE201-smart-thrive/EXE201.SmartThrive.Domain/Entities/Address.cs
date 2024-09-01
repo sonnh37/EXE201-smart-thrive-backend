@@ -3,9 +3,9 @@
 public class Address : BaseEntity
 {
     public Guid? ProviderId { get; set; }
-    
+
     public string? City { get; set; }
-    
+
     // quận, huyện
     public string? District { get; set; }
 

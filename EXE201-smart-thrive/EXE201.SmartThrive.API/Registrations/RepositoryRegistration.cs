@@ -1,8 +1,6 @@
-﻿using EXE201.SmartThrive.Domain.Contracts.Bases;
-using EXE201.SmartThrive.Domain.Contracts.Repositories;
+﻿using EXE201.SmartThrive.Domain.Contracts.Repositories;
 using EXE201.SmartThrive.Domain.Contracts.UnitOfWorks;
 using EXE201.SmartThrive.Repositories;
-using EXE201.SmartThrive.Repositories.Base;
 using EXE201.SmartThrive.Repositories.UnitOfWorks;
 
 namespace EXE201.SmartThrive.API.Registrations;

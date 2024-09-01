@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using EXE201.SmartThrive.Domain.Entities;
-using EXE201.SmartThrive.Domain.Models.Requests.Commands.Course;
 using EXE201.SmartThrive.Domain.Models.Requests.Commands.Feedback;
 using EXE201.SmartThrive.Domain.Models.Results;
 

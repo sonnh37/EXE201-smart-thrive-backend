@@ -1,34 +1,35 @@
 ﻿using AutoMapper;
 using EXE201.SmartThrive.Domain.Contracts.Services;
 using EXE201.SmartThrive.Domain.Models.Requests.Commands.Session;
+using EXE201.SmartThrive.Domain.Utilities;
 using Microsoft.AspNetCore.Mvc;
 
-namespace EXE201.SmartThrive.API.Controllers
+namespace EXE201.SmartThrive.API.Controllers;
+
+[Route(AppConstant.Sessions)]
+[ApiController]
+public class SessionController : ControllerBase
 {
-    [Route("api/session")]
-    [ApiController]
-    public class SessionController : ControllerBase
+    private readonly IMapper _mapper;
+    private readonly ISessionService _sessionService;
+
+    public SessionController(IMapper mapper, ISessionService sessionService)
     {
-        private readonly IMapper _mapper;
-        private readonly ISessionService _sessionService;
+        _mapper = mapper;
+        _sessionService = sessionService;
+    }
 
-        public SessionController(IMapper mapper, ISessionService sessionService)
+    [HttpPost]
+    public async Task<IActionResult> Add(SessionCreateCommand request)
+    {
+        try
         {
-            _mapper = mapper;
-            _sessionService = sessionService;
+            var result = await _sessionService.CreateSession(request.SessionType.ToString(), request);
+            return Ok(result);
         }
-
-        [HttpPost]
-        public async Task<IActionResult> Add(SessionCreateCommand request)
+        catch (Exception ex)
         {
-            try
-            {
-                var result = await _sessionService.CreateSession(request.SessionType.ToString(), request);
-                return Ok(result);
-            } catch(Exception ex)
-            {
-                return BadRequest(ex.Message);  
-            }
+            return BadRequest(ex.Message);
         }
     }
 }

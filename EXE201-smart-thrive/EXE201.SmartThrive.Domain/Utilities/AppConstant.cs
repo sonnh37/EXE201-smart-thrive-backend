@@ -14,6 +14,10 @@ public class AppConstant
     public const string Blogs = "api/blogs";
     public const string Modules = "api/modules";
     public const string Feedbacks = "api/feedbacks";
+    public const string Orders = "api/orders";
     public const string Courses = "api/courses";
+    public const string Providers = "api/providers";
+    public const string Sessions = "api/sessions";
+    public const string Users = "api/users";
     public const string Students = "api/students";
 }

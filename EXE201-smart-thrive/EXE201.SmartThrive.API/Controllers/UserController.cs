@@ -1,110 +1,107 @@
 ﻿using AutoMapper;
 using EXE201.SmartThrive.Domain.Contracts.Services;
-using EXE201.SmartThrive.Domain.Models.Requests.Commands.Subject;
 using EXE201.SmartThrive.Domain.Models.Requests.Commands.User;
-using EXE201.SmartThrive.Domain.Models.Requests.Queries.Subject;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.User;
 using EXE201.SmartThrive.Domain.Models.Results;
-using Microsoft.AspNetCore.Http;
+using EXE201.SmartThrive.Domain.Utilities;
 using Microsoft.AspNetCore.Mvc;
 
-namespace EXE201.SmartThrive.API.Controllers
+namespace EXE201.SmartThrive.API.Controllers;
+
+[Route(AppConstant.Users)]
+[ApiController]
+public class UserController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class UserController : ControllerBase
+    private readonly IMapper _mapper;
+    private readonly IUserService service;
+
+    public UserController(IUserService _service, IMapper mapper)
     {
-        private readonly IMapper _mapper;
-        private readonly IUserService service;
+        service = _service;
+        _mapper = mapper;
+    }
 
-        public UserController(IUserService _service, IMapper mapper)
+    [HttpGet]
+    public async Task<IActionResult> GetAll()
+    {
+        try
         {
-            service = _service;
-            _mapper = mapper;
+            var msg = await service.GetAll<UserResult>();
+            return Ok(msg);
         }
-
-        [HttpGet]
-        public async Task<IActionResult> GetAll()
+        catch (Exception ex)
         {
-            try
-            {
-                var msg = await service.GetAll<UserResult>();
-                return Ok(msg);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            return BadRequest(ex.Message);
         }
+    }
 
-        [HttpGet("filtered-sorted-paged")]
-        public async Task<IActionResult> GetAllFiltered([FromQuery] UserGetAllQuery query)
+    [HttpGet("filtered-sorted-paged")]
+    public async Task<IActionResult> GetAllFiltered([FromQuery] UserGetAllQuery query)
+    {
+        try
         {
-            try
-            {
-                var msg = await service.GetAllFiltered(query);
-                return Ok(msg);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            var msg = await service.GetAllFiltered(query);
+            return Ok(msg);
         }
-
-        [HttpGet("{id:guid}")]
-        public async Task<IActionResult> Get(Guid id)
+        catch (Exception ex)
         {
-            try
-            {
-                var msg = await service.GetById<UserResult>(id);
-                return Ok(msg);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            return BadRequest(ex.Message);
         }
+    }
 
-        [HttpPost]
-        public async Task<IActionResult> Add(UserCreateCommand request)
+    [HttpGet("{id:guid}")]
+    public async Task<IActionResult> Get(Guid id)
+    {
+        try
         {
-            try
-            {
-                var msg = await service.Create(request);
-                return Ok(msg);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            var msg = await service.GetById<UserResult>(id);
+            return Ok(msg);
         }
-
-        [HttpDelete("{id:guid}")]
-        public async Task<IActionResult> Delete([FromRoute] Guid id)
+        catch (Exception ex)
         {
-            try
-            {
-                var msg = await service.DeleteById(id);
-                return Ok(msg);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            return BadRequest(ex.Message);
         }
+    }
 
-        [HttpPut]
-        public async Task<IActionResult> Update(UserUpdateCommand request)
+    [HttpPost]
+    public async Task<IActionResult> Add(UserCreateCommand request)
+    {
+        try
         {
-            try
-            {
-                var msg = await service.Update(request);
-                return Ok(msg);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            var msg = await service.Create(request);
+            return Ok(msg);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpDelete("{id:guid}")]
+    public async Task<IActionResult> Delete([FromRoute] Guid id)
+    {
+        try
+        {
+            var msg = await service.DeleteById(id);
+            return Ok(msg);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpPut]
+    public async Task<IActionResult> Update(UserUpdateCommand request)
+    {
+        try
+        {
+            var msg = await service.Update(request);
+            return Ok(msg);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
         }
     }
 }
