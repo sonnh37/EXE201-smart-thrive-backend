@@ -2,7 +2,6 @@
 
 public enum Status
 {
-    
 }
 
 public enum UserStatus

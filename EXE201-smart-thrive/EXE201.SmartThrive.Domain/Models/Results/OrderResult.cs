@@ -19,5 +19,4 @@ public class OrderResult : BaseResult
     public PackageResult? Package { get; set; }
 
     public VoucherResult? Voucher { get; set; }
-
 }

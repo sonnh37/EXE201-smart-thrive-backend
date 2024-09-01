@@ -1,23 +1,21 @@
-﻿using AutoMapper;
-using EXE201.SmartThrive.Domain.Contracts.Services;
+﻿using EXE201.SmartThrive.Domain.Contracts.Services;
 using EXE201.SmartThrive.Domain.Models.Requests.Commands.Course;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.Course;
 using EXE201.SmartThrive.Domain.Models.Results;
+using EXE201.SmartThrive.Domain.Utilities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EXE201.SmartThrive.API.Controllers;
 
-[Route("api/course")]
+[Route(AppConstant.Courses)]
 [ApiController]
 public class CourseController : ControllerBase
 {
     private readonly ICourseService _courseService;
-    private readonly IMapper _mapper;
 
-    public CourseController(ICourseService courseService, IMapper mapper)
+    public CourseController(ICourseService courseService)
     {
         _courseService = courseService;
-        _mapper = mapper;
     }
 
     [HttpGet]

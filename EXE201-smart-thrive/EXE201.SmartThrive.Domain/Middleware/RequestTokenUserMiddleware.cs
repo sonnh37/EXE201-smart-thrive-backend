@@ -6,12 +6,12 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace EXE201.SmartThrive.Domain.Middleware;
 
-public class TokenUserMiddleware
+public class RequestTokenUserMiddleware
 {
     private readonly RequestDelegate _next;
     private readonly IServiceScopeFactory _serviceScopeFactory;
 
-    public TokenUserMiddleware(RequestDelegate next, IServiceScopeFactory serviceScopeFactory)
+    public RequestTokenUserMiddleware(RequestDelegate next, IServiceScopeFactory serviceScopeFactory)
     {
         _next = next;
         _serviceScopeFactory = serviceScopeFactory;

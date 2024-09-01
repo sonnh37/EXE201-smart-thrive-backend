@@ -30,5 +30,4 @@ public class CourseService : BaseService<Course>, ICourseService
 
         return AppResponse.CreatePaginated(subjectsResultWithTotal, query);
     }
-
 }
