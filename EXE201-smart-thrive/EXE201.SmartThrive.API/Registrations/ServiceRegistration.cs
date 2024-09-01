@@ -7,6 +7,7 @@ public static class ServiceRegistration
 {
     public static void AddCustomServices(this IServiceCollection services)
     {
+        
         services.AddScoped<IBlogService, BlogService>();
         services.AddScoped<ICategoryService, CategoryService>();
         services.AddScoped<ICourseService, CourseService>();
@@ -19,5 +20,6 @@ public static class ServiceRegistration
         services.AddScoped<ISubjectService, SubjectService>();
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IVoucherService, VoucherService>();
+        
     }
 }
