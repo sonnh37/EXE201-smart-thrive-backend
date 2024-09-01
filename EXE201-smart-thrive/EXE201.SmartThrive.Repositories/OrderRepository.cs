@@ -21,7 +21,7 @@ namespace EXE201.SmartThrive.Repositories
 
         public async Task<(List<Order>, int)> GetAllFiltered(OrderGetAllQuery query)
         {
-            var queryable = base.GetQueryable();
+            var queryable = GetQueryable();
 
             // filter
             queryable = ApplyFilter.Order(queryable, query);
@@ -29,7 +29,7 @@ namespace EXE201.SmartThrive.Repositories
             var totalOrigin = queryable.Count();
 
             // sort & pagination
-            var results = await base.ApplySortingAndPaging(queryable, query);
+            var results = await ApplySortingAndPaging(queryable, query);
 
             return (results, totalOrigin);
         }
