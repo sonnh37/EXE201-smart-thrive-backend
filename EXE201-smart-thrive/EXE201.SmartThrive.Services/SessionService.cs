@@ -8,216 +8,200 @@ using EXE201.SmartThrive.Domain.Models.Requests.Commands.Session;
 using EXE201.SmartThrive.Services.Base;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Type = System.Type;
 
+namespace EXE201.SmartThrive.Services;
 
-namespace EXE201.SmartThrive.Services
+public class SessionService : BaseService<Session>, ISessionService
 {
-    public class SessionService : BaseService<Session>, ISessionService
+    private static ISessionRepository _sessionRepository;
+    private static ISessionMeetingRepository _sessionMeetingRepository;
+    private static ISessionOfflineRepository _sessionOfflineRepository;
+    private static ISessionSelfLearnRepository _sessionSelfLearnRepository;
+    private static IUnitOfWork _unitOfWork;
+
+    private static readonly Dictionary<string, Type> SessionRegistry = new();
+
+    public SessionService(IMapper mapper, IUnitOfWork unitOfWork) : base(mapper, unitOfWork)
     {
-        private static ISessionRepository _sessionRepository;
-        private static ISessionMeetingRepository _sessionMeetingRepository;
-        private static ISessionOfflineRepository _sessionOfflineRepository;
-        private static ISessionSelfLearnRepository _sessionSelfLearnRepository;
-        private static IUnitOfWork _unitOfWork;
-        public SessionService(IMapper mapper, IUnitOfWork unitOfWork) : base(mapper, unitOfWork)
+        _unitOfWork = unitOfWork;
+        _sessionRepository = _unitOfWork.SessionRepository;
+        _sessionMeetingRepository = _unitOfWork.SessionMeetingRepository;
+        //_sessionOfflineRepository = _unitOfWork.SessionOfflineRepository;
+        //_sessionSelfLearnRepository = _unitOfWork.SessionSelfLearnRepository;
+    }
+
+
+    public async Task<object> CreateSession(string type, SessionCreateCommand payload)
+    {
+        if (!SessionRegistry.TryGetValue(type, out var sessionClass)) throw new Exception("Session type not found");
+        var session = Activator.CreateInstance(sessionClass, payload) as SessionModel;
+        return await session.CreateSession();
+    }
+
+    public static void RegisterProductType(string type, Type classRef)
+    {
+        SessionRegistry[type] = classRef;
+    }
+
+    public abstract class SessionModel
+    {
+        //protected SessionModel(object payload)
+        //{
+        //    var dict = payload as Dictionary<string, object>;
+        //    this.ModuleId = (Guid)dict!["moduleId"];
+        //    Title = dict["title"] as string;
+        //    Document = dict["document"] as string;
+        //    SessionType = (SessionType)dict["sessionType"];
+        //    Description = dict["description"] as string;
+        //    this.SessionNumber = (int)dict["sessionNumber"];
+        //    Detail = dict["detail"];
+        //}
+
+        protected SessionModel(SessionCreateCommand payload)
         {
-            _unitOfWork = unitOfWork;
-            _sessionRepository = _unitOfWork.SessionRepository;
-            _sessionMeetingRepository = _unitOfWork.SessionMeetingRepository;
-            //_sessionOfflineRepository = _unitOfWork.SessionOfflineRepository;
-            //_sessionSelfLearnRepository = _unitOfWork.SessionSelfLearnRepository;
+            ModuleId = payload.ModuleId;
+            Title = payload.Title;
+            Document = payload.Document;
+            SessionType = payload.SessionType;
+            Description = payload.Description;
+            SessionNumber = payload.SessionNumber;
+            Detail = payload.Detail;
         }
 
-        private static readonly Dictionary<string, System.Type> SessionRegistry = new Dictionary<string, System.Type>();
+        protected Guid? ModuleId { get; set; }
 
-        public static void RegisterProductType(string type, System.Type classRef)
+        protected string? Title { get; set; }
+
+        protected string? Document { get; set; }
+
+        protected SessionType SessionType { get; set; }
+        protected int SessionNumber { get; set; }
+
+        protected string? Description { get; set; }
+
+        protected object? Detail { get; set; }
+
+        public abstract Task<object> CreateSession();
+        public abstract Task<object> UpdateSession(Guid sessionId);
+
+        protected async Task<Session> CreateSessionBase()
         {
-            SessionRegistry[type] = classRef;
+            var session = new Session
+            {
+                Id = Guid.NewGuid(),
+                ModuleId = ModuleId,
+                Title = Title,
+                Document = Document,
+                SessionType = SessionType,
+                Description = Description,
+                SessionNumber = SessionNumber
+            };
+            _sessionRepository.Add(session);
+            return session;
+        }
+    }
+
+    public class SessionMeetingService : SessionModel
+    {
+        public SessionMeetingService(SessionCreateCommand payload) : base(payload)
+        {
         }
 
-
-        public async Task<object> CreateSession(string type, SessionCreateCommand payload)
+        public override async Task<object> CreateSession()
         {
-            if (!SessionRegistry.TryGetValue(type, out System.Type sessionClass))
+            var converted = JsonConvert.DeserializeObject<JObject>(Detail.ToString());
+            var dict = new Dictionary<string, string>();
+            foreach (KeyValuePair<string, JToken> keyValuePair in converted)
+                dict.Add(keyValuePair.Key, keyValuePair.Value.ToString());
+            var session = await CreateSessionBase();
+            if (session == null) throw new Exception("Fail when create session");
+            var sessionMeeting = new SessionMeeting
             {
-                throw new Exception("Session type not found");
-            }
-            var session = Activator.CreateInstance(sessionClass, payload) as SessionModel;
-            return await session.CreateSession();
+                Id = Guid.NewGuid(),
+                SessionId = session.Id,
+                Host = dict!["host"],
+                Date = DateTime.Parse(dict!["date"]),
+                MeetingUrl = dict["meetingUrl"],
+                MeetingPlatform = dict["meetingPlatform"]
+            };
+            _sessionMeetingRepository.Add(sessionMeeting);
+            _unitOfWork.SaveChanges();
+
+            return session;
         }
 
-        public abstract class SessionModel
+        public override Task<object> UpdateSession(Guid sessionId)
         {
-            protected Guid? ModuleId { get; set; }
+            throw new NotImplementedException();
+        }
+    }
 
-            protected string? Title { get; set; }
-
-            protected string? Document { get; set; }
-
-            protected SessionType SessionType { get; set; }
-            protected int SessionNumber { get; set; }
-
-            protected string? Description { get; set; }
-
-            protected object? Detail { get; set; }
-
-            //protected SessionModel(object payload)
-            //{
-            //    var dict = payload as Dictionary<string, object>;
-            //    this.ModuleId = (Guid)dict!["moduleId"];
-            //    Title = dict["title"] as string;
-            //    Document = dict["document"] as string;
-            //    SessionType = (SessionType)dict["sessionType"];
-            //    Description = dict["description"] as string;
-            //    this.SessionNumber = (int)dict["sessionNumber"];
-            //    Detail = dict["detail"];
-            //}
-
-            protected SessionModel(SessionCreateCommand payload)
-            {
-                this.ModuleId = payload.ModuleId;
-                Title = payload.Title;
-                Document = payload.Document;
-                SessionType = payload.SessionType;
-                Description = payload.Description;
-                this.SessionNumber = payload.SessionNumber;
-                Detail = payload.Detail;
-            }
-
-            public abstract Task<object> CreateSession();
-            public abstract Task<object> UpdateSession(Guid sessionId);
-
-            protected async Task<Session> CreateSessionBase()
-            {
-                var session = new Session
-                {
-                    Id = Guid.NewGuid(),
-                    ModuleId = this.ModuleId,
-                    Title = this.Title,
-                    Document = this.Document,
-                    SessionType = this.SessionType,
-                    Description = this.Description,
-                    SessionNumber = this.SessionNumber,
-                };
-                 _sessionRepository.Add(session);
-                return session;
-            }
-
+    public class SessionOfflineService : SessionModel
+    {
+        public SessionOfflineService(SessionCreateCommand payload) : base(payload)
+        {
         }
 
-        public class SessionMeetingService : SessionModel
+        public override async Task<object> CreateSession()
         {
-            public SessionMeetingService(SessionCreateCommand payload) : base(payload)
+            var converted = JsonConvert.DeserializeObject<JObject>(Detail.ToString());
+            var dict = new Dictionary<string, string>();
+            foreach (KeyValuePair<string, JToken> keyValuePair in converted)
+                dict.Add(keyValuePair.Key, keyValuePair.Value.ToString());
+            var session = await CreateSessionBase();
+            if (session == null) throw new Exception("Fail when create session");
+            var sessionOffline = new SessionOffline
             {
+                Id = Guid.NewGuid(),
+                SessionId = session.Id,
+                Location = dict["location"],
+                Date = DateTime.Parse(dict["date"]),
+                Duration = int.Parse(dict["duration"])
+            };
+            _sessionOfflineRepository.Add(sessionOffline);
+            _unitOfWork.SaveChanges();
 
-            }
-            public override async Task<object> CreateSession()
-            {
-                JObject converted = JsonConvert.DeserializeObject<JObject>(Detail.ToString());
-                Dictionary<string, string> dict = new Dictionary<string, string>();
-                foreach (KeyValuePair<string, JToken> keyValuePair in converted)
-                {
-                    dict.Add(keyValuePair.Key, keyValuePair.Value.ToString());
-                }
-                var session = await CreateSessionBase();
-                if(session == null)
-                {
-                    throw new Exception("Fail when create session");
-                }
-                var sessionMeeting = new SessionMeeting
-                {
-                    Id= Guid.NewGuid(),
-                    SessionId = session.Id,
-                    Host = dict!["host"] as string,
-                    Date = DateTime.Parse(dict!["date"] as string),
-                    MeetingUrl = dict["meetingUrl"] as string,
-                    MeetingPlatform = dict["meetingPlatform"] as string
-                };
-                 _sessionMeetingRepository.Add(sessionMeeting);
-                _unitOfWork.SaveChanges();
-
-                return session;
-            }
-            public override Task<object> UpdateSession(Guid sessionId)
-            {
-                throw new NotImplementedException();
-            }
+            return session;
         }
 
-        public class SessionOfflineService: SessionModel
+        public override Task<object> UpdateSession(Guid sessionId)
         {
-            public SessionOfflineService(SessionCreateCommand payload) : base(payload)
-            {
+            throw new NotImplementedException();
+        }
+    }
 
-            }
-
-            public override async Task<object> CreateSession()
-            {
-                JObject converted = JsonConvert.DeserializeObject<JObject>(Detail.ToString());
-                Dictionary<string, string> dict = new Dictionary<string, string>();
-                foreach (KeyValuePair<string, JToken> keyValuePair in converted)
-                {
-                    dict.Add(keyValuePair.Key, keyValuePair.Value.ToString());
-                }
-                var session = await CreateSessionBase();
-                if (session == null)
-                {
-                    throw new Exception("Fail when create session");
-                }
-                var sessionOffline = new SessionOffline
-                {
-                    Id = Guid.NewGuid(),
-                    SessionId = session.Id,
-                    Location = dict["location"] as string,
-                    Date = DateTime.Parse(dict["date"]),
-                    Duration = int.Parse(dict["duration"]),
-                };
-                _sessionOfflineRepository.Add(sessionOffline);
-                _unitOfWork.SaveChanges();
-
-                return session;
-            }
-            public override Task<object> UpdateSession(Guid sessionId)
-            {
-                throw new NotImplementedException();
-            }
+    public class SessionSelfLearnService : SessionModel
+    {
+        public SessionSelfLearnService(SessionCreateCommand payload) : base(payload)
+        {
         }
 
-        public class SessionSelfLearnService : SessionModel
+        public override async Task<object> CreateSession()
         {
-            public override async Task<object> CreateSession()
+            var converted = JsonConvert.DeserializeObject<JObject>(Detail.ToString());
+            var dict = new Dictionary<string, string>();
+            foreach (KeyValuePair<string, JToken> keyValuePair in converted)
+                dict.Add(keyValuePair.Key, keyValuePair.Value.ToString());
+            var session = await CreateSessionBase();
+            if (session == null) throw new Exception("Fail when create session");
+            var sessionSelfLearn = new SessionSelfLearn
             {
-                JObject converted = JsonConvert.DeserializeObject<JObject>(Detail.ToString());
-                Dictionary<string, string> dict = new Dictionary<string, string>();
-                foreach (KeyValuePair<string, JToken> keyValuePair in converted)
-                {
-                    dict.Add(keyValuePair.Key, keyValuePair.Value.ToString());
-                }
-                var session = await CreateSessionBase();
-                if (session == null)
-                {
-                    throw new Exception("Fail when create session");
-                }
-                var sessionSelfLearn = new SessionSelfLearn
-                {
-                    Id = Guid.NewGuid(),
-                    SessionId = session.Id,
-                    SessionNumber = this.SessionNumber,
-                    VideoUrl = dict["videoUrl"],
-                    //IsComplete = bool.Parse(dict["isComplete"]),
+                Id = Guid.NewGuid(),
+                SessionId = session.Id,
+                SessionNumber = SessionNumber,
+                VideoUrl = dict["videoUrl"]
+                //IsComplete = bool.Parse(dict["isComplete"]),
+            };
+            _sessionSelfLearnRepository.Add(sessionSelfLearn);
+            _unitOfWork.SaveChanges();
 
-                };
-                _sessionSelfLearnRepository.Add(sessionSelfLearn);
-                _unitOfWork.SaveChanges();
+            return session;
+        }
 
-                return session;
-            }
-            public SessionSelfLearnService(SessionCreateCommand payload) : base(payload) { }
-            public override Task<object> UpdateSession(Guid sessionId)
-            {
-                throw new NotImplementedException();
-            }
+        public override Task<object> UpdateSession(Guid sessionId)
+        {
+            throw new NotImplementedException();
         }
     }
 }
-

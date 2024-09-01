@@ -319,7 +319,6 @@ public static class DummyData
             .RuleFor(s => s.SessionId, f => session.Id)
             .RuleFor(s => s.SessionNumber, f => sessionNumber++)
             .RuleFor(s => s.VideoUrl, f => f.Internet.Url())
-            .RuleFor(s => s.IsComplete, f => f.Random.Bool())
             .RuleFor(s => s.CreatedBy, f => "tsql@gmail.com")
             .RuleFor(s => s.CreatedDate, f => f.Date.Past(2))
             .RuleFor(s => s.UpdatedBy, f => "tsql@gmail.com")
@@ -337,96 +336,6 @@ public static class DummyData
         context.Set<SessionSelfLearn>().AddRange(uniqueSessionMeetingList);
         context.SaveChanges();
     }
-
-//     public static void GenerateSessions(DbContext context, int count)
-// {
-//     if (!context.Set<Session>().Any())
-//     {
-//         // Clear the change tracker to avoid tracking conflicts
-//         context.ChangeTracker.Clear();
-//
-//         // Create Session data first
-//         var sessionFaker = new Faker<Session>()
-//             .RuleFor(s => s.Id, f => Guid.NewGuid())
-//             .RuleFor(s => s.ModuleId, f => f.PickRandom(context.Set<Module>().Select(m => m.Id).ToList()))
-//             .RuleFor(s => s.Title, f => f.Lorem.Sentence())
-//             .RuleFor(s => s.Document, f => f.Lorem.Word())
-//             .RuleFor(s => s.SessionType, f => f.PickRandom<SessionType>())
-//             .RuleFor(s => s.Description, f => f.Lorem.Paragraph())
-//             .RuleFor(s => s.CreatedBy, f => "tsql@gmail.com")
-//             .RuleFor(s => s.CreatedDate, f => f.Date.Past(2))
-//             .RuleFor(s => s.UpdatedBy, f => "tsql@gmail.com")
-//             .RuleFor(s => s.UpdatedDate, f => f.Date.Recent())
-//             .RuleFor(s => s.IsDeleted, f => false);
-//
-//         var sessions = sessionFaker.Generate(count);
-//         context.Set<Session>().AddRange(sessions);
-//         context.SaveChanges(); // Save Session data
-//
-//         // Retrieve Session IDs after they are saved
-//         var sessionIds = context.Set<Session>().Select(s => s.Id).ToList();
-//
-//         // Clear the change tracker before adding other entities
-//         context.ChangeTracker.Clear();
-//
-//         // Create SessionOffline data
-//         var sessionOfflineFaker = new Faker<SessionOffline>()
-//             .RuleFor(s => s.Id, f => Guid.NewGuid())
-//             .RuleFor(s => s.SessionId, f => f.PickRandom(sessionIds))
-//             .RuleFor(s => s.Location, f => f.Address.City())
-//             .RuleFor(s => s.Date, f => f.Date.Future(30))
-//             .RuleFor(s => s.Duration, f => f.Random.Int(30, 180))
-//             .RuleFor(s => s.CreatedBy, f => "tsql@gmail.com")
-//             .RuleFor(s => s.CreatedDate, f => f.Date.Past(2))
-//             .RuleFor(s => s.UpdatedBy, f => "tsql@gmail.com")
-//             .RuleFor(s => s.UpdatedDate, f => f.Date.Recent())
-//             .RuleFor(s => s.IsDeleted, f => false);
-//
-//         var sessionOfflineList = sessionOfflineFaker.Generate(count);
-//
-//         // // Ensure no duplicate IDs before adding
-//         var existingSessionOfflineIds = context.Set<SessionOffline>().Select(so => so.Id).ToList();
-//         var uniqueSessionOfflineList = sessionOfflineList.Where(so => !existingSessionOfflineIds.Contains(so.Id)).ToList();
-//         context.Set<SessionOffline>().AddRange(uniqueSessionOfflineList);
-//         //
-//         // // Similarly for SessionMeeting and SessionSelfLearn
-//         // var sessionMeetingFaker = new Faker<SessionMeeting>()
-//         //     .RuleFor(s => s.Id, f => Guid.NewGuid())
-//         //     .RuleFor(s => s.SessionId, f => f.PickRandom(sessionIds))
-//         //     .RuleFor(s => s.Date, f => f.Date.Future(30))
-//         //     .RuleFor(s => s.MeetingUrl, f => f.Internet.Url())
-//         //     .RuleFor(s => s.MeetingPlatform, f => f.Company.Bs())
-//         //     .RuleFor(s => s.CreatedBy, f => "tsql@gmail.com")
-//         //     .RuleFor(s => s.CreatedDate, f => f.Date.Past(2))
-//         //     .RuleFor(s => s.UpdatedBy, f => "tsql@gmail.com")
-//         //     .RuleFor(s => s.UpdatedDate, f => f.Date.Recent())
-//         //     .RuleFor(s => s.IsDeleted, f => false);
-//         //
-//         // var sessionMeetingList = sessionMeetingFaker.Generate(count);
-//         // var existingSessionMeetingIds = context.Set<SessionMeeting>().Select(sm => sm.Id).ToList();
-//         // var uniqueSessionMeetingList = sessionMeetingList.Where(sm => !existingSessionMeetingIds.Contains(sm.Id)).ToList();
-//         // context.Set<SessionMeeting>().AddRange(uniqueSessionMeetingList);
-//         //
-//         // var sessionSelfLearnFaker = new Faker<SessionSelfLearn>()
-//         //     .RuleFor(s => s.Id, f => Guid.NewGuid())
-//         //     .RuleFor(s => s.SessionId, f => f.PickRandom(sessionIds))
-//         //     .RuleFor(s => s.SessionNumber, f => f.Random.Int(1, 10))
-//         //     .RuleFor(s => s.VideoUrl, f => f.Internet.Url())
-//         //     .RuleFor(s => s.IsComplete, f => f.Random.Bool())
-//         //     .RuleFor(s => s.CreatedBy, f => "tsql@gmail.com")
-//         //     .RuleFor(s => s.CreatedDate, f => f.Date.Past(2))
-//         //     .RuleFor(s => s.UpdatedBy, f => "tsql@gmail.com")
-//         //     .RuleFor(s => s.UpdatedDate, f => f.Date.Recent())
-//         //     .RuleFor(s => s.IsDeleted, f => false);
-//         //
-//         // var sessionSelfLearnList = sessionSelfLearnFaker.Generate(count);
-//         // var existingSessionSelfLearnIds = context.Set<SessionSelfLearn>().Select(ss => ss.Id).ToList();
-//         // var uniqueSessionSelfLearnList = sessionSelfLearnList.Where(ss => !existingSessionSelfLearnIds.Contains(ss.Id)).ToList();
-//         // context.Set<SessionSelfLearn>().AddRange(uniqueSessionSelfLearnList);
-//
-//         context.SaveChanges(); // Save all data
-//     }
-// }
 
     public static void GenerateVouchers(DbContext context, int count)
     {

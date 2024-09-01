@@ -31,7 +31,7 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
             return dbSet;
         }
     }
-    
+
     public async Task<List<TEntity>> ApplySortingAndPaging(IQueryable<TEntity> queryable, PagedQuery pagedQuery)
     {
         queryable = Sort(queryable, pagedQuery);
@@ -40,7 +40,7 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
 
         return await queryable.ToListAsync();
     }
-    
+
     public async Task<bool> IsExistById(Guid id)
     {
         return await DbSet.AnyAsync(t => t.Id.Equals(id));
@@ -55,7 +55,7 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
     private static IQueryable<TEntity> Sort(IQueryable<TEntity> queryable, PagedQuery pagedQuery)
     {
         if (!queryable.Any()) return queryable;
-        
+
         var parameter = Expression.Parameter(typeof(TEntity), "o");
         var property = typeof(TEntity).GetProperty(pagedQuery.SortField ?? "",
             BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
@@ -98,7 +98,7 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
     {
         DbSet.UpdateRange(entities);
     }
-    
+
     public void Delete(TEntity entity)
     {
         entity.IsDeleted = true;
@@ -111,11 +111,11 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
         var enumerable = baseEntities.Where(e => e.IsDeleted == false ? e.IsDeleted = true : e.IsDeleted = false);
         DbSet.UpdateRange(baseEntities);
     }
-    
+
     #endregion
 
     #region Queries
-    
+
     public async Task<IList<TEntity>> GetAll(CancellationToken cancellationToken = default)
     {
         var queryable = GetQueryable(cancellationToken);
@@ -138,7 +138,7 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
 
         return entity;
     }
-    
+
     public IQueryable<TEntity> GetQueryable(CancellationToken cancellationToken = default)
     {
         CheckCancellationToken(cancellationToken);
@@ -159,7 +159,7 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
         queryable = queryable.Where(predicate);
         return queryable;
     }
-    
+
     private DbSet<T> GetDbSet<T>() where T : BaseEntity
     {
         var dbSet = _dbContext.Set<T>();
@@ -172,13 +172,12 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
 
         return queryable;
     }
-    
+
     public async Task<long> GetTotalCount()
     {
         var result = await GetQueryable().LongCountAsync();
         return result;
     }
-
 
     #endregion
 }

@@ -8,7 +8,5 @@ public class SessionSelfLearn : BaseEntity
 
     public string? VideoUrl { get; set; }
 
-    public bool IsComplete { get; set; }
-
     public virtual Session? Session { get; set; }
 }
