@@ -62,6 +62,11 @@ builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
 builder.Services.AddScoped<ISubjectRepository, SubjectRepository>();
+builder.Services.AddScoped<ISessionRepository, SessionRepository>();
+builder.Services.AddScoped<ISessionMeetingRepository, SessionMeetingRepository>();
+builder.Services.AddScoped<ISessionOfflineRepository, SessionOfflineRepository>();
+builder.Services.AddScoped<ISessionSelfLearnRepository, SessionSelfLearnRepository>();
+builder.Services.AddScoped<IFeedbackRepository, FeedbackRepository>();
 // builder.Services.AddScoped<ICourseRepository, CourseRepository>();
 // builder.Services.AddScoped<ICourseXPackageRepository, CourseXPackageRepository>();
 // builder.Services.AddScoped<IOrderRepository, OrderRepository>();
@@ -75,6 +80,8 @@ builder.Services.AddScoped<IStudentRepository, StudentRepository>();
 //
 builder.Services.AddScoped<ISubjectService, SubjectService>();
 builder.Services.AddScoped<IFeedbackService, FeedbackService>();
+builder.Services.AddScoped<ISessionService, SessionService>();
+
 // builder.Services.AddScoped<ISessionService, SessionService>();
 // builder.Services.AddScoped<IOrderService, OrderService>();
 // builder.Services.AddScoped<IPackageService, PackageService>();
@@ -87,6 +94,8 @@ builder.Services.AddScoped<ICategoryService, CategoryService>();
 // builder.Services.AddScoped<ICourseXPackageService, CouseXPackageService>();
 
 builder.Services.AddHttpContextAccessor();
+//Register session type
+SessionService.RegisterProductType("Meeting", typeof(SessionService.SessionMeetingService));
 
 builder.Services.AddCors(options =>
 {

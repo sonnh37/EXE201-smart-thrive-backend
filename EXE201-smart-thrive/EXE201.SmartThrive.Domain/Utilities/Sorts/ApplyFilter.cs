@@ -9,6 +9,22 @@ namespace EXE201.SmartThrive.Domain.Utilities.Sorts;
 
 public static class ApplyFilter
 {
+    public static IQueryable<Subject> Subject(IQueryable<Subject> queryable, SubjectGetAllQuery query)
+    {
+        if (!string.IsNullOrEmpty(query.Name))
+        {
+            queryable = queryable.Where(m => m.Name != null && m.Name.Contains(query.Name));
+        }
+
+        if (query.CategoryId != Guid.Empty && query.CategoryId != null)
+        {
+            queryable = queryable.Where(m => m.CategoryId == query.CategoryId);
+        }
+
+        queryable = Base(queryable, query);
+
+        return queryable;
+    }
     public static IQueryable<Feedback> Feedback(IQueryable<Feedback> queryable, FeedbackGetAllQuery query)
     {
         if (query.StudentId != Guid.Empty)
