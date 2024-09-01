@@ -567,7 +567,6 @@ namespace EXE201.SmartThrive.Data.Migrations
                     SessionId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     SessionNumber = table.Column<int>(type: "int", nullable: true),
                     VideoUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IsComplete = table.Column<bool>(type: "bit", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
