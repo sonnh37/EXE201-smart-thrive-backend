@@ -3,29 +3,31 @@ using EXE201.SmartThrive.Domain.Contracts.Repositories;
 using EXE201.SmartThrive.Domain.Contracts.Services;
 using EXE201.SmartThrive.Domain.Contracts.UnitOfWorks;
 using EXE201.SmartThrive.Domain.Entities;
-using EXE201.SmartThrive.Domain.Models.Requests.Queries.Subject;
+using EXE201.SmartThrive.Domain.Models.Requests.Queries.Feedback;
+using EXE201.SmartThrive.Domain.Models.Requests.Queries.Module;
 using EXE201.SmartThrive.Domain.Models.Responses;
 using EXE201.SmartThrive.Domain.Models.Results;
 using EXE201.SmartThrive.Domain.Utilities;
 using EXE201.SmartThrive.Services.Base;
 
-namespace EXE201.SmartThrive.Services;
-
-public class FeedbackService : BaseService<Feedback>, IFeedbackService
+namespace EXE201.SmartThrive.Services
 {
-    private readonly IFeedbackRepository _feedbackRepository;
-
-    public FeedbackService(IMapper mapper, IUnitOfWork unitOfWork) : base(mapper, unitOfWork)
+    public class FeedbackService : BaseService<Feedback>, IFeedbackService
     {
-        _feedbackRepository = _unitOfWork.FeedbackRepository;
-    }
+        private readonly IFeedbackRepository _feedbackRepository;
 
-    public async Task<PaginatedResponse<FeedbackResult>> GetAllFiltered(FeedbackGetAllQuery query)
-    {
-        var feedbackTotal = await _feedbackRepository.GetAllFiltered(query);
-        var feedbackResult = _mapper.Map<List<FeedbackResult>>(feedbackTotal.Item1);
-        var feedbackResultWithTotal = (feedbackResult, feedbackTotal.Item2);
+        public FeedbackService(IMapper mapper, IUnitOfWork unitOfWork) : base(mapper, unitOfWork)
+        {
+            _feedbackRepository = unitOfWork.FeedbackRepository;
+        }
 
-        return AppResponse.CreatePaginated(feedbackResultWithTotal, query);
+        public async Task<PaginatedResponse<FeedbackResult>> GetAllFiltered(FeedbackGetAllQuery query)
+        {
+            var feedbacksWithTotal = await _feedbackRepository.GetAllFiltered(query);
+            var feedbacksResult = _mapper.Map<List<FeedbackResult>>(feedbacksWithTotal.Item1);
+            var feedbacksResultWithTotal = (feedbacksResult, feedbacksWithTotal.Item2);
+
+            return AppResponse.CreatePaginated(feedbacksResultWithTotal, query);
+        }
     }
 }

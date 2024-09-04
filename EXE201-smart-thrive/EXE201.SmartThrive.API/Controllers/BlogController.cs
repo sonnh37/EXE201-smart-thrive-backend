@@ -1,5 +1,6 @@
 ﻿using EXE201.SmartThrive.Domain.Contracts.Services;
 using EXE201.SmartThrive.Domain.Models.Requests.Commands.Blog;
+using EXE201.SmartThrive.Domain.Models.Requests.Queries.Blog;
 using EXE201.SmartThrive.Domain.Models.Results;
 using EXE201.SmartThrive.Domain.Utilities;
 using Microsoft.AspNetCore.Mvc;
@@ -88,4 +89,18 @@ public class BlogController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
+    [HttpGet("filtered-sorted-paged")]
+    public async Task<IActionResult> GetAllFiltered([FromQuery] BlogGetAllQuery request)
+    {
+        try
+        {
+            var msg = await _blogService.GetAllFiltered(request);
+            return Ok(msg);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
 }

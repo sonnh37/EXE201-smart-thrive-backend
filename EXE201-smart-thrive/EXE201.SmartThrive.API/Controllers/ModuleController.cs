@@ -1,5 +1,6 @@
 ﻿using EXE201.SmartThrive.Domain.Contracts.Services;
 using EXE201.SmartThrive.Domain.Models.Requests.Commands.Module;
+using EXE201.SmartThrive.Domain.Models.Requests.Queries.Module;
 using EXE201.SmartThrive.Domain.Models.Results;
 using EXE201.SmartThrive.Domain.Utilities;
 using Microsoft.AspNetCore.Mvc;
@@ -29,8 +30,23 @@ public class ModuleController : ControllerBase
         {
             return BadRequest(ex.Message);
         }
+
+
     }
 
+    [HttpGet("filtered-sorted-paged")]
+    public async Task<IActionResult> GetAllFiltered([FromQuery] ModuleGetAllQuery request)
+    {
+        try
+        {
+            var msg = await _moduleService.GetAllFiltered(request);
+            return Ok(msg);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
 
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> Get(Guid id)

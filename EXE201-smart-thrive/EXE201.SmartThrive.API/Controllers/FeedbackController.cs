@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using EXE201.SmartThrive.Domain.Contracts.Services;
 using EXE201.SmartThrive.Domain.Models.Requests.Commands.Feedback;
+using EXE201.SmartThrive.Domain.Models.Requests.Queries.Feedback;
 using EXE201.SmartThrive.Domain.Models.Results;
 using EXE201.SmartThrive.Domain.Utilities;
 using Microsoft.AspNetCore.Mvc;
@@ -35,20 +36,19 @@ public class FeedbackController : ControllerBase
         }
     }
 
-    /*   [HttpGet("filtered-sorted-paged")]
-       public async Task<IActionResult> GetAllFiltered([FromQuery] SubjectGetAllQuery subjectGetAllQuery)
-       {
-           try
-           {
-               var msg = await _feedbackService.GetAllFiltered(subjectGetAllQuery);
-               return Ok(msg);
-           }
-           catch (Exception ex)
-           {
-               return BadRequest(ex.Message);
-           }
-       }*/
-
+    [HttpGet("filtered-sorted-paged")]
+    public async Task<IActionResult> GetAllFiltered([FromQuery] FeedbackGetAllQuery request)
+    {
+        try
+        {
+            var msg = await _feedbackService.GetAllFiltered(request);
+            return Ok(msg);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> Get(Guid id)
     {
