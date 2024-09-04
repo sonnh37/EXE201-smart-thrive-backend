@@ -75,11 +75,18 @@ public static class ApplyFilter
     }
     public static IQueryable<Feedback> Feedback(IQueryable<Feedback> queryable, FeedbackGetAllQuery query)
     {
-        if (query.StudentId != Guid.Empty) queryable = queryable.Where(m => m.StudentId == query.StudentId);
-
-        if (query.CourseId != Guid.Empty) queryable = queryable.Where(m => m.CourseId == query.CourseId);
-
-        if (query.Rating != null) queryable = queryable.Where(m => m.Rating == query.Rating);
+        if (query.StudentId != Guid.Empty && query.StudentId != null)
+        {
+            queryable = queryable.Where(m => m.StudentId == query.StudentId);
+        }
+        if (query.CourseId != Guid.Empty && query.CourseId != null)
+        {
+            queryable = queryable.Where(m => m.CourseId == query.CourseId);
+        }
+        if (query.Rating.HasValue) // Assuming Title is nullable int (int?)
+        {
+            queryable = queryable.Where(m => m.Rating == query.Rating.Value);
+        }
 
         queryable = Base(queryable, query);
 
