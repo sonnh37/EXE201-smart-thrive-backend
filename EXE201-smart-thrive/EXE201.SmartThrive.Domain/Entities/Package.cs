@@ -11,13 +11,12 @@ public class Package : BaseEntity
     public decimal? TotalPrice { get; set; }
 
     public bool IsActive { get; set; }
-    
+
     public PackageStatus? Status { get; set; }
 
     public virtual ICollection<PackageXCourse>? PackageXCourses { get; set; }
-    
-    public virtual ICollection<Order>? Orders { get; set; }
-    
-    public virtual ICollection<StudentXPackage>? StudentXPackages { get; set; }
 
+    public virtual ICollection<Order>? Orders { get; set; }
+
+    public virtual ICollection<StudentXPackage>? StudentXPackages { get; set; }
 }

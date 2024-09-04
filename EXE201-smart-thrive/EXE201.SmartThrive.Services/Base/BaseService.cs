@@ -17,7 +17,7 @@ public abstract class BaseService
 public abstract class BaseService<TEntity> : BaseService, IBaseService
     where TEntity : BaseEntity
 {
-    protected readonly IBaseRepository<TEntity> _baseRepository;
+    private readonly IBaseRepository<TEntity> _baseRepository;
     protected readonly IMapper _mapper;
     protected readonly IUnitOfWork _unitOfWork;
 
@@ -41,13 +41,13 @@ public abstract class BaseService<TEntity> : BaseService, IBaseService
     public async Task<MessageResponse> Update(UpdateCommand tRequest)
     {
         var entity = await _baseRepository.GetById(tRequest.Id);
-        if (entity == null) return AppResponse.CreateMessage(Constant.NotFound, false);
+        if (entity == null) return AppResponse.CreateMessage(AppConstant.NotFound, false);
         _mapper.Map(tRequest, entity);
         SetBaseEntityUpdate(entity);
         _baseRepository.Update(entity);
 
         var saveChanges = await _unitOfWork.SaveChanges();
-        var message = saveChanges ? Constant.Success : Constant.Fail;
+        var message = saveChanges ? AppConstant.Success : AppConstant.Fail;
         var msg = AppResponse.CreateMessage(message, saveChanges);
         return msg;
     }
@@ -55,23 +55,23 @@ public abstract class BaseService<TEntity> : BaseService, IBaseService
     public async Task<MessageResponse> Create(CreateCommand tRequest)
     {
         var entity = _mapper.Map<TEntity>(tRequest);
-        if (entity == null) return AppResponse.CreateMessage(Constant.NotFound, false);
+        if (entity == null) return AppResponse.CreateMessage(AppConstant.NotFound, false);
         SetBaseEntityCreate(entity);
         _baseRepository.Add(entity);
 
         var saveChanges = await _unitOfWork.SaveChanges();
-        var message = saveChanges ? Constant.Success : Constant.Fail;
+        var message = saveChanges ? AppConstant.Success : AppConstant.Fail;
         var msg = AppResponse.CreateMessage(message, saveChanges);
         return msg;
     }
 
     public async Task<MessageResponse> DeleteById(Guid id)
     {
-        if (id == Guid.Empty) return AppResponse.CreateMessage(Constant.NotFound, false);
+        if (id == Guid.Empty) return AppResponse.CreateMessage(AppConstant.NotFound, false);
 
         var entity = await DeleteEntity(id);
 
-        var message = entity != null ? Constant.Success : Constant.Fail;
+        var message = entity != null ? AppConstant.Success : AppConstant.Fail;
         var msg = AppResponse.CreateMessage(message, entity != null);
 
         return msg;
@@ -87,37 +87,36 @@ public abstract class BaseService<TEntity> : BaseService, IBaseService
         return msgResults;
     }
 
-    private TEntity? SetBaseEntityCreate(TEntity? entity)
+    private static void SetBaseEntityCreate(TEntity? entity)
     {
+        if (entity == null) return;
+
         var user = InformationUser.User;
+
         entity.CreatedDate = DateTime.Now;
         entity.UpdatedDate = DateTime.Now;
         entity.IsDeleted = false;
 
-        if (user == null) return entity;
-
+        if (user == null) return;
         entity.CreatedBy = user.Email;
         entity.UpdatedBy = user.Email;
-
-        return entity;
     }
 
-    private TEntity? SetBaseEntityUpdate(TEntity? entity)
+    private static void SetBaseEntityUpdate(TEntity? entity)
     {
+        if (entity == null) return;
+
         var user = InformationUser.User;
+
         entity.UpdatedDate = DateTime.Now;
 
-        if (user == null) return entity;
-
+        if (user == null) return;
         entity.UpdatedBy = user.Email;
-
-        return entity;
     }
 
     private async Task<TEntity?> DeleteEntity(Guid id)
     {
-        TEntity? entity;
-        entity = await _baseRepository.GetById(id);
+        var entity = await _baseRepository.GetById(id);
         if (entity == null) return null;
 
         _baseRepository.Delete(entity);

@@ -2,7 +2,7 @@
 using EXE201.SmartThrive.Domain.Contracts.Repositories;
 using EXE201.SmartThrive.Domain.Entities;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.Student;
-using EXE201.SmartThrive.Domain.Utilities.Sorts;
+using EXE201.SmartThrive.Domain.Utilities;
 using EXE201.SmartThrive.Repositories.Base;
 
 namespace EXE201.SmartThrive.Repositories;

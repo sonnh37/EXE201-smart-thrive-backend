@@ -8,29 +8,24 @@ using EXE201.SmartThrive.Domain.Models.Responses;
 using EXE201.SmartThrive.Domain.Models.Results;
 using EXE201.SmartThrive.Domain.Utilities;
 using EXE201.SmartThrive.Services.Base;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace EXE201.SmartThrive.Services
+namespace EXE201.SmartThrive.Services;
+
+public class FeedbackService : BaseService<Feedback>, IFeedbackService
 {
-    public class FeedbackService : BaseService<Feedback>, IFeedbackService
+    private readonly IFeedbackRepository _feedbackRepository;
+
+    public FeedbackService(IMapper mapper, IUnitOfWork unitOfWork) : base(mapper, unitOfWork)
     {
-        private readonly IFeedbackRepository _feedbackRepository;
-        public FeedbackService(IMapper mapper, IUnitOfWork unitOfWork): base(mapper, unitOfWork) 
-        {
-            _feedbackRepository = _unitOfWork.FeedbackRepository;
-        }
+        _feedbackRepository = _unitOfWork.FeedbackRepository;
+    }
 
-        public async Task<PaginatedResponse<FeedbackResult>> GetAllFiltered(FeedbackGetAllQuery query)
-        {
-            var feedbackTotal = await _feedbackRepository.GetAllFiltered(query);
-            var feedbackResult = _mapper.Map<List<FeedbackResult>>(feedbackTotal.Item1);
-            var feedbackResultWithTotal = (feedbackResult, feedbackTotal.Item2);
+    public async Task<PaginatedResponse<FeedbackResult>> GetAllFiltered(FeedbackGetAllQuery query)
+    {
+        var feedbackTotal = await _feedbackRepository.GetAllFiltered(query);
+        var feedbackResult = _mapper.Map<List<FeedbackResult>>(feedbackTotal.Item1);
+        var feedbackResultWithTotal = (feedbackResult, feedbackTotal.Item2);
 
-            return AppResponse.CreatePaginated(feedbackResultWithTotal, query);
-        }
+        return AppResponse.CreatePaginated(feedbackResultWithTotal, query);
     }
 }

@@ -1,5 +1,6 @@
 using System.Text;
 using System.Text.Json.Serialization;
+using EXE201.SmartThrive.API.Registrations;
 using EXE201.SmartThrive.Data;
 using EXE201.SmartThrive.Data.Context;
 using EXE201.SmartThrive.Domain.Configs.Mappings;
@@ -117,8 +118,6 @@ builder.Services.AddScoped<ISessionService, SessionService>();
 #endregion
 
 builder.Services.AddHttpContextAccessor();
-//Register session type
-SessionService.RegisterProductType("Meeting", typeof(SessionService.SessionMeetingService));
 
 builder.Services.AddCors(options =>
 {
@@ -174,9 +173,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseMiddleware<TokenUserMiddleware>();
+app.UseMiddleware<RequestTokenUserMiddleware>();
 
-// Seed dữ liệu sau khi database được tạo
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<STDbContext>();

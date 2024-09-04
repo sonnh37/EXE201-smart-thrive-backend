@@ -11,7 +11,7 @@ public interface IBaseService
     Task<ItemResponse<TResult>> GetById<TResult>(Guid id) where TResult : BaseResult;
 
     Task<MessageResponse> Create(CreateCommand tRequest);
-    
+
     Task<MessageResponse> Update(UpdateCommand tRequest);
 
     Task<MessageResponse> DeleteById(Guid id);

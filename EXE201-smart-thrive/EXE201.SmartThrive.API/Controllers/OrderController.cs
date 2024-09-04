@@ -1,131 +1,126 @@
 ﻿using AutoMapper;
 using EXE201.SmartThrive.Domain.Contracts.Services;
 using EXE201.SmartThrive.Domain.Models.Requests.Commands.Order;
-using EXE201.SmartThrive.Domain.Models.Requests.Commands.User;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.Order;
-using EXE201.SmartThrive.Domain.Models.Requests.Queries.User;
 using EXE201.SmartThrive.Domain.Models.Results;
-using Microsoft.AspNetCore.Http;
+using EXE201.SmartThrive.Domain.Utilities;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Text;
 
-namespace EXE201.SmartThrive.API.Controllers
+namespace EXE201.SmartThrive.API.Controllers;
+
+[Route(AppConstant.Orders)]
+[ApiController]
+public class OrderController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class OrderController : ControllerBase
+    private readonly IMapper _mapper;
+    private readonly IOrderService service;
+
+    public OrderController(IOrderService _service, IMapper mapper)
     {
-        private readonly IMapper _mapper;
-        private readonly IOrderService service;
+        service = _service;
+        _mapper = mapper;
+    }
 
-        public OrderController(IOrderService _service, IMapper mapper)
+    [HttpGet]
+    public async Task<IActionResult> GetAll()
+    {
+        try
         {
-            service = _service;
-            _mapper = mapper;
+            var msg = await service.GetAll<OrderResult>();
+            return Ok(msg);
         }
-
-        [HttpGet]
-        public async Task<IActionResult> GetAll()
+        catch (Exception ex)
         {
-            try
-            {
-                var msg = await service.GetAll<OrderResult>();
-                return Ok(msg);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            return BadRequest(ex.Message);
         }
+    }
 
-        [HttpGet("filtered-sorted-paged")]
-        public async Task<IActionResult> GetAllFiltered([FromQuery] OrderGetAllQuery query)
+    [HttpGet("filtered-sorted-paged")]
+    public async Task<IActionResult> GetAllFiltered([FromQuery] OrderGetAllQuery query)
+    {
+        try
         {
-            try
-            {
-                var msg = await service.GetAllFiltered(query);
-                return Ok(msg);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            var msg = await service.GetAllFiltered(query);
+            return Ok(msg);
         }
-
-        [HttpGet("{id:guid}")]
-        public async Task<IActionResult> Get(Guid id)
+        catch (Exception ex)
         {
-            try
-            {
-                var msg = await service.GetById<OrderResult>(id);
-                return Ok(msg);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            return BadRequest(ex.Message);
         }
+    }
 
-        [HttpPost]
-        public async Task<IActionResult> Add(OrderCreateCommand request)
+    [HttpGet("{id:guid}")]
+    public async Task<IActionResult> Get(Guid id)
+    {
+        try
         {
-            try
-            {
-                var msg = await service.Create(request);
-                return Ok(msg);
-            }
-            //catch (DbUpdateException ex)
-            //{
-            //    // Khởi tạo chuỗi chứa thông tin chi tiết lỗi
-            //    var errorMessage = new StringBuilder();
-
-            //    // Lấy thông tin chi tiết từ inner exception
-            //    var innerException = ex.InnerException;
-            //    while (innerException != null)
-            //    {
-            //        errorMessage.AppendLine(innerException.Message);
-            //        innerException = innerException.InnerException;
-            //    }
-
-            //    // Thêm thông tin về ngoại lệ gốc
-            //    errorMessage.AppendLine("Chi tiết lỗi: " + ex.Message);
-
-            //    // Trả về BadRequest với thông tin lỗi
-            //    return BadRequest(new { Error = errorMessage.ToString() });
-            //}
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            var msg = await service.GetById<OrderResult>(id);
+            return Ok(msg);
         }
-
-        [HttpDelete("{id:guid}")]
-        public async Task<IActionResult> Delete([FromRoute] Guid id)
+        catch (Exception ex)
         {
-            try
-            {
-                var msg = await service.DeleteById(id);
-                return Ok(msg);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            return BadRequest(ex.Message);
         }
+    }
 
-        [HttpPut]
-        public async Task<IActionResult> Update(OrderUpdateCommand request)
+    [HttpPost]
+    public async Task<IActionResult> Add(OrderCreateCommand request)
+    {
+        try
         {
-            try
-            {
-                var msg = await service.Update(request);
-                return Ok(msg);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            var msg = await service.Create(request);
+            return Ok(msg);
+        }
+        //catch (DbUpdateException ex)
+        //{
+        //    // Khởi tạo chuỗi chứa thông tin chi tiết lỗi
+        //    var errorMessage = new StringBuilder();
+
+        //    // Lấy thông tin chi tiết từ inner exception
+        //    var innerException = ex.InnerException;
+        //    while (innerException != null)
+        //    {
+        //        errorMessage.AppendLine(innerException.Message);
+        //        innerException = innerException.InnerException;
+        //    }
+
+        //    // Thêm thông tin về ngoại lệ gốc
+        //    errorMessage.AppendLine("Chi tiết lỗi: " + ex.Message);
+
+        //    // Trả về BadRequest với thông tin lỗi
+        //    return BadRequest(new { Error = errorMessage.ToString() });
+        //}
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpDelete("{id:guid}")]
+    public async Task<IActionResult> Delete([FromRoute] Guid id)
+    {
+        try
+        {
+            var msg = await service.DeleteById(id);
+            return Ok(msg);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpPut]
+    public async Task<IActionResult> Update(OrderUpdateCommand request)
+    {
+        try
+        {
+            var msg = await service.Update(request);
+            return Ok(msg);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
         }
     }
 }

@@ -3,7 +3,7 @@
 public class SessionSelfLearnResult : BaseResult
 {
     public Guid? SessionId { get; set; }
-    
+
     public int? SessionNumber { get; set; }
 
     public string? VideoUrl { get; set; }
