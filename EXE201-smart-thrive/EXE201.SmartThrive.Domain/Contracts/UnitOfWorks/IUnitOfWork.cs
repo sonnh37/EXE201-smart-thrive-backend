@@ -16,22 +16,14 @@ public interface IUnitOfWork : IBaseUnitOfWork
     ISessionOfflineRepository SessionOfflineRepository { get; }
 
     ISessionSelfLearnRepository SessionSelfLearnRepository { get; }
-
-    IFeedbackRepository FeedbackRepository { get; }
-
     IStudentRepository StudentRepository { get; }
-
-    IUserRepository UserRepository { get; }
-
-    IProviderRepository ProviderRepository { get; }
-
     ICategoryRepository CategoryRepository { get; }
-
     ICourseRepository CourseRepository { get; }
 
     IBlogRepository BlogRepository { get; }
-
     IVoucherRepository VoucherRepository { get; }
-
     IModuleRepository ModuleRepository { get; }
+    IUserRepository UserRepository { get; }
+    IProviderRepository ProviderRepository { get; }
+    IFeedbackRepository FeedbackRepository { get; }
 }

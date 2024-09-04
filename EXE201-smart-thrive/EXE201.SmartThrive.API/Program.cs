@@ -4,7 +4,15 @@ using EXE201.SmartThrive.API.Registrations;
 using EXE201.SmartThrive.Data;
 using EXE201.SmartThrive.Data.Context;
 using EXE201.SmartThrive.Domain.Configs.Mappings;
+using EXE201.SmartThrive.Domain.Contracts.Bases;
+using EXE201.SmartThrive.Domain.Contracts.Repositories;
+using EXE201.SmartThrive.Domain.Contracts.Services;
+using EXE201.SmartThrive.Domain.Contracts.UnitOfWorks;
 using EXE201.SmartThrive.Domain.Middleware;
+using EXE201.SmartThrive.Repositories;
+using EXE201.SmartThrive.Repositories.Base;
+using EXE201.SmartThrive.Repositories.UnitOfWorks;
+using EXE201.SmartThrive.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
@@ -52,8 +60,62 @@ builder.Services.AddDbContext<STDbContext>(options =>
 
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
-builder.Services.AddCustomRepositories();
-builder.Services.AddCustomServices();
+#region Add-Scoped 
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
+
+builder.Services.AddScoped<ISubjectRepository, SubjectRepository>();
+builder.Services.AddScoped<ISubjectService, SubjectService>();
+
+builder.Services.AddScoped<IFeedbackRepository, FeedbackRepository>();
+builder.Services.AddScoped<IFeedbackService, FeedbackService>();
+
+builder.Services.AddScoped<IModuleRepository, ModuleRepository>();
+builder.Services.AddScoped<IModuleService, ModuleService>();
+
+builder.Services.AddScoped<IVoucherRepository, VoucherRepository>();
+builder.Services.AddScoped<IVoucherService, VoucherService>();
+
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+
+builder.Services.AddScoped<ICourseRepository, CourseRepository>();
+builder.Services.AddScoped<ICourseService, CourseService>();
+
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddScoped<IOrderService, OrderService>();
+
+builder.Services.AddScoped<IProviderRepository, ProviderRepository>();
+builder.Services.AddScoped<IProviderService, ProviderService>();
+
+builder.Services.AddScoped<IStudentRepository, StudentRepository>();
+builder.Services.AddScoped<IStudentService, StudentService>();
+
+builder.Services.AddScoped<IBlogRepository, BlogRepository>();
+builder.Services.AddScoped<IBlogService, BlogService>();
+
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
+
+builder.Services.AddScoped<ISessionMeetingRepository, SessionMeetingRepository>();
+
+
+builder.Services.AddScoped<ISessionOfflineRepository, SessionOfflineRepository>();
+
+
+builder.Services.AddScoped<ISessionSelfLearnRepository, SessionSelfLearnRepository>();
+
+builder.Services.AddScoped<ISessionRepository, SessionRepository>();
+builder.Services.AddScoped<ISessionService, SessionService>();
+// builder.Services.AddScoped<IRoleService, RoleService>();
+//builder.Services.AddScoped<IRoleRepository, RoleRepository>();
+
+// builder.Services.AddScoped<ICourseXPackageService, CouseXPackageService>();
+// builder.Services.AddScoped<ICourseXPackageRepository, CourseXPackageRepository>();
+
+// builder.Services.AddScoped<IPackageRepository, PackageRepository>();
+// builder.Services.AddScoped<ISessionRepository, SessionRepository>();
+#endregion
 
 builder.Services.AddHttpContextAccessor();
 
@@ -67,6 +129,7 @@ builder.Services.AddCors(options =>
     });
 });
 
+#region Config_Authentication
 builder.Services.AddAuthentication(options =>
     {
         options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -92,6 +155,15 @@ builder.Services.AddAuthentication(options =>
     });
 
 builder.Services.AddAuthorization();
+#endregion
+
+// .AddGoogle(options =>
+// {
+//     IConfigurationSection googleAuthNSection = builder.Configuration.GetSection("Authentication:Google");
+//
+//     options.ClientId = googleAuthNSection["ClientId"];
+//     options.ClientSecret = googleAuthNSection["ClientSecret"];
+// });
 
 var app = builder.Build();
 

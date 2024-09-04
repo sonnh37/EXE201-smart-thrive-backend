@@ -4,6 +4,7 @@ using EXE201.SmartThrive.Domain.Entities;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.User;
 using EXE201.SmartThrive.Domain.Utilities;
 using EXE201.SmartThrive.Repositories.Base;
+using Microsoft.EntityFrameworkCore;
 
 namespace EXE201.SmartThrive.Repositories;
 
@@ -13,9 +14,21 @@ public class UserRepository : BaseRepository<User>, IUserRepository
     {
     }
 
-    public async Task<(List<User>, int)> GetAllFiltered(UserGetAllQuery query)
-    {
-        var queryable = GetQueryable();
+        public async Task<User> FindByEmailOrUsername(string keyword)
+        {
+            var queryable = base.GetQueryable();
+
+            var user = await queryable.Where(e => e.Email.ToLower() == keyword.ToLower()
+                                            || e.Username.ToLower() == keyword.ToLower())
+                                            .Include(e => e.Students)
+                                            .SingleOrDefaultAsync();
+
+            return user;
+        }
+
+        public async Task<(List<User>, int)> GetAllFiltered(UserGetAllQuery query)
+        {
+            var queryable = base.GetQueryable();
 
         // filter
         queryable = ApplyFilter.User(queryable, query);
@@ -25,6 +38,9 @@ public class UserRepository : BaseRepository<User>, IUserRepository
         // sort & pagination
         var results = await ApplySortingAndPaging(queryable, query);
 
-        return (results, totalOrigin);
+            return (results, totalOrigin);
+        }
+
+        
     }
-}
+

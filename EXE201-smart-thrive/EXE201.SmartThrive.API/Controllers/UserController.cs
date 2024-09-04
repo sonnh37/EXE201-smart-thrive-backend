@@ -1,9 +1,13 @@
 ﻿using AutoMapper;
+using Azure.Core;
+using BCrypt.Net;
 using EXE201.SmartThrive.Domain.Contracts.Services;
 using EXE201.SmartThrive.Domain.Models.Requests.Commands.User;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.User;
 using EXE201.SmartThrive.Domain.Models.Results;
 using EXE201.SmartThrive.Domain.Utilities;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EXE201.SmartThrive.API.Controllers;
@@ -21,19 +25,20 @@ public class UserController : ControllerBase
         _mapper = mapper;
     }
 
-    [HttpGet]
-    public async Task<IActionResult> GetAll()
-    {
-        try
+        //[Authorize(Roles = "Admin")]
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
         {
-            var msg = await service.GetAll<UserResult>();
-            return Ok(msg);
+            try
+            {
+                var msg = await service.GetAll<UserResult>();
+                return Ok(msg);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
-    }
 
     [HttpGet("filtered-sorted-paged")]
     public async Task<IActionResult> GetAllFiltered([FromQuery] UserGetAllQuery query)
@@ -91,17 +96,61 @@ public class UserController : ControllerBase
         }
     }
 
-    [HttpPut]
-    public async Task<IActionResult> Update(UserUpdateCommand request)
-    {
-        try
+        [HttpPut]
+        public async Task<IActionResult> Update(UserUpdateCommand request)
         {
-            var msg = await service.Update(request);
-            return Ok(msg);
+            try
+            {
+                var msg = await service.Update(request);
+                return Ok(msg);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
-        catch (Exception ex)
+
+        [HttpPost("register")]
+        public async Task<IActionResult> Register(UserCreateCommand request)
         {
-            return BadRequest(ex.Message);
+            try
+            {
+                string passwordHash = BCrypt.Net.BCrypt.HashPassword(request.Password);
+                request.Password = passwordHash;
+
+                var msg = await service.Create(request);
+                return Ok(msg);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("login")]
+        public async Task<IActionResult> Login(string usernameOrEmail, string password)
+        {
+            try
+            {
+                var user = await service.Login(usernameOrEmail, password);
+
+                if (user == null)
+                {
+                    return NotFound();
+                }
+
+                string token = await service.CreateToken(user);
+
+                return Ok(new
+                {
+                    user = user,
+                    token = token
+                });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
-}
+
