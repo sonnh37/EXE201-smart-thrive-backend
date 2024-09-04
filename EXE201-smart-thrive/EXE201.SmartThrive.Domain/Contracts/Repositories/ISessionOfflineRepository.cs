@@ -10,5 +10,6 @@ namespace EXE201.SmartThrive.Domain.Contracts.Repositories
 {
     public interface ISessionOfflineRepository:IBaseRepository<SessionOffline>
     {
+        Task<SessionOffline> GetBySessionId(Guid sessionId);
     }
 }

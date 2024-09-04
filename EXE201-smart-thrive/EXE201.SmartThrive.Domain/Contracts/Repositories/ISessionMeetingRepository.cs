@@ -10,5 +10,6 @@ namespace EXE201.SmartThrive.Domain.Contracts.Repositories
 {
     public interface ISessionMeetingRepository: IBaseRepository<SessionMeeting>
     {
+        Task<SessionMeeting> GetBySessionId(Guid id);
     }
 }

@@ -16,5 +16,10 @@ namespace EXE201.SmartThrive.Repositories
         {
 
         }
+        public async Task<SessionOffline> GetBySessionId(Guid sessionId)
+        {
+            var sessionList = await base.GetAll();
+            return sessionList.FirstOrDefault(x => x.SessionId == sessionId);
+        }
     }
 }

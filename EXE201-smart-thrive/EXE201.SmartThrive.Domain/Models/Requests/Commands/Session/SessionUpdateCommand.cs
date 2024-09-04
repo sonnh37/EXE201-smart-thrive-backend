@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace EXE201.SmartThrive.Domain.Models.Requests.Commands.Session
 {
-    public class SessionCreateCommand : CreateCommand
+    public class SessionUpdateCommand : UpdateCommand
     {
-       
+        public Guid Id { get; set; }
         public Guid? ModuleId { get; set; }
 
         public string? Title { get; set; }

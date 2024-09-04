@@ -73,7 +73,7 @@ builder.Services.AddScoped<ICourseRepository, CourseRepository>();
 // builder.Services.AddScoped<IPackageRepository, PackageRepository>();
 // builder.Services.AddScoped<IProviderRepository, ProviderRepository>();
 // builder.Services.AddScoped<IRoleRepository, RoleRepository>();
-// builder.Services.AddScoped<ISessionRepository, SessionRepository>();
+builder.Services.AddScoped<ISessionRepository, SessionRepository>();
 builder.Services.AddScoped<IStudentRepository, StudentRepository>();
 builder.Services.AddScoped<IBlogRepository, BlogRepository>();
 // builder.Services.AddScoped<ISubjectRepository, SubjectRepository>();
@@ -101,6 +101,8 @@ builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddHttpContextAccessor();
 //Register session type
 SessionService.RegisterProductType("Meeting", typeof(SessionService.SessionMeetingService));
+SessionService.RegisterProductType("Offline", typeof(SessionService.SessionOfflineService));
+SessionService.RegisterProductType("SelfLearn", typeof(SessionService.SessionSelfLearnService));
 
 builder.Services.AddCors(options =>
 {

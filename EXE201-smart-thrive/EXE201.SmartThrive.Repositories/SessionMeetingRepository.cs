@@ -14,5 +14,11 @@ namespace EXE201.SmartThrive.Repositories
     public class SessionMeetingRepository : BaseRepository<SessionMeeting>, ISessionMeetingRepository
     {
         public SessionMeetingRepository(STDbContext context) : base(context) { }
+
+        public async Task<SessionMeeting> GetBySessionId(Guid sessionId)
+        {
+            var sessionList = await base.GetAll();
+            return sessionList.FirstOrDefault(x => x.SessionId == sessionId);
+        }
     }
 }

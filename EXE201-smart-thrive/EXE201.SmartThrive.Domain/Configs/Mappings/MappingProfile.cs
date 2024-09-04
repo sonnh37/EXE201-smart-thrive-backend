@@ -13,5 +13,6 @@ public partial class MappingProfile
         ModuleMapping();
         VoucherMapping();
         BlogMapping();
+        SessionMapping();
     }
 }

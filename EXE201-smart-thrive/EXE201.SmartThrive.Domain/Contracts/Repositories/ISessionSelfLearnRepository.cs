@@ -10,5 +10,6 @@ namespace EXE201.SmartThrive.Domain.Contracts.Repositories
 {
     public interface ISessionSelfLearnRepository : IBaseRepository<SessionSelfLearn>
     {
+        Task<SessionSelfLearn> GetBySessionId(Guid sessionId);
     }
 }

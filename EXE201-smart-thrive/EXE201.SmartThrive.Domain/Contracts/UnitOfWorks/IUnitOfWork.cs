@@ -18,7 +18,6 @@ public interface IUnitOfWork : IBaseUnitOfWork
     
     ICourseRepository CourseRepository { get; }
     IBlogRepository BlogRepository { get; }
-    IFeedbackRepository FeedbackRepository { get; }
     IVoucherRepository VoucherRepository { get; }
     IModuleRepository ModuleRepository { get; }
 
