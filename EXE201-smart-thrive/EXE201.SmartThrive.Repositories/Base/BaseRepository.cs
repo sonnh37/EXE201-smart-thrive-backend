@@ -3,7 +3,6 @@ using System.Reflection;
 using AutoMapper;
 using EXE201.SmartThrive.Domain.Contracts.Bases;
 using EXE201.SmartThrive.Domain.Entities;
-using EXE201.SmartThrive.Domain.Models.Requests;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries;
 using Microsoft.EntityFrameworkCore;
 
@@ -24,7 +23,7 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
         Mapper = mapper;
     }
 
-    protected DbSet<TEntity> DbSet
+    private DbSet<TEntity> DbSet
     {
         get
         {
@@ -33,32 +32,16 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
         }
     }
 
-    #region GetAll(CancellationToken)
-
-    public async Task<IList<TEntity>> GetAll(CancellationToken cancellationToken = default)
-    {
-        var queryable = GetQueryable(cancellationToken);
-        var result = await queryable.ToListAsync(cancellationToken);
-        return result;
-    }
-    
     public async Task<List<TEntity>> ApplySortingAndPaging(IQueryable<TEntity> queryable, PagedQuery pagedQuery)
     {
         queryable = Sort(queryable, pagedQuery);
 
-        if (queryable.Any())
-        {
-            queryable = GetQueryablePagination(queryable, pagedQuery);
-        }    
-            
+        if (queryable.Any()) queryable = GetQueryablePagination(queryable, pagedQuery);
+
         return await queryable.ToListAsync();
     }
 
-    #endregion
-
-    #region Check(Guid) + CheckCancellationToken(CancellationToken)
-
-    public async Task<bool> Check(Guid id)
+    public async Task<bool> IsExistById(Guid id)
     {
         return await DbSet.AnyAsync(t => t.Id.Equals(id));
     }
@@ -69,9 +52,32 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
             throw new OperationCanceledException("Request was cancelled");
     }
 
-    #endregion
+    private static IQueryable<TEntity> Sort(IQueryable<TEntity> queryable, PagedQuery pagedQuery)
+    {
+        if (!queryable.Any()) return queryable;
 
-    #region Add(TEntity) + AddRange(IEnumerable<TEntity>)
+        var parameter = Expression.Parameter(typeof(TEntity), "o");
+        var property = typeof(TEntity).GetProperty(pagedQuery.SortField ?? "",
+            BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
+
+        if (property == null)
+            // If the property doesn't exist, default to sorting by Id
+            property = typeof(TEntity).GetProperty("CreatedDate");
+
+        var propertyAccess = Expression.MakeMemberAccess(parameter, property);
+        var orderByExp = Expression.Lambda(propertyAccess, parameter);
+
+        var methodName = pagedQuery.SortOrder == 1 ? "OrderBy" : "OrderByDescending";
+        var resultExp = Expression.Call(typeof(Queryable), methodName,
+            new[] { typeof(TEntity), property.PropertyType },
+            queryable.Expression, Expression.Quote(orderByExp));
+
+        queryable = queryable.Provider.CreateQuery<TEntity>(resultExp);
+
+        return queryable;
+    }
+
+    #region Commands
 
     public void Add(TEntity entity)
     {
@@ -80,12 +86,8 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
 
     public void AddRange(IEnumerable<TEntity> entities)
     {
-        if (entities.Any()) DbSet.AddRange(entities);
+        DbSet.AddRange(entities);
     }
-
-    #endregion
-
-    #region Update(TEntity) + UpdateRange(IEnumerable<TEntity>)
 
     public void Update(TEntity entity)
     {
@@ -94,12 +96,8 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
 
     public void UpdateRange(IEnumerable<TEntity> entities)
     {
-        if (entities.Any()) DbSet.UpdateRange(entities);
+        DbSet.UpdateRange(entities);
     }
-
-    #endregion
-
-    #region Delete(TEntity) + DeleteRange(IEnumerable<TEntity>)
 
     public void Delete(TEntity entity)
     {
@@ -109,13 +107,21 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
 
     public void DeleteRange(IEnumerable<TEntity> entities)
     {
-        entities.Where(e => e.IsDeleted == false ? e.IsDeleted = true : e.IsDeleted = false);
-        DbSet.UpdateRange(entities);
+        var baseEntities = entities.ToList();
+        var enumerable = baseEntities.Where(e => e.IsDeleted == false ? e.IsDeleted = true : e.IsDeleted = false);
+        DbSet.UpdateRange(baseEntities);
     }
 
     #endregion
 
-    #region GetById(Guid) + GetByIds(IList<Guid>)
+    #region Queries
+
+    public async Task<IList<TEntity>> GetAll(CancellationToken cancellationToken = default)
+    {
+        var queryable = GetQueryable(cancellationToken);
+        var result = await queryable.ToListAsync(cancellationToken);
+        return result;
+    }
 
     public virtual async Task<TEntity?> GetById(Guid id)
     {
@@ -132,10 +138,6 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
 
         return entity;
     }
-
-    #endregion
-
-    #region GetQueryable(CancellationToken) + GetQueryable() + GetQueryable(Expression<Func<TEntity, bool>>)
 
     public IQueryable<TEntity> GetQueryable(CancellationToken cancellationToken = default)
     {
@@ -158,57 +160,24 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
         return queryable;
     }
 
-    #endregion
+    private DbSet<T> GetDbSet<T>() where T : BaseEntity
+    {
+        var dbSet = _dbContext.Set<T>();
+        return dbSet;
+    }
 
+    private IQueryable<TEntity> GetQueryablePagination(IQueryable<TEntity> queryable, PagedQuery pagedQuery)
+    {
+        queryable = queryable.Skip((pagedQuery.PageNumber - 1) * pagedQuery.PageSize).Take(pagedQuery.PageSize);
 
-    #region Other
+        return queryable;
+    }
 
     public async Task<long> GetTotalCount()
     {
         var result = await GetQueryable().LongCountAsync();
         return result;
     }
-
-    protected DbSet<T> GetDbSet<T>() where T : BaseEntity
-    {
-        var dbSet = _dbContext.Set<T>();
-        return dbSet;
-    }
-    
-    public IQueryable<TEntity> GetQueryablePagination(IQueryable<TEntity> queryable, PagedQuery pagedQuery)
-    {
-        queryable = queryable.Skip((pagedQuery.PageNumber - 1) * pagedQuery.PageSize).Take(pagedQuery.PageSize);
-
-        return queryable;
-    }
-    
-    public IQueryable<TEntity> Sort(IQueryable<TEntity> queryable, PagedQuery pagedQuery)
-    {
-
-        if (queryable.Any())
-        {
-            var parameter = Expression.Parameter(typeof(TEntity), "o");
-            var property = typeof(TEntity).GetProperty(pagedQuery.SortField ?? "", BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
-
-            if (property == null)
-            {
-                // If the property doesn't exist, default to sorting by Id
-                property = typeof(TEntity).GetProperty("CreatedDate");
-            }
-
-            var propertyAccess = Expression.MakeMemberAccess(parameter, property);
-            var orderByExp = Expression.Lambda(propertyAccess, parameter);
-
-            string methodName = pagedQuery.SortOrder == 1 ? "OrderBy" : "OrderByDescending";
-            var resultExp = Expression.Call(typeof(Queryable), methodName, new Type[] { typeof(TEntity), property.PropertyType },
-                queryable.Expression, Expression.Quote(orderByExp));
-
-            queryable = queryable.Provider.CreateQuery<TEntity>(resultExp);
-        }
-
-        return queryable;
-    }
-
 
     #endregion
 }

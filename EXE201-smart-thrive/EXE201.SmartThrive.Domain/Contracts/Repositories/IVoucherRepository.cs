@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace EXE201.SmartThrive.Domain.Contracts.Repositories
 {
     public interface IVoucherRepository :  IBaseRepository<Voucher>

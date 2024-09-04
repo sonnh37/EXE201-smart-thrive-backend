@@ -174,7 +174,7 @@ public class STDbContext : BaseDbContext
                 .WithMany(x => x.Sessions)
                 .HasForeignKey(x => x.ModuleId)
                 .OnDelete(DeleteBehavior.Cascade);
-            
+
             e.HasOne(s => s.SessionOffline)
                 .WithOne(so => so.Session)
                 .HasForeignKey<SessionOffline>(so => so.SessionId)
@@ -238,8 +238,8 @@ public class STDbContext : BaseDbContext
                 .HasForeignKey(x => x.PackageId)
                 .OnDelete(DeleteBehavior.Cascade);
             e.HasOne(x => x.Voucher)
-                .WithOne(x => x.Order)
-                .HasForeignKey<Order>(x => x.VoucherId)
+                .WithMany(x => x.Orders)
+                .HasForeignKey(x => x.VoucherId)
                 .OnDelete(DeleteBehavior.Cascade);
         });
 
@@ -293,9 +293,9 @@ public class STDbContext : BaseDbContext
             e.Property(x => x.VoucherType)
                 .HasConversion(converterVoucherType);
 
-            e.HasOne(x => x.Order)
+            e.HasMany(x => x.Orders)
                 .WithOne(x => x.Voucher)
-                .HasForeignKey<Order>(x => x.VoucherId)
+                .HasForeignKey(x => x.VoucherId)
                 .OnDelete(DeleteBehavior.Cascade);
         });
 
@@ -365,7 +365,6 @@ public class STDbContext : BaseDbContext
                 .HasForeignKey(s => s.ModuleId)
                 .OnDelete(DeleteBehavior.Cascade);
         });
-        
     }
 
     #region Config

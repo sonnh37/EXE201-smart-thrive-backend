@@ -3,7 +3,7 @@
 public class ModuleResult : BaseResult
 {
     public Guid? CourseId { get; set; }
-    
+
     public int? ModuleNumber { get; set; }
 
     public string? Name { get; set; }
