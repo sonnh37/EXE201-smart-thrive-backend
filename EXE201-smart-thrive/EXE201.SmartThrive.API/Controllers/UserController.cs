@@ -1,10 +1,13 @@
 ﻿using AutoMapper;
+using Azure.Core;
+using BCrypt.Net;
 using EXE201.SmartThrive.Domain.Contracts.Services;
 using EXE201.SmartThrive.Domain.Models.Requests.Commands.Subject;
 using EXE201.SmartThrive.Domain.Models.Requests.Commands.User;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.Subject;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.User;
 using EXE201.SmartThrive.Domain.Models.Results;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,6 +26,7 @@ namespace EXE201.SmartThrive.API.Controllers
             _mapper = mapper;
         }
 
+        //[Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -100,6 +104,49 @@ namespace EXE201.SmartThrive.API.Controllers
             {
                 var msg = await service.Update(request);
                 return Ok(msg);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPost("register")]
+        public async Task<IActionResult> Register(UserCreateCommand request)
+        {
+            try
+            {
+                string passwordHash = BCrypt.Net.BCrypt.HashPassword(request.Password);
+                request.Password = passwordHash;
+
+                var msg = await service.Create(request);
+                return Ok(msg);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("login")]
+        public async Task<IActionResult> Login(string usernameOrEmail, string password)
+        {
+            try
+            {
+                var user = await service.Login(usernameOrEmail, password);
+
+                if (user == null)
+                {
+                    return NotFound();
+                }
+
+                string token = await service.CreateToken(user);
+
+                return Ok(new
+                {
+                    user = user,
+                    token = token
+                });
             }
             catch (Exception ex)
             {

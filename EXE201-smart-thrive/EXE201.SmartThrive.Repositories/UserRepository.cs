@@ -20,6 +20,18 @@ namespace EXE201.SmartThrive.Repositories
         {
         }
 
+        public async Task<User> FindByEmailOrUsername(string keyword)
+        {
+            var queryable = base.GetQueryable();
+
+            var user = await queryable.Where(e => e.Email.ToLower() == keyword.ToLower()
+                                            || e.Username.ToLower() == keyword.ToLower())
+                                            .Include(e => e.Students)
+                                            .SingleOrDefaultAsync();
+
+            return user;
+        }
+
         public async Task<(List<User>, int)> GetAllFiltered(UserGetAllQuery query)
         {
             var queryable = base.GetQueryable();
@@ -34,5 +46,7 @@ namespace EXE201.SmartThrive.Repositories
 
             return (results, totalOrigin);
         }
+
+        
     }
 }

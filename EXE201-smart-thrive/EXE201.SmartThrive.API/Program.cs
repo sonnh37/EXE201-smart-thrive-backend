@@ -59,44 +59,62 @@ builder.Services.AddDbContext<STDbContext>(options =>
 
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
+#region Add-Scoped 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
+
 builder.Services.AddScoped<ISubjectRepository, SubjectRepository>();
-builder.Services.AddScoped<IFeedbackRepository, FeedbackRepository>();
-builder.Services.AddScoped<IModuleRepository, ModuleRepository>();
-builder.Services.AddScoped<IVoucherRepository, VoucherRepository>();
-// builder.Services.AddScoped<ICourseRepository, CourseRepository>();
-builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
-builder.Services.AddScoped<ICourseRepository, CourseRepository>();
-// builder.Services.AddScoped<ICourseXPackageRepository, CourseXPackageRepository>();
- builder.Services.AddScoped<IOrderRepository, OrderRepository>();
-// builder.Services.AddScoped<IPackageRepository, PackageRepository>();
- builder.Services.AddScoped<IProviderRepository, ProviderRepository>();
- //builder.Services.AddScoped<IRoleRepository, RoleRepository>();
-// builder.Services.AddScoped<ISessionRepository, SessionRepository>();
-builder.Services.AddScoped<IStudentRepository, StudentRepository>();
-builder.Services.AddScoped<IBlogRepository, BlogRepository>();
-// builder.Services.AddScoped<ISubjectRepository, SubjectRepository>();
-// builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<ISessionMeetingRepository, SessionMeetingRepository>();
-builder.Services.AddScoped<ISessionOfflineRepository, SessionOfflineRepository>();
-builder.Services.AddScoped<ISessionSelfLearnRepository, SessionSelfLearnRepository>();
-//
 builder.Services.AddScoped<ISubjectService, SubjectService>();
-builder.Services.AddScoped<ISessionService, SessionService>();
-// builder.Services.AddScoped<IOrderService, OrderService>();
-// builder.Services.AddScoped<IPackageService, PackageService>();
-builder.Services.AddScoped<ICourseService, CourseService>();
- builder.Services.AddScoped<IProviderService, ProviderService>();
-builder.Services.AddScoped<IStudentService, StudentService>();
-builder.Services.AddScoped<IBlogService, BlogService>();
+
+builder.Services.AddScoped<IFeedbackRepository, FeedbackRepository>();
 builder.Services.AddScoped<IFeedbackService, FeedbackService>();
-builder.Services.AddScoped<IVoucherService, VoucherService>();
+
+builder.Services.AddScoped<IModuleRepository, ModuleRepository>();
 builder.Services.AddScoped<IModuleService, ModuleService>();
-// builder.Services.AddScoped<IRoleService, RoleService>();
-// builder.Services.AddScoped<ISubjectService, SubjectService>();
+
+builder.Services.AddScoped<IVoucherRepository, VoucherRepository>();
+builder.Services.AddScoped<IVoucherService, VoucherService>();
+
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
+
+builder.Services.AddScoped<ICourseRepository, CourseRepository>();
+builder.Services.AddScoped<ICourseService, CourseService>();
+
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddScoped<IOrderService, OrderService>();
+
+builder.Services.AddScoped<IProviderRepository, ProviderRepository>();
+builder.Services.AddScoped<IProviderService, ProviderService>();
+
+builder.Services.AddScoped<IStudentRepository, StudentRepository>();
+builder.Services.AddScoped<IStudentService, StudentService>();
+
+builder.Services.AddScoped<IBlogRepository, BlogRepository>();
+builder.Services.AddScoped<IBlogService, BlogService>();
+
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
+
+builder.Services.AddScoped<ISessionMeetingRepository, SessionMeetingRepository>();
+
+
+builder.Services.AddScoped<ISessionOfflineRepository, SessionOfflineRepository>();
+
+
+builder.Services.AddScoped<ISessionSelfLearnRepository, SessionSelfLearnRepository>();
+
+builder.Services.AddScoped<ISessionRepository, SessionRepository>();
+builder.Services.AddScoped<ISessionService, SessionService>();
+// builder.Services.AddScoped<IRoleService, RoleService>();
+//builder.Services.AddScoped<IRoleRepository, RoleRepository>();
+
 // builder.Services.AddScoped<ICourseXPackageService, CouseXPackageService>();
+// builder.Services.AddScoped<ICourseXPackageRepository, CourseXPackageRepository>();
+
+// builder.Services.AddScoped<IPackageRepository, PackageRepository>();
+// builder.Services.AddScoped<ISessionRepository, SessionRepository>();
+#endregion
 
 builder.Services.AddHttpContextAccessor();
 //Register session type
@@ -112,6 +130,7 @@ builder.Services.AddCors(options =>
     });
 });
 
+#region Config_Authentication
 builder.Services.AddAuthentication(options =>
     {
         options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -135,6 +154,10 @@ builder.Services.AddAuthentication(options =>
 
         options.Configuration = new OpenIdConnectConfiguration();
     });
+
+builder.Services.AddAuthorization();
+#endregion
+
 // .AddGoogle(options =>
 // {
 //     IConfigurationSection googleAuthNSection = builder.Configuration.GetSection("Authentication:Google");
@@ -142,8 +165,6 @@ builder.Services.AddAuthentication(options =>
 //     options.ClientId = googleAuthNSection["ClientId"];
 //     options.ClientSecret = googleAuthNSection["ClientSecret"];
 // });
-
-builder.Services.AddAuthorization();
 
 var app = builder.Build();
 

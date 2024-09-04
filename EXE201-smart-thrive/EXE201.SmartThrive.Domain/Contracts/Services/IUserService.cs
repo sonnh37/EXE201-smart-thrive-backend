@@ -1,4 +1,5 @@
 ﻿using EXE201.SmartThrive.Domain.Contracts.Bases;
+using EXE201.SmartThrive.Domain.Entities;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.Student;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.User;
 using EXE201.SmartThrive.Domain.Models.Responses;
@@ -14,6 +15,8 @@ namespace EXE201.SmartThrive.Domain.Contracts.Services
     public interface IUserService: IBaseService
     {
         Task<PaginatedResponse<UserResult>> GetAllFiltered(UserGetAllQuery query);
+        Task<UserResult> Login(string usernameOrEmail, string password);
+        Task<string> CreateToken(UserResult user);
 
     }
 }

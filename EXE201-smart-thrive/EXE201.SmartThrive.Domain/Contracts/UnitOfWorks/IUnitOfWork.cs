@@ -11,21 +11,13 @@ public interface IUnitOfWork : IBaseUnitOfWork
     ISessionMeetingRepository SessionMeetingRepository { get; }
     ISessionOfflineRepository SessionOfflineRepository { get; }
     ISessionSelfLearnRepository SessionSelfLearnRepository { get; }
-    
     IStudentRepository StudentRepository { get; }
-    
     ICategoryRepository CategoryRepository { get; }
-    
     ICourseRepository CourseRepository { get; }
     IBlogRepository BlogRepository { get; }
-    IFeedbackRepository FeedbackRepository { get; }
     IVoucherRepository VoucherRepository { get; }
     IModuleRepository ModuleRepository { get; }
-
-
     IUserRepository UserRepository { get; }
-
     IProviderRepository ProviderRepository { get; }
-
     IOrderRepository OrderRepository { get; }
 }
