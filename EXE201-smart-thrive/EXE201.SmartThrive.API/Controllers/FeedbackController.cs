@@ -2,8 +2,11 @@
 using EXE201.SmartThrive.Domain.Contracts.Services;
 using EXE201.SmartThrive.Domain.Models.Requests.Commands.Feedback;
 using EXE201.SmartThrive.Domain.Models.Requests.Commands.Subject;
+using EXE201.SmartThrive.Domain.Models.Requests.Queries.Feedback;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.Subject;
+using EXE201.SmartThrive.Domain.Models.Requests.Queries.Voucher;
 using EXE201.SmartThrive.Domain.Models.Results;
+using EXE201.SmartThrive.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -36,20 +39,19 @@ namespace EXE201.SmartThrive.API.Controllers
             }
         }
 
-     /*   [HttpGet("filtered-sorted-paged")]
-        public async Task<IActionResult> GetAllFiltered([FromQuery] SubjectGetAllQuery subjectGetAllQuery)
+        [HttpGet("filtered-sorted-paged")]
+        public async Task<IActionResult> GetAllFiltered([FromQuery] FeedbackGetAllQuery request)
         {
             try
             {
-                var msg = await _feedbackService.GetAllFiltered(subjectGetAllQuery);
+                var msg = await _feedbackService.GetAllFiltered(request);
                 return Ok(msg);
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
-        }*/
-
+        }
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> Get(Guid id)
         {

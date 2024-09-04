@@ -2,6 +2,7 @@
 using EXE201.SmartThrive.Domain.Contracts.Services;
 using EXE201.SmartThrive.Domain.Models.Requests.Commands.Blog;
 using EXE201.SmartThrive.Domain.Models.Requests.Commands.Voucher;
+using EXE201.SmartThrive.Domain.Models.Requests.Queries.Voucher;
 using EXE201.SmartThrive.Domain.Models.Results;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -86,6 +87,20 @@ namespace EXE201.SmartThrive.API.Controllers
             try
             {
                 var msg = await _voucherService.Update(request);
+                return Ok(msg);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("filtered-sorted-paged")]
+        public async Task<IActionResult> GetAllFiltered([FromQuery] VoucherGetAllQuery request)
+        {
+            try
+            {
+                var msg = await _voucherService.GetAllFiltered(request);
                 return Ok(msg);
             }
             catch (Exception ex)

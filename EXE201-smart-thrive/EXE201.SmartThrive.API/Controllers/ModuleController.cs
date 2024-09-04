@@ -2,6 +2,8 @@
 using EXE201.SmartThrive.Domain.Contracts.Services;
 using EXE201.SmartThrive.Domain.Models.Requests.Commands.Blog;
 using EXE201.SmartThrive.Domain.Models.Requests.Commands.Module;
+using EXE201.SmartThrive.Domain.Models.Requests.Queries.Module;
+using EXE201.SmartThrive.Domain.Models.Requests.Queries.Voucher;
 using EXE201.SmartThrive.Domain.Models.Results;
 using EXE201.SmartThrive.Services;
 using Microsoft.AspNetCore.Http;
@@ -87,6 +89,19 @@ namespace EXE201.SmartThrive.API.Controllers
             try
             {
                 var msg = await _moduleService.Update(request);
+                return Ok(msg);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpGet("filtered-sorted-paged")]
+        public async Task<IActionResult> GetAllFiltered([FromQuery] ModuleGetAllQuery request)
+        {
+            try
+            {
+                var msg = await _moduleService.GetAllFiltered(request);
                 return Ok(msg);
             }
             catch (Exception ex)
