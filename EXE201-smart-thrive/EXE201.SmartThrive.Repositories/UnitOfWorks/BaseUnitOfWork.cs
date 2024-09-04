@@ -60,7 +60,7 @@ public class BaseUnitOfWork<TContext> : IBaseUnitOfWork
         foreach (var property in properties)
             if (type.IsAssignableFrom(property.PropertyType))
             {
-                var value = (IBaseRepository<TEntity>)property.GetValue(this);
+                var value = (IBaseRepository<TEntity>)property.GetValue(this)!;
                 return value;
             }
 

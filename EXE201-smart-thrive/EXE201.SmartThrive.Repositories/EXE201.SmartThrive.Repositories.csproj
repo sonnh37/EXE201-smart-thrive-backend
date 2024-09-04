@@ -7,14 +7,14 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\EXE201.SmartThrive.Data\EXE201.SmartThrive.Data.csproj" />
-        <ProjectReference Include="..\EXE201.SmartThrive.Domain\EXE201.SmartThrive.Domain.csproj" />
+        <ProjectReference Include="..\EXE201.SmartThrive.Data\EXE201.SmartThrive.Data.csproj"/>
+        <ProjectReference Include="..\EXE201.SmartThrive.Domain\EXE201.SmartThrive.Domain.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="AutoMapper" Version="13.0.1" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.0" />
-        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+        <PackageReference Include="AutoMapper" Version="13.0.1"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.0"/>
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.3"/>
     </ItemGroup>
 
 </Project>

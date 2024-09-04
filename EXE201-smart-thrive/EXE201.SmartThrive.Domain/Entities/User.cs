@@ -27,7 +27,7 @@ public class User : BaseEntity
     public UserStatus? Status { get; set; }
 
     public Role? Role { get; set; }
-    
+
     public virtual ICollection<Blog>? Blogs { get; set; }
 
     public virtual Provider? Provider { get; set; }

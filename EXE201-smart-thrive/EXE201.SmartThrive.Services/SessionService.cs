@@ -31,7 +31,6 @@ namespace EXE201.SmartThrive.Services
             _sessionOfflineRepository = _unitOfWork.SessionOfflineRepository;
             _sessionSelfLearnRepository = _unitOfWork.SessionSelfLearnRepository;
         }
-
         private static readonly Dictionary<string, System.Type> SessionRegistry = new Dictionary<string, System.Type>();
 
         public static void RegisterProductType(string type, System.Type classRef)

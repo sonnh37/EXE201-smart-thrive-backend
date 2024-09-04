@@ -3,11 +3,12 @@ using EXE201.SmartThrive.Domain.Contracts.Services;
 using EXE201.SmartThrive.Domain.Models.Requests.Commands.Category;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.Category;
 using EXE201.SmartThrive.Domain.Models.Results;
+using EXE201.SmartThrive.Domain.Utilities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EXE201.SmartThrive.API.Controllers;
 
-[Route("api/category")]
+[Route(AppConstant.Categories)]
 [ApiController]
 public class CategoryController : ControllerBase
 {

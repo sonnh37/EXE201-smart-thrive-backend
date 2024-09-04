@@ -30,5 +30,4 @@ public class CategoryService : BaseService<Category>, ICategoryService
 
         return AppResponse.CreatePaginated(categorysResultWithTotal, query);
     }
-
 }

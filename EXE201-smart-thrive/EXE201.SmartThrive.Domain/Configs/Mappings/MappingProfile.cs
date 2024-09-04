@@ -13,6 +13,9 @@ public partial class MappingProfile
         ModuleMapping();
         VoucherMapping();
         BlogMapping();
+        UserMapping();
+        ProviderMapping();
+        OrderMapping();
         SessionMapping();
     }
 }

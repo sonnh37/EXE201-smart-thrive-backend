@@ -1,5 +1,4 @@
 ﻿using EXE201.SmartThrive.Domain.Entities;
-using EXE201.SmartThrive.Domain.Models.Requests;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries;
 
 namespace EXE201.SmartThrive.Domain.Contracts.Bases;
@@ -11,7 +10,7 @@ public interface IBaseRepository
 public interface IBaseRepository<TEntity> : IBaseRepository
     where TEntity : BaseEntity
 {
-    Task<bool> Check(Guid id);
+    Task<bool> IsExistById(Guid id);
 
     IQueryable<TEntity> GetQueryable(CancellationToken cancellationToken = default);
 

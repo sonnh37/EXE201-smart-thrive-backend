@@ -3,12 +3,13 @@ using EXE201.SmartThrive.Domain.Contracts.Services;
 using EXE201.SmartThrive.Domain.Entities;
 using EXE201.SmartThrive.Domain.Models.Requests.Commands.Session;
 using EXE201.SmartThrive.Domain.Models.Results;
+using EXE201.SmartThrive.Domain.Utilities;
 using EXE201.SmartThrive.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EXE201.SmartThrive.API.Controllers
 {
-    [Route("api/session")]
+    [Route(AppConstant.Sessions)]
     [ApiController]
     public class SessionController : ControllerBase
     {
