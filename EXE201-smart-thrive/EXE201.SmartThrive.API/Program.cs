@@ -88,6 +88,12 @@ builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IProviderRepository, ProviderRepository>();
 builder.Services.AddScoped<IProviderService, ProviderService>();
 
+// builder.Services.AddScoped<ICourseXPackageRepository, CourseXPackageRepository>();
+// builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+// builder.Services.AddScoped<IPackageRepository, PackageRepository>();
+// builder.Services.AddScoped<IProviderRepository, ProviderRepository>();
+// builder.Services.AddScoped<IRoleRepository, RoleRepository>();
+builder.Services.AddScoped<ISessionRepository, SessionRepository>();
 builder.Services.AddScoped<IStudentRepository, StudentRepository>();
 builder.Services.AddScoped<IStudentService, StudentService>();
 
@@ -118,6 +124,10 @@ builder.Services.AddScoped<ISessionService, SessionService>();
 #endregion
 
 builder.Services.AddHttpContextAccessor();
+//Register session type
+SessionService.RegisterProductType("Meeting", typeof(SessionService.SessionMeetingService));
+SessionService.RegisterProductType("Offline", typeof(SessionService.SessionOfflineService));
+SessionService.RegisterProductType("SelfLearn", typeof(SessionService.SessionSelfLearnService));
 
 builder.Services.AddCors(options =>
 {

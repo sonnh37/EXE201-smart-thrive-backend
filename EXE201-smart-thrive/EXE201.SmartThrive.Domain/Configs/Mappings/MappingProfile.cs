@@ -16,5 +16,6 @@ public partial class MappingProfile
         UserMapping();
         ProviderMapping();
         OrderMapping();
+        SessionMapping();
     }
 }

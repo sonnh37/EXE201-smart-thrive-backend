@@ -9,5 +9,11 @@ public class SessionMeetingRepository : BaseRepository<SessionMeeting>, ISession
 {
     public SessionMeetingRepository(STDbContext context) : base(context)
     {
+        
+    }
+    public async Task<SessionMeeting> GetBySessionId(Guid sessionId)
+    {
+        var sessionList = await base.GetAll();
+        return sessionList.FirstOrDefault(x => x.SessionId == sessionId);
     }
 }

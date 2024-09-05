@@ -11,13 +11,14 @@ public class UnitOfWork : BaseUnitOfWork<STDbContext>, IUnitOfWork
     }
 
     public ISubjectRepository SubjectRepository => GetRepository<ISubjectRepository>();
-
+    public IFeedbackRepository FeedbackRepository => GetRepository<IFeedbackRepository>();
+    public ISessionRepository SessionRepository => GetRepository<ISessionRepository>();
+    public ISessionMeetingRepository SessionMeetingRepository => GetRepository<ISessionMeetingRepository>();
+    public ISessionOfflineRepository SessionOfflineRepository => GetRepository<ISessionOfflineRepository>();
     public ISessionSelfLearnRepository SessionSelfLearnRepository => GetRepository<ISessionSelfLearnRepository>();
 
-    public IFeedbackRepository FeedbackRepository => GetRepository<IFeedbackRepository>();
-
-    public IStudentRepository StudentRepository => GetRepository<IStudentRepository>();
     public IBlogRepository BlogRepository => GetRepository<IBlogRepository>();
+
     public IVoucherRepository VoucherRepository => GetRepository<IVoucherRepository>();
     public IModuleRepository ModuleRepository => GetRepository<IModuleRepository>();
 
@@ -30,10 +31,5 @@ public class UnitOfWork : BaseUnitOfWork<STDbContext>, IUnitOfWork
     public IProviderRepository ProviderRepository => GetRepository<IProviderRepository>();
 
     public IOrderRepository OrderRepository => GetRepository<IOrderRepository>();
-
-    public ISessionRepository SessionRepository => GetRepository<ISessionRepository>();
-
-    public ISessionMeetingRepository SessionMeetingRepository => GetRepository<ISessionMeetingRepository>();
-
-    public ISessionOfflineRepository SessionOfflineRepository => GetRepository<ISessionOfflineRepository>();
+    public IStudentRepository StudentRepository => GetRepository<IStudentRepository>();
 }
