@@ -1,4 +1,5 @@
 ﻿using EXE201.SmartThrive.Domain.Entities;
+using EXE201.SmartThrive.Domain.Models.Requests.Queries.Base;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.Blog;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.Category;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.Course;
@@ -15,12 +16,32 @@ namespace EXE201.SmartThrive.Domain.Utilities.Filters;
 
 public static class FilterHelper
 {
+    public static IQueryable<TEntity> Apply<TEntity>(IQueryable<TEntity> queryable, GetQueryableQuery query)
+        where TEntity : BaseEntity
+    {
+        return (query switch
+        {
+            BlogGetAllQuery q => Blog((queryable as IQueryable<Blog>)!, q) as IQueryable<TEntity>,
+            CategoryGetAllQuery q => Category((queryable as IQueryable<Category>)!, q) as IQueryable<TEntity>,
+            CourseGetAllQuery q => Course((queryable as IQueryable<Course>)!, q) as IQueryable<TEntity>,
+            FeedbackGetAllQuery q => Feedback((queryable as IQueryable<Feedback>)!, q) as IQueryable<TEntity>,
+            ModuleGetAllQuery q => Module((queryable as IQueryable<Module>)!, q) as IQueryable<TEntity>,
+            OrderGetAllQuery q => Order((queryable as IQueryable<Order>)!, q) as IQueryable<TEntity>,
+            ProviderGetAllQuery q => Provider((queryable as IQueryable<Provider>)!, q) as IQueryable<TEntity>,
+            StudentGetAllQuery q => Student((queryable as IQueryable<Student>)!, q) as IQueryable<TEntity>,
+            SubjectGetAllQuery q => Subject((queryable as IQueryable<Subject>)!, q) as IQueryable<TEntity>,
+            UserGetAllQuery q => User((queryable as IQueryable<User>)!, q) as IQueryable<TEntity>,
+            VoucherGetAllQuery q => Voucher((queryable as IQueryable<Voucher>)!, q) as IQueryable<TEntity>,
+            _ => BaseFilterHelper.Base(queryable, query)
+        })!;
+    }
+    
     public static IQueryable<Subject> Subject(IQueryable<Subject> queryable, SubjectGetAllQuery query)
     {
         if (!string.IsNullOrEmpty(query.Name))
             queryable = queryable.Where(m => m.Name != null && m.Name.Contains(query.Name));
 
-        if (query.CategoryId != Guid.Empty && query.CategoryId != null)
+        if (query.CategoryId != null)
             queryable = queryable.Where(m => m.CategoryId == query.CategoryId);
 
         queryable = BaseFilterHelper.Base(queryable, query);
@@ -30,7 +51,7 @@ public static class FilterHelper
 
     public static IQueryable<Module> Module(IQueryable<Module> queryable, ModuleGetAllQuery query)
     {
-        if (query.CourseId != Guid.Empty && query.CourseId != null)
+        if (query.CourseId != null)
             queryable = queryable.Where(m => m.CourseId == query.CourseId);
         if (!string.IsNullOrEmpty(query.Name))
             queryable = queryable.Where(m => m.Name != null && m.Name.Contains(query.Name));
@@ -55,7 +76,7 @@ public static class FilterHelper
     {
         if (!string.IsNullOrEmpty(query.Title))
             queryable = queryable.Where(m => m.Title != null && m.Title.Contains(query.Title));
-        if (query.UserId != Guid.Empty && query.UserId != null)
+        if (query.UserId != null)
             queryable = queryable.Where(m => m.UserId == query.UserId);
         queryable = BaseFilterHelper.Base(queryable, query);
 
@@ -64,11 +85,11 @@ public static class FilterHelper
 
     public static IQueryable<Feedback> Feedback(IQueryable<Feedback> queryable, FeedbackGetAllQuery query)
     {
-        if (query.StudentId != Guid.Empty && query.StudentId != null)
+        if (query.StudentId != null)
             queryable = queryable.Where(m => m.StudentId == query.StudentId);
-        if (query.CourseId != Guid.Empty && query.CourseId != null)
+        if (query.CourseId != null)
             queryable = queryable.Where(m => m.CourseId == query.CourseId);
-        if (query.Rating.HasValue) // Assuming Title is nullable int (int?)
+        if (query.Rating.HasValue)
             queryable = queryable.Where(m => m.Rating == query.Rating.Value);
 
         queryable = BaseFilterHelper.Base(queryable, query);
@@ -81,7 +102,7 @@ public static class FilterHelper
         if (!string.IsNullOrEmpty(query.StudentName))
             queryable = queryable.Where(m => m.StudentName != null && m.StudentName.Contains(query.StudentName));
 
-        if (query.UserId != Guid.Empty && query.UserId != null)
+        if (query.UserId != null)
             queryable = queryable.Where(m => m.UserId == query.UserId);
 
         queryable = BaseFilterHelper.Base(queryable, query);
@@ -94,11 +115,10 @@ public static class FilterHelper
         if (!string.IsNullOrEmpty(query.CourseName))
             queryable = queryable.Where(m => m.CourseName != null && m.CourseName.Contains(query.CourseName));
 
-        if (query.SubjectId != null && query.SubjectId != Guid.Empty)
+        if (query.SubjectId != null)
             queryable = queryable.Where(m => m.SubjectId == query.SubjectId);
 
-        // query.SubjectId != null => query.ProviderId != null
-        if (query.ProviderId != Guid.Empty && query.ProviderId != null)
+        if (query.ProviderId != null)
             queryable = queryable.Where(m => m.ProviderId == query.ProviderId);
 
         queryable = BaseFilterHelper.Base(queryable, query);
@@ -148,7 +168,7 @@ public static class FilterHelper
 
     public static IQueryable<Provider> Provider(IQueryable<Provider> queryable, ProviderGetAllQuery query)
     {
-        if (query.UserId != Guid.Empty) queryable = queryable.Where(m => m.UserId == query.UserId);
+        if (query.UserId != null) queryable = queryable.Where(m => m.UserId == query.UserId);
 
         if (!string.IsNullOrEmpty(query.CompanyName))
             queryable = queryable.Where(e => e.CompanyName != null && e.CompanyName.Contains(query.CompanyName));
@@ -163,9 +183,9 @@ public static class FilterHelper
 
     public static IQueryable<Order> Order(IQueryable<Order> queryable, OrderGetAllQuery query)
     {
-        if (query.PackageId != Guid.Empty && query.PackageId != null)
+        if (query.PackageId != null)
             queryable = queryable.Where(m => m.PackageId == query.PackageId);
-        if (query.VoucherId != Guid.Empty && query.VoucherId != null)
+        if (query.VoucherId != null)
             queryable = queryable.Where(m => m.VoucherId == query.VoucherId);
 
         if (!string.IsNullOrEmpty(query.PaymentMethod.ToString()))

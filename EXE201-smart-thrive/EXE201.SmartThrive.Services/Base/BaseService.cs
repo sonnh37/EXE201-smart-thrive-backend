@@ -4,6 +4,7 @@ using EXE201.SmartThrive.Domain.Contracts.UnitOfWorks;
 using EXE201.SmartThrive.Domain.Entities;
 using EXE201.SmartThrive.Domain.Models;
 using EXE201.SmartThrive.Domain.Models.Requests.Commands.Base;
+using EXE201.SmartThrive.Domain.Models.Requests.Queries.Base;
 using EXE201.SmartThrive.Domain.Models.Responses;
 using EXE201.SmartThrive.Domain.Models.Results;
 using EXE201.SmartThrive.Domain.Utilities;
@@ -85,6 +86,17 @@ public abstract class BaseService<TEntity> : BaseService, IBaseService
         var msgResults = ResponseHelper.CreateItemList(results);
 
         return msgResults;
+    }
+    
+    public async Task<PagedResponse<TResult>> GetAll<TResult>(GetQueryableQuery x) where TResult : BaseResult
+    {
+        var entityAndInt = x.IsPagination 
+            ? await _baseRepository.GetAll(x) 
+            : (await _baseRepository.GetAll(), (int?)null);       
+        var results = _mapper.Map<List<TResult>?>(entityAndInt.Item1);
+        var resultsWithTotal = (results, entityAndInt.Item2);
+
+        return ResponseHelper.CreatePaged(resultsWithTotal, x);
     }
 
     private static void SetBaseEntityCreate(TEntity? entity)

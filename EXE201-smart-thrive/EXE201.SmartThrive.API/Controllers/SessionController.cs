@@ -11,12 +11,10 @@ namespace EXE201.SmartThrive.API.Controllers;
 [ApiController]
 public class SessionController : ControllerBase
 {
-    private readonly IMapper _mapper;
     private readonly ISessionService _sessionService;
 
-    public SessionController(IMapper mapper, ISessionService sessionService)
+    public SessionController(ISessionService sessionService)
     {
-        _mapper = mapper;
         _sessionService = sessionService;
     }
 

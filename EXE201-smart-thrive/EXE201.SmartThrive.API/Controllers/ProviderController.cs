@@ -14,35 +14,19 @@ namespace EXE201.SmartThrive.API.Controllers;
 [ApiController]
 public class ProviderController : ControllerBase
 {
-    private readonly IMapper _mapper;
     private readonly IProviderService service;
 
-    public ProviderController(IProviderService _service, IMapper mapper)
+    public ProviderController(IProviderService _service)
     {
         service = _service;
-        _mapper = mapper;
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetAll([FromQuery] ProviderGetAllQuery query)
     {
         try
         {
-            var msg = await service.GetAll<ProviderResult>();
-            return Ok(msg);
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
-    }
-
-    [HttpGet("filtered-sorted-paged")]
-    public async Task<IActionResult> GetAllFiltered([FromQuery] ProviderGetAllQuery query)
-    {
-        try
-        {
-            var msg = await service.GetAllFiltered(query);
+            var msg = await service.GetAll<ProviderResult>(query);
             return Ok(msg);
         }
         catch (Exception ex)

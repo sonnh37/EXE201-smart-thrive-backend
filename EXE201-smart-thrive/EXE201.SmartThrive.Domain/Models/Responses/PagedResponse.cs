@@ -5,31 +5,30 @@ namespace EXE201.SmartThrive.Domain.Models.Responses;
 
 public class PagedResponse<TResult> : MessageResponse where TResult : class
 {
-    public PagedResponse(string message, GetQueryableQuery pagedQuery, List<TResult>? results = null,
-        int totalOrigin = 0)
+    public PagedResponse(string message, GetQueryableQuery pagedQuery, List<TResult>? results, int? totalOrigin = null)
         : base(results != null, message)
     {
-        PageNumber = pagedQuery.PageNumber;
-        PageSize = pagedQuery.PageSize;
-        SortField = pagedQuery.SortField;
-        SortOrder = pagedQuery.SortOrder;
+        PageNumber = totalOrigin != null ? pagedQuery.PageNumber : null;
+        PageSize = totalOrigin != null ? pagedQuery.PageSize : null;
+        SortField = totalOrigin != null ? pagedQuery.SortField : null;
+        SortOrder = totalOrigin != null ? pagedQuery.SortOrder : null;
         Results = results;
-        TotalRecords = totalOrigin;
-        TotalRecordsPerPage = results?.Count ?? 0;
-        TotalPages = (int)Math.Ceiling(totalOrigin / (double)PageSize);
+        TotalRecords = totalOrigin ?? results?.Count;
+        TotalRecordsPerPage = totalOrigin != null ? results?.Count : null;
+        TotalPages = (totalOrigin != null) ? (int)Math.Ceiling((decimal)(totalOrigin / (double)pagedQuery.PageSize)) : null;
     }
 
     public List<TResult>? Results { get; }
 
-    public int TotalPages { get; protected set; }
+    public int? TotalPages { get; protected set; }
 
-    public int TotalRecordsPerPage { get; protected set; }
+    public int? TotalRecordsPerPage { get; protected set; }
 
-    public int TotalRecords { get; protected set; }
+    public int? TotalRecords { get; protected set; }
 
-    public int PageNumber { get; protected set; }
+    public int? PageNumber { get; protected set; }
 
-    public int PageSize { get; protected set; }
+    public int? PageSize { get; protected set; }
 
     public string? SortField { get; protected set; }
 

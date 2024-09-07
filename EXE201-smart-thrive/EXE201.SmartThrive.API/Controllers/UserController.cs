@@ -12,36 +12,20 @@ namespace EXE201.SmartThrive.API.Controllers;
 [ApiController]
 public class UserController : ControllerBase
 {
-    private readonly IMapper _mapper;
     private readonly IUserService service;
 
-    public UserController(IUserService _service, IMapper mapper)
+    public UserController(IUserService _service)
     {
         service = _service;
-        _mapper = mapper;
     }
 
     //[Authorize(Roles = "Admin")]
     [HttpGet]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetAll([FromQuery] UserGetAllQuery query)
     {
         try
         {
-            var msg = await service.GetAll<UserResult>();
-            return Ok(msg);
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
-    }
-
-    [HttpGet("filtered-sorted-paged")]
-    public async Task<IActionResult> GetAllFiltered([FromQuery] UserGetAllQuery query)
-    {
-        try
-        {
-            var msg = await service.GetAllFiltered(query);
+            var msg = await service.GetAll<UserResult>(query);
             return Ok(msg);
         }
         catch (Exception ex)

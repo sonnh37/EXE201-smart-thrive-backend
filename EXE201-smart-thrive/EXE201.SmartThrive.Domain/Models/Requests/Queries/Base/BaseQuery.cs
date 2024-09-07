@@ -1,4 +1,5 @@
 ﻿using EXE201.SmartThrive.Domain.Enums;
+using EXE201.SmartThrive.Domain.Utilities;
 
 namespace EXE201.SmartThrive.Domain.Models.Requests.Queries.Base;
 
@@ -14,7 +15,7 @@ public class GetQueryableQuery : BaseQuery
 
     public bool IsPagination { get; set; } = false;
 
-    public Guid Id { get; set; }
+    public Guid? Id { get; set; }
 
     public string? CreatedBy { get; set; }
 
@@ -23,13 +24,13 @@ public class GetQueryableQuery : BaseQuery
     public bool? IsDeleted { get; set; }
 
 
-    public int PageNumber { get; set; } = 1;
+    public int PageNumber { get; set; } = ConstantHelper.PageNumberDefault;
 
-    public int PageSize { get; set; } = 10;
+    public int PageSize { get; set; } = ConstantHelper.PageSizeDefault;
 
-    public string? SortField { get; set; }
+    public string? SortField { get; set; } = ConstantHelper.SortFieldDefault;
 
-    public SortOrder? SortOrder { get; set; } = Enums.SortOrder.Ascending;
+    public SortOrder? SortOrder { get; set; } = ConstantHelper.SortOrderDefault;
 }
 
 public class GetByIdQuery : BaseQuery

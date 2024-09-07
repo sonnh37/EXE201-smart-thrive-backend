@@ -1,4 +1,6 @@
-﻿namespace EXE201.SmartThrive.Domain.Utilities;
+﻿using EXE201.SmartThrive.Domain.Enums;
+
+namespace EXE201.SmartThrive.Domain.Utilities;
 
 public class ConstantHelper
 {
@@ -20,4 +22,9 @@ public class ConstantHelper
     public const string Sessions = "api/sessions";
     public const string Users = "api/users";
     public const string Students = "api/students";
+    
+    public const string SortFieldDefault = "CreatedDate";
+    public const int PageNumberDefault = 1;
+    public const int PageSizeDefault = 10;
+    public const SortOrder SortOrderDefault = SortOrder.Ascending;
 }

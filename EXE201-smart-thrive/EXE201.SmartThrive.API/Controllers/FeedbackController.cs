@@ -13,35 +13,18 @@ namespace EXE201.SmartThrive.API.Controllers;
 public class FeedbackController : ControllerBase
 {
     private readonly IFeedbackService _feedbackService;
-    private readonly IMapper _mapper;
 
-    public FeedbackController(IFeedbackService feedbackService, IMapper mapper)
+    public FeedbackController(IFeedbackService feedbackService)
     {
-        _feedbackService = feedbackService;
-        _mapper = mapper;
         _feedbackService = feedbackService;
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetAll([FromQuery] FeedbackGetAllQuery request)
     {
         try
         {
-            var msg = await _feedbackService.GetAll<FeedbackResult>();
-            return Ok(msg);
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
-    }
-
-    [HttpGet("filtered-sorted-paged")]
-    public async Task<IActionResult> GetAllFiltered([FromQuery] FeedbackGetAllQuery request)
-    {
-        try
-        {
-            var msg = await _feedbackService.GetAllFiltered(request);
+            var msg = await _feedbackService.GetAll<FeedbackResult>(request);
             return Ok(msg);
         }
         catch (Exception ex)

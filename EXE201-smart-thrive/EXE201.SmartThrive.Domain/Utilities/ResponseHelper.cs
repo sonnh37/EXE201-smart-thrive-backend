@@ -16,12 +16,12 @@ public static class ResponseHelper
         return new ItemListResponse<TResult>(ConstantHelper.Success, results);
     }
 
-    public static PagedResponse<TResult> CreatePaged<TResult>((List<TResult>?, int) item, GetQueryableQuery pagedQuery)
+    public static PagedResponse<TResult> CreatePaged<TResult>((List<TResult>?, int?) item, GetQueryableQuery pagedQuery)
         where TResult : BaseResult
     {
         if (item.Item1 == null) return new PagedResponse<TResult>(ConstantHelper.Fail, pagedQuery, item.Item1);
 
-        if (!item.Item1.Any()) return new PagedResponse<TResult>(ConstantHelper.NotFound, pagedQuery, item.Item1);
+        if (item.Item1.Count == 0) return new PagedResponse<TResult>(ConstantHelper.NotFound, pagedQuery, item.Item1);
 
         return new PagedResponse<TResult>(ConstantHelper.Success, pagedQuery, item.Item1, item.Item2);
     }

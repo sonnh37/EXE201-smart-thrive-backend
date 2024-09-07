@@ -5,6 +5,7 @@ using EXE201.SmartThrive.Domain.Contracts.Bases;
 using EXE201.SmartThrive.Domain.Entities;
 using EXE201.SmartThrive.Domain.Enums;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.Base;
+using EXE201.SmartThrive.Domain.Utilities.Filters;
 using Microsoft.EntityFrameworkCore;
 
 namespace EXE201.SmartThrive.Repositories.Base;
@@ -122,6 +123,16 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
         var queryable = GetQueryable(cancellationToken);
         var result = await queryable.ToListAsync(cancellationToken);
         return result;
+    }
+    
+    public async Task<(List<TEntity>, int)> GetAll(GetQueryableQuery query)
+    {
+        var queryable = GetQueryable();
+        queryable = FilterHelper.Apply(queryable, query);
+        var totalOrigin = queryable.Count();
+        var results = await ApplySortingAndPaging(queryable, query);
+
+        return (results, totalOrigin);
     }
 
     public virtual async Task<TEntity?> GetById(Guid id)

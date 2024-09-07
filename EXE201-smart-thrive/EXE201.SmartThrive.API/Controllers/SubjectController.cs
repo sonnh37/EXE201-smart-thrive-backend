@@ -19,25 +19,11 @@ public class SubjectController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetAll([FromQuery] SubjectGetAllQuery subjectGetAllQuery)
     {
         try
         {
-            var msg = await _subjectService.GetAll<SubjectResult>();
-            return Ok(msg);
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
-    }
-
-    [HttpGet("filtered-sorted-paged")]
-    public async Task<IActionResult> GetAllFiltered([FromQuery] SubjectGetAllQuery subjectGetAllQuery)
-    {
-        try
-        {
-            var msg = await _subjectService.GetAllFiltered(subjectGetAllQuery);
+            var msg = await _subjectService.GetAll<SubjectResult>(subjectGetAllQuery);
             return Ok(msg);
         }
         catch (Exception ex)
