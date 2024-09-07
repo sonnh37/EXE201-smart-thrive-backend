@@ -12,7 +12,7 @@ public class SessionCreateCommand : CreateCommand
     public string? Document { get; set; }
 
     public SessionType SessionType { get; set; }
-    
+
     public int SessionNumber { get; set; }
 
     public string? Description { get; set; }

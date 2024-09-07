@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EXE201.SmartThrive.API.Controllers;
 
-[Route(AppConstant.Categories)]
+[Route(ConstantHelper.Categories)]
 [ApiController]
 public class CategoryController : ControllerBase
 {

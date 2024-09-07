@@ -1,13 +1,11 @@
-﻿
+﻿using EXE201.SmartThrive.Domain.Models.Requests.Queries.Base;
 
-namespace EXE201.SmartThrive.Domain.Models.Requests.Queries.Feedback
+namespace EXE201.SmartThrive.Domain.Models.Requests.Queries.Feedback;
+
+public class FeedbackGetAllQuery : GetAllQuery
 {
-    public class FeedbackGetAllQuery : PagedQuery
-    {
-        public Guid? StudentId { get; set; }
+    public Guid? StudentId { get; set; }
 
-        public Guid? CourseId { get; set; }
-        public int? Rating { get; set; }
-
-    }
+    public Guid? CourseId { get; set; }
+    public int? Rating { get; set; }
 }

@@ -1,6 +1,6 @@
 ﻿namespace EXE201.SmartThrive.Domain.Utilities;
 
-public class AppConstant
+public class ConstantHelper
 {
     public const string Success = "Success";
     public const string Fail = "Fail";

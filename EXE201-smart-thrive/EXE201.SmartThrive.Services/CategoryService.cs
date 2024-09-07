@@ -22,12 +22,12 @@ public class CategoryService : BaseService<Category>, ICategoryService
         _categoryRepository = _unitOfWork.CategoryRepository;
     }
 
-    public async Task<PaginatedResponse<CategoryResult>> GetAllFiltered(CategoryGetAllQuery query)
+    public async Task<PagedResponse<CategoryResult>> GetAllFiltered(CategoryGetAllQuery query)
     {
         var categorysWithTotal = await _categoryRepository.GetAllFiltered(query);
         var categorysResult = _mapper.Map<List<CategoryResult>>(categorysWithTotal.Item1);
         var categorysResultWithTotal = (categorysResult, categorysWithTotal.Item2);
 
-        return AppResponse.CreatePaginated(categorysResultWithTotal, query);
+        return ResponseHelper.CreatePaged(categorysResultWithTotal, query);
     }
 }

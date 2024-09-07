@@ -7,5 +7,5 @@ namespace EXE201.SmartThrive.Domain.Contracts.Services;
 
 public interface IProviderService : IBaseService
 {
-    Task<PaginatedResponse<ProviderResult>> GetAllFiltered(ProviderGetAllQuery query);
+    Task<PagedResponse<ProviderResult>> GetAllFiltered(ProviderGetAllQuery query);
 }

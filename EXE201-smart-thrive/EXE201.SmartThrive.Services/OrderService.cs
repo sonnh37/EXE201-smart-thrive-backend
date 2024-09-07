@@ -20,12 +20,12 @@ public class OrderService : BaseService<Order>, IOrderService
         repository = _unitOfWork.OrderRepository;
     }
 
-    public async Task<PaginatedResponse<OrderResult>> GetAllFiltered(OrderGetAllQuery query)
+    public async Task<PagedResponse<OrderResult>> GetAllFiltered(OrderGetAllQuery query)
     {
         var total = await repository.GetAllFiltered(query);
         var result = _mapper.Map<List<OrderResult>>(total.Item1);
         var resultWithTotal = (result, total.Item2);
 
-        return AppResponse.CreatePaginated(resultWithTotal, query);
+        return ResponseHelper.CreatePaged(resultWithTotal, query);
     }
 }

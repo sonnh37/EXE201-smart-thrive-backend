@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EXE201.SmartThrive.API.Controllers;
 
-[Route(AppConstant.Modules)]
+[Route(ConstantHelper.Modules)]
 [ApiController]
 public class ModuleController : ControllerBase
 {
@@ -30,8 +30,6 @@ public class ModuleController : ControllerBase
         {
             return BadRequest(ex.Message);
         }
-
-
     }
 
     [HttpGet("filtered-sorted-paged")]

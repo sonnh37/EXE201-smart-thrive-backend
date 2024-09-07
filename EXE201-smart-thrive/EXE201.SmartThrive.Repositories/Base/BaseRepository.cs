@@ -3,7 +3,8 @@ using System.Reflection;
 using AutoMapper;
 using EXE201.SmartThrive.Domain.Contracts.Bases;
 using EXE201.SmartThrive.Domain.Entities;
-using EXE201.SmartThrive.Domain.Models.Requests.Queries;
+using EXE201.SmartThrive.Domain.Enums;
+using EXE201.SmartThrive.Domain.Models.Requests.Queries.Base;
 using Microsoft.EntityFrameworkCore;
 
 namespace EXE201.SmartThrive.Repositories.Base;
@@ -32,7 +33,7 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
         }
     }
 
-    public async Task<List<TEntity>> ApplySortingAndPaging(IQueryable<TEntity> queryable, PagedQuery pagedQuery)
+    public async Task<List<TEntity>> ApplySortingAndPaging(IQueryable<TEntity> queryable, GetQueryableQuery pagedQuery)
     {
         queryable = Sort(queryable, pagedQuery);
 
@@ -52,7 +53,7 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
             throw new OperationCanceledException("Request was cancelled");
     }
 
-    private static IQueryable<TEntity> Sort(IQueryable<TEntity> queryable, PagedQuery pagedQuery)
+    private static IQueryable<TEntity> Sort(IQueryable<TEntity> queryable, GetQueryableQuery pagedQuery)
     {
         if (!queryable.Any()) return queryable;
 
@@ -67,7 +68,7 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
         var propertyAccess = Expression.MakeMemberAccess(parameter, property);
         var orderByExp = Expression.Lambda(propertyAccess, parameter);
 
-        var methodName = pagedQuery.SortOrder == 1 ? "OrderBy" : "OrderByDescending";
+        var methodName = pagedQuery.SortOrder == (SortOrder?)1 ? "OrderBy" : "OrderByDescending";
         var resultExp = Expression.Call(typeof(Queryable), methodName,
             new[] { typeof(TEntity), property.PropertyType },
             queryable.Expression, Expression.Quote(orderByExp));
@@ -166,7 +167,7 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
         return dbSet;
     }
 
-    private IQueryable<TEntity> GetQueryablePagination(IQueryable<TEntity> queryable, PagedQuery pagedQuery)
+    private IQueryable<TEntity> GetQueryablePagination(IQueryable<TEntity> queryable, GetQueryableQuery pagedQuery)
     {
         queryable = queryable.Skip((pagedQuery.PageNumber - 1) * pagedQuery.PageSize).Take(pagedQuery.PageSize);
 

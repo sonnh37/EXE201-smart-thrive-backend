@@ -22,12 +22,12 @@ public class CourseService : BaseService<Course>, ICourseService
         _subjectRepository = _unitOfWork.CourseRepository;
     }
 
-    public async Task<PaginatedResponse<CourseResult>> GetAllFiltered(CourseGetAllQuery query)
+    public async Task<PagedResponse<CourseResult>> GetAllFiltered(CourseGetAllQuery query)
     {
         var subjectsWithTotal = await _subjectRepository.GetAllFiltered(query);
         var subjectsResult = _mapper.Map<List<CourseResult>>(subjectsWithTotal.Item1);
         var subjectsResultWithTotal = (subjectsResult, subjectsWithTotal.Item2);
 
-        return AppResponse.CreatePaginated(subjectsResultWithTotal, query);
+        return ResponseHelper.CreatePaged(subjectsResultWithTotal, query);
     }
 }

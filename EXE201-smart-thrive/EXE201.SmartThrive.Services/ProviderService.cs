@@ -20,12 +20,12 @@ public class ProviderService : BaseService<Provider>, IProviderService
         repository = _unitOfWork.ProviderRepository;
     }
 
-    public async Task<PaginatedResponse<ProviderResult>> GetAllFiltered(ProviderGetAllQuery query)
+    public async Task<PagedResponse<ProviderResult>> GetAllFiltered(ProviderGetAllQuery query)
     {
         var total = await repository.GetAllFiltered(query);
         var result = _mapper.Map<List<ProviderResult>>(total.Item1);
         var resultWithTotal = (result, total.Item2);
 
-        return AppResponse.CreatePaginated(resultWithTotal, query);
+        return ResponseHelper.CreatePaged(resultWithTotal, query);
     }
 }

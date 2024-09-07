@@ -1,8 +1,9 @@
 ﻿using EXE201.SmartThrive.Domain.Enums;
+using EXE201.SmartThrive.Domain.Models.Requests.Queries.Base;
 
 namespace EXE201.SmartThrive.Domain.Models.Requests.Queries.User;
 
-public class UserGetAllQuery : PagedQuery
+public class UserGetAllQuery : GetAllQuery
 {
     public string? Username { get; set; }
 

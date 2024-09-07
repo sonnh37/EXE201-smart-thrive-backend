@@ -1,6 +1,5 @@
 using System.Text;
 using System.Text.Json.Serialization;
-using EXE201.SmartThrive.API.Registrations;
 using EXE201.SmartThrive.Data;
 using EXE201.SmartThrive.Data.Context;
 using EXE201.SmartThrive.Domain.Configs.Mappings;
@@ -60,7 +59,8 @@ builder.Services.AddDbContext<STDbContext>(options =>
 
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 
-#region Add-Scoped 
+#region Add-Scoped
+
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
 
@@ -121,6 +121,7 @@ builder.Services.AddScoped<ISessionService, SessionService>();
 
 // builder.Services.AddScoped<IPackageRepository, PackageRepository>();
 // builder.Services.AddScoped<ISessionRepository, SessionRepository>();
+
 #endregion
 
 builder.Services.AddHttpContextAccessor();
@@ -140,6 +141,7 @@ builder.Services.AddCors(options =>
 });
 
 #region Config_Authentication
+
 builder.Services.AddAuthentication(options =>
     {
         options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -165,6 +167,7 @@ builder.Services.AddAuthentication(options =>
     });
 
 builder.Services.AddAuthorization();
+
 #endregion
 
 // .AddGoogle(options =>

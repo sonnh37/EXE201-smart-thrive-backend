@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EXE201.SmartThrive.API.Controllers;
 
-[Route(AppConstant.Orders)]
+[Route(ConstantHelper.Orders)]
 [ApiController]
 public class OrderController : ControllerBase
 {

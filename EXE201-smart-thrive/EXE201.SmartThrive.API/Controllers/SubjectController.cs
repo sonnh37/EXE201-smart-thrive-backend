@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EXE201.SmartThrive.API.Controllers;
 
-[Route(AppConstant.Subjects)]
+[Route(ConstantHelper.Subjects)]
 [ApiController]
 public class SubjectController : ControllerBase
 {

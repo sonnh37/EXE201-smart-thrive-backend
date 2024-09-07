@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EXE201.SmartThrive.API.Controllers;
 
-[Route(AppConstant.Students)]
+[Route(ConstantHelper.Students)]
 [ApiController]
 public class StudentController : ControllerBase
 {

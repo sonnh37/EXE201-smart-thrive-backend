@@ -7,5 +7,5 @@ namespace EXE201.SmartThrive.Domain.Contracts.Services;
 
 public interface IOrderService : IBaseService
 {
-    Task<PaginatedResponse<OrderResult>> GetAllFiltered(OrderGetAllQuery query);
+    Task<PagedResponse<OrderResult>> GetAllFiltered(OrderGetAllQuery query);
 }

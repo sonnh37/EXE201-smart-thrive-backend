@@ -1,5 +1,4 @@
 ﻿using EXE201.SmartThrive.Domain.Entities;
-using EXE201.SmartThrive.Domain.Models.Requests.Queries.Base;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.Blog;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.Category;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.Course;
@@ -12,9 +11,9 @@ using EXE201.SmartThrive.Domain.Models.Requests.Queries.Subject;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.User;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.Voucher;
 
-namespace EXE201.SmartThrive.Domain.Utilities;
+namespace EXE201.SmartThrive.Domain.Utilities.Filters;
 
-public static class ApplyFilter
+public static class FilterHelper
 {
     public static IQueryable<Subject> Subject(IQueryable<Subject> queryable, SubjectGetAllQuery query)
     {
@@ -24,21 +23,18 @@ public static class ApplyFilter
         if (query.CategoryId != Guid.Empty && query.CategoryId != null)
             queryable = queryable.Where(m => m.CategoryId == query.CategoryId);
 
-        queryable = Base(queryable, query);
+        queryable = BaseFilterHelper.Base(queryable, query);
 
         return queryable;
     }
+
     public static IQueryable<Module> Module(IQueryable<Module> queryable, ModuleGetAllQuery query)
     {
         if (query.CourseId != Guid.Empty && query.CourseId != null)
-        {
             queryable = queryable.Where(m => m.CourseId == query.CourseId);
-        }
         if (!string.IsNullOrEmpty(query.Name))
-        {
             queryable = queryable.Where(m => m.Name != null && m.Name.Contains(query.Name));
-        }
-        queryable = Base(queryable, query);
+        queryable = BaseFilterHelper.Base(queryable, query);
 
         return queryable;
     }
@@ -47,14 +43,10 @@ public static class ApplyFilter
     public static IQueryable<Voucher> Voucher(IQueryable<Voucher> queryable, VoucherGetAllQuery query)
     {
         if (!string.IsNullOrEmpty(query.Code))
-        {
             queryable = queryable.Where(m => m.Code != null && m.Code.Contains(query.Code));
-        }
         if (!string.IsNullOrEmpty(query.Name))
-        {
             queryable = queryable.Where(m => m.Name != null && m.Name.Contains(query.Name));
-        }
-        queryable = Base(queryable, query);
+        queryable = BaseFilterHelper.Base(queryable, query);
 
         return queryable;
     }
@@ -62,33 +54,24 @@ public static class ApplyFilter
     public static IQueryable<Blog> Blog(IQueryable<Blog> queryable, BlogGetAllQuery query)
     {
         if (!string.IsNullOrEmpty(query.Title))
-        {
             queryable = queryable.Where(m => m.Title != null && m.Title.Contains(query.Title));
-        }
         if (query.UserId != Guid.Empty && query.UserId != null)
-        {
             queryable = queryable.Where(m => m.UserId == query.UserId);
-        }
-        queryable = Base(queryable, query);
+        queryable = BaseFilterHelper.Base(queryable, query);
 
         return queryable;
     }
+
     public static IQueryable<Feedback> Feedback(IQueryable<Feedback> queryable, FeedbackGetAllQuery query)
     {
         if (query.StudentId != Guid.Empty && query.StudentId != null)
-        {
             queryable = queryable.Where(m => m.StudentId == query.StudentId);
-        }
         if (query.CourseId != Guid.Empty && query.CourseId != null)
-        {
             queryable = queryable.Where(m => m.CourseId == query.CourseId);
-        }
         if (query.Rating.HasValue) // Assuming Title is nullable int (int?)
-        {
             queryable = queryable.Where(m => m.Rating == query.Rating.Value);
-        }
 
-        queryable = Base(queryable, query);
+        queryable = BaseFilterHelper.Base(queryable, query);
 
         return queryable;
     }
@@ -101,7 +84,7 @@ public static class ApplyFilter
         if (query.UserId != Guid.Empty && query.UserId != null)
             queryable = queryable.Where(m => m.UserId == query.UserId);
 
-        queryable = Base(queryable, query);
+        queryable = BaseFilterHelper.Base(queryable, query);
 
         return queryable;
     }
@@ -118,7 +101,7 @@ public static class ApplyFilter
         if (query.ProviderId != Guid.Empty && query.ProviderId != null)
             queryable = queryable.Where(m => m.ProviderId == query.ProviderId);
 
-        queryable = Base(queryable, query);
+        queryable = BaseFilterHelper.Base(queryable, query);
 
         return queryable;
     }
@@ -128,7 +111,7 @@ public static class ApplyFilter
         if (!string.IsNullOrEmpty(query.Name))
             queryable = queryable.Where(m => m.Name != null && m.Name.Contains(query.Name));
 
-        queryable = Base(queryable, query);
+        queryable = BaseFilterHelper.Base(queryable, query);
 
         return queryable;
     }
@@ -158,7 +141,7 @@ public static class ApplyFilter
 
         if (!string.IsNullOrEmpty(query.Phone)) queryable = queryable.Where(e => e.Phone.Contains(query.Phone));
 
-        queryable = Base(queryable, query);
+        queryable = BaseFilterHelper.Base(queryable, query);
 
         return queryable;
     }
@@ -173,7 +156,7 @@ public static class ApplyFilter
         if (!string.IsNullOrEmpty(query.Website))
             queryable = queryable.Where(e => e.Website != null && e.Website.Contains(query.Website));
 
-        queryable = Base(queryable, query);
+        queryable = BaseFilterHelper.Base(queryable, query);
 
         return queryable;
     }
@@ -195,31 +178,7 @@ public static class ApplyFilter
 
         if (!string.IsNullOrEmpty(query.Status.ToString())) queryable = queryable.Where(e => e.Status == query.Status);
 
-        queryable = Base(queryable, query);
-
-        return queryable;
-    }
-
-    private static IQueryable<TEntity> Base<TEntity>(IQueryable<TEntity> queryable, BaseQuery query)
-        where TEntity : BaseEntity
-    {
-        if (query.Id != Guid.Empty) queryable = queryable.Where(m => m.Id == query.Id);
-
-        if (!string.IsNullOrEmpty(query.CreatedBy))
-            queryable = queryable.Where(m => m.CreatedBy != null && m.CreatedBy.Contains(query.CreatedBy));
-
-        if (query.CreatedDate.HasValue)
-        {
-            var date = query.CreatedDate.Value.Date;
-            queryable = queryable.Where(m => m.CreatedDate.Date == date);
-        }
-
-        if (!string.IsNullOrEmpty(query.UpdatedBy))
-            queryable = queryable.Where(m => m.UpdatedBy != null && m.UpdatedBy.Contains(query.UpdatedBy));
-
-        if (query.UpdatedDate.HasValue) queryable = queryable.Where(m => m.UpdatedDate <= query.UpdatedDate.Value);
-
-        if (query.IsDeleted.HasValue) queryable = queryable.Where(m => m.IsDeleted == query.IsDeleted);
+        queryable = BaseFilterHelper.Base(queryable, query);
 
         return queryable;
     }

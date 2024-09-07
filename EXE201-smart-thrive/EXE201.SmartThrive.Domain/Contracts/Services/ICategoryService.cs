@@ -7,5 +7,5 @@ namespace EXE201.SmartThrive.Domain.Contracts.Services;
 
 public interface ICategoryService : IBaseService
 {
-    Task<PaginatedResponse<CategoryResult>> GetAllFiltered(CategoryGetAllQuery query);
+    Task<PagedResponse<CategoryResult>> GetAllFiltered(CategoryGetAllQuery query);
 }

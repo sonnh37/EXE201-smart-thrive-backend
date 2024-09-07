@@ -2,7 +2,7 @@
 using EXE201.SmartThrive.Domain.Contracts.Repositories;
 using EXE201.SmartThrive.Domain.Entities;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.Course;
-using EXE201.SmartThrive.Domain.Utilities;
+using EXE201.SmartThrive.Domain.Utilities.Filters;
 using EXE201.SmartThrive.Repositories.Base;
 
 namespace EXE201.SmartThrive.Repositories;
@@ -18,7 +18,7 @@ public class CourseRepository : BaseRepository<Course>, ICourseRepository
         var queryable = GetQueryable();
 
         // filter
-        queryable = ApplyFilter.Course(queryable, query);
+        queryable = FilterHelper.Course(queryable, query);
 
         var totalOrigin = queryable.Count();
 

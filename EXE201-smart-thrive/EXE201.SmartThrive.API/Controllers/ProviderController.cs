@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EXE201.SmartThrive.API.Controllers;
 
-[Route(AppConstant.Providers)]
+[Route(ConstantHelper.Providers)]
 [ApiController]
 public class ProviderController : ControllerBase
 {

@@ -1,10 +1,12 @@
-﻿using EXE201.SmartThrive.Domain.Models.Requests.Queries;
+﻿using EXE201.SmartThrive.Domain.Enums;
+using EXE201.SmartThrive.Domain.Models.Requests.Queries.Base;
 
 namespace EXE201.SmartThrive.Domain.Models.Responses;
 
-public class PaginatedResponse<TResult> : MessageResponse where TResult : class
+public class PagedResponse<TResult> : MessageResponse where TResult : class
 {
-    public PaginatedResponse(string message, PagedQuery pagedQuery, List<TResult>? results = null, int totalOrigin = 0)
+    public PagedResponse(string message, GetQueryableQuery pagedQuery, List<TResult>? results = null,
+        int totalOrigin = 0)
         : base(results != null, message)
     {
         PageNumber = pagedQuery.PageNumber;
@@ -31,5 +33,5 @@ public class PaginatedResponse<TResult> : MessageResponse where TResult : class
 
     public string? SortField { get; protected set; }
 
-    public int? SortOrder { get; protected set; }
+    public SortOrder? SortOrder { get; protected set; }
 }

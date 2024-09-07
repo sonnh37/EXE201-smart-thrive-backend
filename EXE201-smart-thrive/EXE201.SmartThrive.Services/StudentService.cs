@@ -20,12 +20,12 @@ public class StudentService : BaseService<Student>, IStudentService
         _studentRepository = _unitOfWork.StudentRepository;
     }
 
-    public async Task<PaginatedResponse<StudentResult>> GetAllFiltered(StudentGetAllQuery query)
+    public async Task<PagedResponse<StudentResult>> GetAllFiltered(StudentGetAllQuery query)
     {
         var studentsWithTotal = await _studentRepository.GetAllFiltered(query);
         var studentsResult = _mapper.Map<List<StudentResult>>(studentsWithTotal.Item1);
         var studentsResultWithTotal = (studentsResult, studentsWithTotal.Item2);
 
-        return AppResponse.CreatePaginated(studentsResultWithTotal, query);
+        return ResponseHelper.CreatePaged(studentsResultWithTotal, query);
     }
 }

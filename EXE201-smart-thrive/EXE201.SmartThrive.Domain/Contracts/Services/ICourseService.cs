@@ -7,5 +7,5 @@ namespace EXE201.SmartThrive.Domain.Contracts.Services;
 
 public interface ICourseService : IBaseService
 {
-    Task<PaginatedResponse<CourseResult>> GetAllFiltered(CourseGetAllQuery query);
+    Task<PagedResponse<CourseResult>> GetAllFiltered(CourseGetAllQuery query);
 }

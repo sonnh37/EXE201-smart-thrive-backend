@@ -2,31 +2,29 @@
 using EXE201.SmartThrive.Domain.Contracts.Repositories;
 using EXE201.SmartThrive.Domain.Entities;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.Blog;
-using EXE201.SmartThrive.Domain.Utilities;
+using EXE201.SmartThrive.Domain.Utilities.Filters;
 using EXE201.SmartThrive.Repositories.Base;
 
+namespace EXE201.SmartThrive.Repositories;
 
-namespace EXE201.SmartThrive.Repositories
+public class BlogRepository : BaseRepository<Blog>, IBlogRepository
 {
-    public class BlogRepository : BaseRepository<Blog>, IBlogRepository
+    public BlogRepository(STDbContext dbContext) : base(dbContext)
     {
-        public BlogRepository(STDbContext dbContext) : base(dbContext)
-        {
-        }
+    }
 
-        public async Task<(List<Blog>, int)> GetAllFiltered(BlogGetAllQuery query)
-        {
-            var queryable = base.GetQueryable();
+    public async Task<(List<Blog>, int)> GetAllFiltered(BlogGetAllQuery query)
+    {
+        var queryable = GetQueryable();
 
-            // filter
-            queryable = ApplyFilter.Blog(queryable, query);
+        // filter
+        queryable = FilterHelper.Blog(queryable, query);
 
-            var totalOrigin = queryable.Count();
+        var totalOrigin = queryable.Count();
 
-            // sort & pagination
-            var results = await base.ApplySortingAndPaging(queryable, query);
+        // sort & pagination
+        var results = await ApplySortingAndPaging(queryable, query);
 
-            return (results, totalOrigin);
-        }
+        return (results, totalOrigin);
     }
 }
