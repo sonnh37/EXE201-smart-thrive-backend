@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using EXE201.SmartThrive.Domain.Contracts.Services;
+﻿using EXE201.SmartThrive.Domain.Contracts.Services;
 using EXE201.SmartThrive.Domain.Models.Requests.Commands.Category;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.Category;
 using EXE201.SmartThrive.Domain.Models.Results;
@@ -8,39 +7,23 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EXE201.SmartThrive.API.Controllers;
 
-[Route(AppConstant.Categories)]
+[Route(ConstantHelper.Categories)]
 [ApiController]
 public class CategoryController : ControllerBase
 {
     private readonly ICategoryService _categoryService;
-    private readonly IMapper _mapper;
 
-    public CategoryController(ICategoryService categoryService, IMapper mapper)
+    public CategoryController(ICategoryService categoryService)
     {
         _categoryService = categoryService;
-        _mapper = mapper;
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetAll([FromQuery] CategoryGetAllQuery categoryGetAllQuery)
     {
         try
         {
-            var msg = await _categoryService.GetAll<CategoryResult>();
-            return Ok(msg);
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
-    }
-
-    [HttpGet("filtered-sorted-paged")]
-    public async Task<IActionResult> GetAllFiltered([FromQuery] CategoryGetAllQuery categoryGetAllQuery)
-    {
-        try
-        {
-            var msg = await _categoryService.GetAllFiltered(categoryGetAllQuery);
+            var msg = await _categoryService.GetAll<CategoryResult>(categoryGetAllQuery);
             return Ok(msg);
         }
         catch (Exception ex)

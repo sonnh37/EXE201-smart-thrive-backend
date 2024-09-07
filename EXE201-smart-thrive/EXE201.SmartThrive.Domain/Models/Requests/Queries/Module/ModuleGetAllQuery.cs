@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using EXE201.SmartThrive.Domain.Models.Requests.Queries.Base;
 
-namespace EXE201.SmartThrive.Domain.Models.Requests.Queries.Module
+namespace EXE201.SmartThrive.Domain.Models.Requests.Queries.Module;
+
+public class ModuleGetAllQuery : GetAllQuery
 {
-    public class ModuleGetAllQuery : PagedQuery
-    {
-        public Guid? CourseId { get; set; }
-        public string? Name { get; set; }
-
-    }
+    public Guid? CourseId { get; set; }
+    public string? Name { get; set; }
 }

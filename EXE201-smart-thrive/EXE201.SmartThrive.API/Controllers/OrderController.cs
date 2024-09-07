@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using EXE201.SmartThrive.Domain.Contracts.Services;
+﻿using EXE201.SmartThrive.Domain.Contracts.Services;
 using EXE201.SmartThrive.Domain.Models.Requests.Commands.Order;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.Order;
 using EXE201.SmartThrive.Domain.Models.Results;
@@ -8,39 +7,23 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EXE201.SmartThrive.API.Controllers;
 
-[Route(AppConstant.Orders)]
+[Route(ConstantHelper.Orders)]
 [ApiController]
 public class OrderController : ControllerBase
 {
-    private readonly IMapper _mapper;
     private readonly IOrderService service;
 
-    public OrderController(IOrderService _service, IMapper mapper)
+    public OrderController(IOrderService _service)
     {
         service = _service;
-        _mapper = mapper;
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetAll([FromQuery] OrderGetAllQuery query)
     {
         try
         {
-            var msg = await service.GetAll<OrderResult>();
-            return Ok(msg);
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
-    }
-
-    [HttpGet("filtered-sorted-paged")]
-    public async Task<IActionResult> GetAllFiltered([FromQuery] OrderGetAllQuery query)
-    {
-        try
-        {
-            var msg = await service.GetAllFiltered(query);
+            var msg = await service.GetAll<OrderResult>(query);
             return Ok(msg);
         }
         catch (Exception ex)

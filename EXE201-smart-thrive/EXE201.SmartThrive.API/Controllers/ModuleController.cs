@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EXE201.SmartThrive.API.Controllers;
 
-[Route(AppConstant.Modules)]
+[Route(ConstantHelper.Modules)]
 [ApiController]
 public class ModuleController : ControllerBase
 {
@@ -19,27 +19,11 @@ public class ModuleController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetAll([FromQuery] ModuleGetAllQuery request)
     {
         try
         {
-            var msg = await _moduleService.GetAll<ModuleResult>();
-            return Ok(msg);
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
-
-
-    }
-
-    [HttpGet("filtered-sorted-paged")]
-    public async Task<IActionResult> GetAllFiltered([FromQuery] ModuleGetAllQuery request)
-    {
-        try
-        {
-            var msg = await _moduleService.GetAllFiltered(request);
+            var msg = await _moduleService.GetAll<ModuleResult>(request);
             return Ok(msg);
         }
         catch (Exception ex)

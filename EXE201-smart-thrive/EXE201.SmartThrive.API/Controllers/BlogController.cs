@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EXE201.SmartThrive.API.Controllers;
 
-[Route(AppConstant.Blogs)]
+[Route(ConstantHelper.Blogs)]
 [ApiController]
 public class BlogController : ControllerBase
 {
@@ -19,11 +19,11 @@ public class BlogController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetAll([FromQuery] BlogGetAllQuery blogGetAllQuery)
     {
         try
         {
-            var msg = await _blogService.GetAll<BlogResult>();
+            var msg = await _blogService.GetAll<BlogResult>(blogGetAllQuery);
             return Ok(msg);
         }
         catch (Exception ex)
@@ -89,18 +89,4 @@ public class BlogController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
-    [HttpGet("filtered-sorted-paged")]
-    public async Task<IActionResult> GetAllFiltered([FromQuery] BlogGetAllQuery request)
-    {
-        try
-        {
-            var msg = await _blogService.GetAllFiltered(request);
-            return Ok(msg);
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
-    }
-
 }

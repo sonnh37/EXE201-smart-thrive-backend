@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EXE201.SmartThrive.API.Controllers;
 
-[Route(AppConstant.Vouchers)]
+[Route(ConstantHelper.Vouchers)]
 [ApiController]
 public class VoucherController : ControllerBase
 {
@@ -19,27 +19,11 @@ public class VoucherController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetAll([FromQuery] VoucherGetAllQuery request)
     {
         try
         {
-            var msg = await _voucherService.GetAll<VoucherResult>();
-            return Ok(msg);
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
-
-        
-    }
-
-    [HttpGet("filtered-sorted-paged")]
-    public async Task<IActionResult> GetAllFiltered([FromQuery] VoucherGetAllQuery request)
-    {
-        try
-        {
-            var msg = await _voucherService.GetAllFiltered(request);
+            var msg = await _voucherService.GetAll<VoucherResult>(request);
             return Ok(msg);
         }
         catch (Exception ex)

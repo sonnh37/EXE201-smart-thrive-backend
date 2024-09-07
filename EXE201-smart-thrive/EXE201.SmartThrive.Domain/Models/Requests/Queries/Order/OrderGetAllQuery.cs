@@ -1,8 +1,9 @@
 ﻿using EXE201.SmartThrive.Domain.Enums;
+using EXE201.SmartThrive.Domain.Models.Requests.Queries.Base;
 
 namespace EXE201.SmartThrive.Domain.Models.Requests.Queries.Order;
 
-public class OrderGetAllQuery : PagedQuery
+public class OrderGetAllQuery : GetAllQuery
 {
     public Guid? PackageId { get; set; }
 
