@@ -87,12 +87,12 @@ public abstract class BaseService<TEntity> : BaseService, IBaseService
 
         return msgResults;
     }
-    
+
     public async Task<PagedResponse<TResult>> GetAll<TResult>(GetQueryableQuery x) where TResult : BaseResult
     {
-        var entityAndInt = x.IsPagination 
-            ? await _baseRepository.GetAll(x) 
-            : (await _baseRepository.GetAll(), (int?)null);       
+        var entityAndInt = x.IsPagination
+            ? await _baseRepository.GetAll(x)
+            : (await _baseRepository.GetAll(), (int?)null);
         var results = _mapper.Map<List<TResult>?>(entityAndInt.Item1);
         var resultsWithTotal = (results, entityAndInt.Item2);
 

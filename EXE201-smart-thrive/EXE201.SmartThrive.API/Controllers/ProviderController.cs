@@ -1,5 +1,4 @@
 ﻿using System.Text;
-using AutoMapper;
 using EXE201.SmartThrive.Domain.Contracts.Services;
 using EXE201.SmartThrive.Domain.Models.Requests.Commands.Provider;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.Provider;

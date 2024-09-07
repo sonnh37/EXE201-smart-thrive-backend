@@ -17,7 +17,7 @@ public interface IBaseRepository<TEntity> : IBaseRepository
     Task<long> GetTotalCount();
 
     Task<IList<TEntity>> GetAll(CancellationToken cancellationToken = default);
-    
+
     Task<(List<TEntity>, int)> GetAll(GetQueryableQuery query);
 
 

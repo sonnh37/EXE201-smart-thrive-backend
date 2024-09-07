@@ -35,7 +35,7 @@ public static class FilterHelper
             _ => BaseFilterHelper.Base(queryable, query)
         })!;
     }
-    
+
     public static IQueryable<Subject> Subject(IQueryable<Subject> queryable, SubjectGetAllQuery query)
     {
         if (!string.IsNullOrEmpty(query.Name))

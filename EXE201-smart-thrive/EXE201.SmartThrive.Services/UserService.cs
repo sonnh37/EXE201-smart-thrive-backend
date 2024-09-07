@@ -6,10 +6,7 @@ using EXE201.SmartThrive.Domain.Contracts.Repositories;
 using EXE201.SmartThrive.Domain.Contracts.Services;
 using EXE201.SmartThrive.Domain.Contracts.UnitOfWorks;
 using EXE201.SmartThrive.Domain.Entities;
-using EXE201.SmartThrive.Domain.Models.Requests.Queries.User;
-using EXE201.SmartThrive.Domain.Models.Responses;
 using EXE201.SmartThrive.Domain.Models.Results;
-using EXE201.SmartThrive.Domain.Utilities;
 using EXE201.SmartThrive.Services.Base;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -49,15 +46,6 @@ public class UserService : BaseService<User>, IUserService
         var jwt = new JwtSecurityTokenHandler().WriteToken(token);
 
         return jwt;
-    }
-
-    public async Task<PagedResponse<UserResult>> GetAllFiltered(UserGetAllQuery query)
-    {
-        var total = await repository.GetAllFiltered(query);
-        var result = _mapper.Map<List<UserResult>>(total.Item1);
-        var resultWithTotal = (result, total.Item2);
-
-        return ResponseHelper.CreatePaged(resultWithTotal, query);
     }
 
     public async Task<UserResult> Login(string usernameOrEmail, string password)

@@ -15,7 +15,9 @@ public class PagedResponse<TResult> : MessageResponse where TResult : class
         Results = results;
         TotalRecords = totalOrigin ?? results?.Count;
         TotalRecordsPerPage = totalOrigin != null ? results?.Count : null;
-        TotalPages = (totalOrigin != null) ? (int)Math.Ceiling((decimal)(totalOrigin / (double)pagedQuery.PageSize)) : null;
+        TotalPages = totalOrigin != null
+            ? (int)Math.Ceiling((decimal)(totalOrigin / (double)pagedQuery.PageSize))
+            : null;
     }
 
     public List<TResult>? Results { get; }

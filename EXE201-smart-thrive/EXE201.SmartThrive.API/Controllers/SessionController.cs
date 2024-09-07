@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using EXE201.SmartThrive.Domain.Contracts.Services;
+﻿using EXE201.SmartThrive.Domain.Contracts.Services;
 using EXE201.SmartThrive.Domain.Models.Requests.Commands.Session;
 using EXE201.SmartThrive.Domain.Models.Results;
 using EXE201.SmartThrive.Domain.Utilities;

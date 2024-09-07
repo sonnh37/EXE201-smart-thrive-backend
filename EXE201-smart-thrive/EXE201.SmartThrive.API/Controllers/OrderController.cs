@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using EXE201.SmartThrive.Domain.Contracts.Services;
+﻿using EXE201.SmartThrive.Domain.Contracts.Services;
 using EXE201.SmartThrive.Domain.Models.Requests.Commands.Order;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.Order;
 using EXE201.SmartThrive.Domain.Models.Results;

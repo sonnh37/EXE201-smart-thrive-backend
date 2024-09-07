@@ -124,7 +124,7 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
         var result = await queryable.ToListAsync(cancellationToken);
         return result;
     }
-    
+
     public async Task<(List<TEntity>, int)> GetAll(GetQueryableQuery query)
     {
         var queryable = GetQueryable();
