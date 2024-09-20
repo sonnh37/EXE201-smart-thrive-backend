@@ -121,6 +121,7 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
     public async Task<IList<TEntity>> GetAll(CancellationToken cancellationToken = default)
     {
         var queryable = GetQueryable(cancellationToken);
+        queryable = IncludeHelper.Apply(queryable);
         var result = await queryable.ToListAsync(cancellationToken);
         return result;
     }
@@ -129,6 +130,7 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
     {
         var queryable = GetQueryable();
         queryable = FilterHelper.Apply(queryable, query);
+        queryable = IncludeHelper.Apply(queryable);
         var totalOrigin = queryable.Count();
         var results = await ApplySortingAndPaging(queryable, query);
 
@@ -138,6 +140,7 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
     public virtual async Task<TEntity?> GetById(Guid id)
     {
         var queryable = GetQueryable(x => x.Id == id);
+        queryable = IncludeHelper.Apply(queryable);
         var entity = await queryable.FirstOrDefaultAsync();
 
         return entity;
@@ -146,6 +149,7 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
     public virtual async Task<IList<TEntity>> GetByIds(IList<Guid> ids)
     {
         var queryable = GetQueryable(x => ids.Contains(x.Id));
+        queryable = IncludeHelper.Apply(queryable);
         var entity = await queryable.ToListAsync();
 
         return entity;
@@ -161,7 +165,7 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
     public IQueryable<T> GetQueryable<T>()
         where T : BaseEntity
     {
-        IQueryable<T> queryable = GetDbSet<T>(); // like DbSet in this
+        IQueryable<T> queryable = GetDbSet<T>();
         return queryable;
     }
 
@@ -188,6 +192,7 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
     public async Task<long> GetTotalCount()
     {
         var result = await GetQueryable().LongCountAsync();
+
         return result;
     }
 

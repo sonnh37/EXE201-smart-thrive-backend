@@ -139,19 +139,19 @@ public static class FilterHelper
     public static IQueryable<User> User(IQueryable<User> queryable, UserGetAllQuery query)
     {
         if (!string.IsNullOrEmpty(query.Username))
-            queryable = queryable.Where(e => e.Username.Contains(query.Username));
+            queryable = queryable.Where(e => e.Username!.Contains(query.Username));
 
         if (!string.IsNullOrEmpty(query.FirstName))
-            queryable = queryable.Where(e => e.FirstName.Contains(query.FirstName));
+            queryable = queryable.Where(e => e.FirstName!.Contains(query.FirstName));
 
         if (!string.IsNullOrEmpty(query.LastName))
-            queryable = queryable.Where(e => e.LastName.Contains(query.LastName));
+            queryable = queryable.Where(e => e.LastName!.Contains(query.LastName));
 
-        if (!string.IsNullOrEmpty(query.Email)) queryable = queryable.Where(e => e.Email.Contains(query.Email));
+        if (!string.IsNullOrEmpty(query.Email)) queryable = queryable.Where(e => e.Email!.Contains(query.Email));
 
         if (query.Dob.HasValue) queryable = queryable.Where(e => e.Dob == query.Dob);
 
-        if (!string.IsNullOrEmpty(query.Address)) queryable = queryable.Where(e => e.Address.Contains(query.Address));
+        if (!string.IsNullOrEmpty(query.Address)) queryable = queryable.Where(e => e.Address!.Contains(query.Address));
 
         if (!string.IsNullOrEmpty(query.Status.ToString())) queryable = queryable.Where(e => e.Status == query.Status);
 
@@ -159,7 +159,7 @@ public static class FilterHelper
 
         if (!string.IsNullOrEmpty(query.Role.ToString())) queryable = queryable.Where(e => e.Role == query.Role);
 
-        if (!string.IsNullOrEmpty(query.Phone)) queryable = queryable.Where(e => e.Phone.Contains(query.Phone));
+        if (!string.IsNullOrEmpty(query.Phone)) queryable = queryable.Where(e => e.Phone!.Contains(query.Phone));
 
         queryable = BaseFilterHelper.Base(queryable, query);
 
