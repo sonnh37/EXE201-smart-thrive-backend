@@ -14,12 +14,12 @@ public class UserRepository : BaseRepository<User>, IUserRepository
     {
     }
 
-    public async Task<User> FindByEmailOrUsername(string keyword)
+    public async Task<User?> FindByEmailOrUsername(string keyword)
     {
         var queryable = GetQueryable();
 
-        var user = await queryable.Where(e => e.Email.ToLower() == keyword.ToLower()
-                                              || e.Username.ToLower() == keyword.ToLower())
+        var user = await queryable.Where(e => e.Email!.ToLower() == keyword.ToLower()
+                                              || e.Username!.ToLower() == keyword.ToLower())
             .Include(e => e.Students)
             .SingleOrDefaultAsync();
 

@@ -100,7 +100,7 @@ public abstract class BaseService<TEntity> : BaseService, IBaseService
 
             var saveChanges = await _unitOfWork.SaveChanges();
             return new BusinessResult(
-                saveChanges ? Const.SUCCESS_UPDATE_CODE : Const.FAIL_UPDATE_CODE,
+                saveChanges ? Const.SUCCESS_CODE : Const.FAIL_CODE,
                 saveChanges ? Const.SUCCESS_UPDATE_MSG : Const.FAIL_UPDATE_MSG
             );
         }
@@ -123,7 +123,7 @@ public abstract class BaseService<TEntity> : BaseService, IBaseService
 
             var saveChanges = await _unitOfWork.SaveChanges();
             return new BusinessResult(
-                saveChanges ? Const.SUCCESS_CREATE_CODE : Const.FAIL_CREATE_CODE,
+                saveChanges ? Const.SUCCESS_CODE : Const.FAIL_CODE,
                 saveChanges ? Const.SUCCESS_CREATE_MSG : Const.FAIL_CREATE_MSG
             );
         }
@@ -144,7 +144,7 @@ public abstract class BaseService<TEntity> : BaseService, IBaseService
             var entity = await DeleteEntity(id);
 
             return new BusinessResult(
-                entity != null ? Const.SUCCESS_DELETE_CODE : Const.FAIL_DELETE_CODE,
+                entity != null ? Const.SUCCESS_CODE : Const.FAIL_CODE,
                 entity != null ? Const.SUCCESS_DELETE_MSG : Const.FAIL_DELETE_MSG
             );
         }

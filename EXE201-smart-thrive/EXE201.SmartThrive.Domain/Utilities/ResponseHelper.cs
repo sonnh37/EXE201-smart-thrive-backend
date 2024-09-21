@@ -11,12 +11,12 @@ public static class ResponseHelper
     {
         if (result == null)
         {
-            var response = new ItemResponse<TResult>(result);
+            var response = new ResultResponse<TResult>(result);
             return new BusinessResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG, response);
         }
 
-        var res = new ItemResponse<TResult>(result);
-        return new BusinessResult(Const.SUCCESS_READ_CODE, Const.SUCCESS_READ_MSG, res);
+        var res = new ResultResponse<TResult>(result);
+        return new BusinessResult(Const.SUCCESS_CODE, Const.SUCCESS_READ_MSG, res);
     }
 
     public static BusinessResult CreateResult<TResult>(List<TResult>? results)
@@ -24,12 +24,12 @@ public static class ResponseHelper
     {
         if (results == null || !results.Any())
         {
-            var response = new ItemListResponse<TResult>(results);
+            var response = new ResultsResponse<TResult>(results);
             return new BusinessResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG, response);
         }
 
-        var res = new ItemListResponse<TResult>(results);
-        return new BusinessResult(Const.SUCCESS_READ_CODE, Const.SUCCESS_READ_MSG, res);
+        var res = new ResultsResponse<TResult>(results);
+        return new BusinessResult(Const.SUCCESS_CODE, Const.SUCCESS_READ_MSG, res);
     }
 
     public static BusinessResult CreateResult<TResult>((List<TResult>? List, int? TotalCount) item,
@@ -43,11 +43,23 @@ public static class ResponseHelper
         }
 
         var res = new PagedResponse<TResult>(pagedQuery, item.List, item.TotalCount);
-        return new BusinessResult(Const.SUCCESS_READ_CODE, Const.SUCCESS_READ_MSG, res);
+        return new BusinessResult(Const.SUCCESS_CODE, Const.SUCCESS_READ_MSG, res);
     }
 
     public static BusinessResult CreateResult(string e)
     {
         return new BusinessResult(Const.ERROR_EXCEPTION_CODE, e);
+    }
+    
+    public static BusinessResult CreateResult(string? token, string? expiration, string? msg = null)
+    {
+        if (token == null && expiration == null && msg != null)
+        {
+            var response = new LoginResponse(null, null);
+            return new BusinessResult(Const.NOT_FOUND_CODE, msg, response);
+        }
+
+        var res = new LoginResponse(token, expiration);
+        return new BusinessResult(Const.SUCCESS_CODE, Const.SUCCESS_LOGIN_MSG, res);
     }
 }

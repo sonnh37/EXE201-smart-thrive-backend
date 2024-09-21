@@ -21,72 +21,35 @@ public class BlogController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetAll([FromQuery] BlogGetAllQuery blogGetAllQuery)
     {
-        try
-        {
-            var msg = await _blogService.GetAll<BlogResult>(blogGetAllQuery);
-            return Ok(msg);
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
+        var msg = await _blogService.GetAll<BlogResult>(blogGetAllQuery);
+        return Ok(msg);
     }
-
 
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> Get(Guid id)
     {
-        try
-        {
-            var msg = await _blogService.GetById<BlogResult>(id);
-            return Ok(msg);
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
+        var msg = await _blogService.GetById<BlogResult>(id);
+        return Ok(msg);
     }
 
     [HttpPost]
     public async Task<IActionResult> Add(BlogCreateCommand request)
     {
-        try
-        {
-            var msg = await _blogService.Create(request);
-            return Ok(msg);
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
+        var msg = await _blogService.Create(request);
+        return Ok(msg);
     }
 
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> Delete([FromRoute] Guid id)
     {
-        try
-        {
-            var msg = await _blogService.DeleteById(id);
-            return Ok(msg);
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
+        var msg = await _blogService.DeleteById(id);
+        return Ok(msg);
     }
-
 
     [HttpPut]
     public async Task<IActionResult> Update(BlogUpdateCommand request)
     {
-        try
-        {
-            var msg = await _blogService.Update(request);
-            return Ok(msg);
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
+        var msg = await _blogService.Update(request);
+        return Ok(msg);
     }
 }

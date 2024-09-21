@@ -21,71 +21,35 @@ public class VoucherController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetAll([FromQuery] VoucherGetAllQuery request)
     {
-        try
-        {
-            var msg = await _voucherService.GetAll<VoucherResult>(request);
-            return Ok(msg);
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
+        var msg = await _voucherService.GetAll<VoucherResult>(request);
+        return Ok(msg);
     }
 
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> Get(Guid id)
     {
-        try
-        {
-            var msg = await _voucherService.GetById<VoucherResult>(id);
-            return Ok(msg);
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
+        var msg = await _voucherService.GetById<VoucherResult>(id);
+        return Ok(msg);
     }
 
     [HttpPost]
     public async Task<IActionResult> Add(VoucherCreateCommand request)
     {
-        try
-        {
-            var msg = await _voucherService.Create(request);
-            return Ok(msg);
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
+        var msg = await _voucherService.Create(request);
+        return Ok(msg);
     }
 
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> Delete([FromRoute] Guid id)
     {
-        try
-        {
-            var msg = await _voucherService.DeleteById(id);
-            return Ok(msg);
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
+        var msg = await _voucherService.DeleteById(id);
+        return Ok(msg);
     }
-
 
     [HttpPut]
     public async Task<IActionResult> Update(VoucherUpdateCommand request)
     {
-        try
-        {
-            var msg = await _voucherService.Update(request);
-            return Ok(msg);
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
+        var msg = await _voucherService.Update(request);
+        return Ok(msg);
     }
 }
