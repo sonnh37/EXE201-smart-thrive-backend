@@ -8,6 +8,7 @@ using EXE201.SmartThrive.Domain.Models.Requests.Queries.Base;
 using EXE201.SmartThrive.Domain.Models.Responses;
 using EXE201.SmartThrive.Domain.Models.Results;
 using EXE201.SmartThrive.Domain.Utilities;
+using Serilog;
 
 namespace EXE201.SmartThrive.Services.Base;
 
@@ -29,101 +30,156 @@ public abstract class BaseService<TEntity> : BaseService, IBaseService
         _baseRepository = _unitOfWork.GetRepositoryByEntity<TEntity>();
     }
 
-    public async Task<ItemResponse<TResult>> GetById<TResult>(Guid id) where TResult : BaseResult
+    public async Task<BusinessResult> GetById<TResult>(Guid id) where TResult : BaseResult
     {
         var entity = await _baseRepository.GetById(id);
-
         var result = _mapper.Map<TResult>(entity);
-        var msgResult = ResponseHelper.CreateItem(result);
+        var businessResult = ResponseHelper.CreateResult(result);
 
-        return msgResult;
+        return businessResult;
     }
 
-    public async Task<MessageResponse> Update(UpdateCommand tRequest)
-    {
-        var entity = await _baseRepository.GetById(tRequest.Id);
-        if (entity == null) return ResponseHelper.CreateMessage(ConstantHelper.NotFound, false);
-        _mapper.Map(tRequest, entity);
-        SetBaseEntityUpdate(entity);
-        _baseRepository.Update(entity);
 
-        var saveChanges = await _unitOfWork.SaveChanges();
-        var message = saveChanges ? ConstantHelper.Success : ConstantHelper.Fail;
-        var msg = ResponseHelper.CreateMessage(message, saveChanges);
-        return msg;
+    public async Task<BusinessResult> GetAll<TResult>() where TResult : BaseResult
+    {
+        try
+        {
+            var entities = await _baseRepository.GetAll();
+            var results = _mapper.Map<List<TResult>>(entities);
+            return ResponseHelper.CreateResult(results);
+        }
+        catch (Exception ex)
+        {
+            string errorMessage = $"An error {typeof(TResult).Name}: {ex.Message}";
+            Log.Error(ex, errorMessage);
+            return ResponseHelper.CreateResult(errorMessage);
+        }
     }
 
-    public async Task<MessageResponse> Create(CreateCommand tRequest)
+    public async Task<BusinessResult> GetAll<TResult>(GetQueryableQuery x) where TResult : BaseResult
     {
-        var entity = _mapper.Map<TEntity>(tRequest);
-        if (entity == null) return ResponseHelper.CreateMessage(ConstantHelper.NotFound, false);
-        SetBaseEntityCreate(entity);
-        _baseRepository.Add(entity);
+        try
+        {
+            if (!x.IsPagination)
+            {
+                return await GetAll<TResult>();
+            }
 
-        var saveChanges = await _unitOfWork.SaveChanges();
-        var message = saveChanges ? ConstantHelper.Success : ConstantHelper.Fail;
-        var msg = ResponseHelper.CreateMessage(message, saveChanges);
-        return msg;
+            var tuple = await _baseRepository.GetAll(x);
+            var results = _mapper.Map<List<TResult>?>(tuple.Item1);
+
+            return ResponseHelper.CreateResult((results, tuple.Item2), x);
+        }
+        catch (Exception ex)
+        {
+            var errorMessage = $"An error {typeof(TResult).Name}: {ex.Message}";
+            Log.Error(ex, errorMessage);
+            return ResponseHelper.CreateResult(errorMessage);
+        }
     }
 
-    public async Task<MessageResponse> DeleteById(Guid id)
+
+    #region Commands
+
+    public async Task<BusinessResult> Update(UpdateCommand tRequest)
     {
-        if (id == Guid.Empty) return ResponseHelper.CreateMessage(ConstantHelper.NotFound, false);
+        try
+        {
+            var entity = await _baseRepository.GetById(tRequest.Id);
+            if (entity == null) return new BusinessResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG);
 
-        var entity = await DeleteEntity(id);
+            _mapper.Map(tRequest, entity);
+            SetBaseEntityUpdate(entity);
+            _baseRepository.Update(entity);
 
-        var message = entity != null ? ConstantHelper.Success : ConstantHelper.Fail;
-        var msg = ResponseHelper.CreateMessage(message, entity != null);
-
-        return msg;
+            var saveChanges = await _unitOfWork.SaveChanges();
+            return new BusinessResult(
+                saveChanges ? Const.SUCCESS_UPDATE_CODE : Const.FAIL_UPDATE_CODE,
+                saveChanges ? Const.SUCCESS_UPDATE_MSG : Const.FAIL_UPDATE_MSG
+            );
+        }
+        catch (Exception ex)
+        {
+            var errorMessage = $"An error occurred while updating {typeof(TEntity).Name}: {ex.Message}";
+            Log.Error(ex, errorMessage);
+            return ResponseHelper.CreateResult(errorMessage);
+        }
     }
 
-    public async Task<ItemListResponse<TResult>> GetAll<TResult>() where TResult : BaseResult
+    public async Task<BusinessResult> Create(CreateCommand tRequest)
     {
-        var entities = await _baseRepository.GetAll();
+        try
+        {
+            var entity = _mapper.Map<TEntity>(tRequest);
 
-        var results = _mapper.Map<List<TResult>>(entities);
-        var msgResults = ResponseHelper.CreateItemList(results);
+            SetBaseEntityCreate(entity);
+            _baseRepository.Add(entity);
 
-        return msgResults;
+            var saveChanges = await _unitOfWork.SaveChanges();
+            return new BusinessResult(
+                saveChanges ? Const.SUCCESS_CREATE_CODE : Const.FAIL_CREATE_CODE,
+                saveChanges ? Const.SUCCESS_CREATE_MSG : Const.FAIL_CREATE_MSG
+            );
+        }
+        catch (Exception ex)
+        {
+            var errorMessage = $"An error occurred while creating {typeof(TEntity).Name}: {ex.Message}";
+            Log.Error(ex, errorMessage);
+            return ResponseHelper.CreateResult(errorMessage);
+        }
     }
 
-    public async Task<PagedResponse<TResult>> GetAll<TResult>(GetQueryableQuery x) where TResult : BaseResult
+    public async Task<BusinessResult> DeleteById(Guid id)
     {
-        var entityAndInt = x.IsPagination
-            ? await _baseRepository.GetAll(x)
-            : (await _baseRepository.GetAll(), (int?)null);
-        var results = _mapper.Map<List<TResult>?>(entityAndInt.Item1);
-        var resultsWithTotal = (results, entityAndInt.Item2);
+        try
+        {
+            if (id == Guid.Empty) return new BusinessResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG);
 
-        return ResponseHelper.CreatePaged(resultsWithTotal, x);
+            var entity = await DeleteEntity(id);
+            
+            return new BusinessResult(
+                entity != null ? Const.SUCCESS_DELETE_CODE : Const.FAIL_DELETE_CODE,
+                entity != null ? Const.SUCCESS_DELETE_MSG : Const.FAIL_DELETE_MSG
+            );
+        }
+        catch (Exception ex)
+        {
+            var errorMessage = $"An error occurred while deleting {typeof(TEntity).Name} with ID {id}: {ex.Message}";
+            Log.Error(ex, errorMessage);
+            return ResponseHelper.CreateResult(errorMessage);
+        }
     }
 
     private static void SetBaseEntityCreate(TEntity? entity)
     {
         if (entity == null) return;
 
-        var user = InformationUser.User;
-
-        entity.CreatedDate = DateTime.Now;
-        entity.UpdatedDate = DateTime.Now;
+        entity.CreatedDate = DateTime.UtcNow;
+        entity.UpdatedDate = DateTime.UtcNow;
         entity.IsDeleted = false;
 
-        if (user == null) return;
-        entity.CreatedBy = user.Email;
-        entity.UpdatedBy = user.Email;
+        SetUserInformation(entity);
     }
 
     private static void SetBaseEntityUpdate(TEntity? entity)
     {
         if (entity == null) return;
 
+        entity.UpdatedDate = DateTime.UtcNow;
+        SetUserInformation(entity);
+    }
+
+    private static void SetUserInformation(TEntity entity)
+    {
         var user = InformationUser.User;
 
-        entity.UpdatedDate = DateTime.Now;
-
         if (user == null) return;
+
         entity.UpdatedBy = user.Email;
+        if (entity.CreatedDate == default)
+        {
+            entity.CreatedBy = user.Email;
+        }
     }
 
     private async Task<TEntity?> DeleteEntity(Guid id)
@@ -136,4 +192,6 @@ public abstract class BaseService<TEntity> : BaseService, IBaseService
         var saveChanges = await _unitOfWork.SaveChanges();
         return saveChanges ? entity : default;
     }
+
+    #endregion
 }

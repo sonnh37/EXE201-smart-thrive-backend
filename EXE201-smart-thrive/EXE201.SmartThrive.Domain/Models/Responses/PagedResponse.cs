@@ -3,10 +3,10 @@ using EXE201.SmartThrive.Domain.Models.Requests.Queries.Base;
 
 namespace EXE201.SmartThrive.Domain.Models.Responses;
 
-public class PagedResponse<TResult> : MessageResponse where TResult : class
+public class PagedResponse<TResult> where TResult : class
 {
-    public PagedResponse(string message, GetQueryableQuery pagedQuery, List<TResult>? results, int? totalOrigin = null)
-        : base(results != null, message)
+    public PagedResponse(GetQueryableQuery pagedQuery, List<TResult>? results = null, int? totalOrigin = null)
+        
     {
         PageNumber = totalOrigin != null ? pagedQuery.PageNumber : null;
         PageSize = totalOrigin != null ? pagedQuery.PageSize : null;
