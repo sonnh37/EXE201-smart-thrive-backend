@@ -11,120 +11,64 @@ namespace EXE201.SmartThrive.API.Controllers;
 [ApiController]
 public class UserController : ControllerBase
 {
-    private readonly IUserService service;
+    private readonly IUserService _userService;
 
-    public UserController(IUserService _service)
+    public UserController(IUserService __userService)
     {
-        service = _service;
+        _userService = __userService;
     }
 
     //[Authorize(Roles = "Admin")]
     [HttpGet]
     public async Task<IActionResult> GetAll([FromQuery] UserGetAllQuery query)
     {
-        try
-        {
-            var msg = await service.GetAll<UserResult>(query);
-            return Ok(msg);
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
+        var msg = await _userService.GetAll<UserResult>(query);
+        return Ok(msg);
     }
 
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> Get(Guid id)
     {
-        try
-        {
-            var msg = await service.GetById<UserResult>(id);
-            return Ok(msg);
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
+        var msg = await _userService.GetById<UserResult>(id);
+        return Ok(msg);
     }
 
     [HttpPost]
     public async Task<IActionResult> Add(UserCreateCommand request)
     {
-        try
-        {
-            var msg = await service.Create(request);
-            return Ok(msg);
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
+        var msg = await _userService.Create(request);
+        return Ok(msg);
     }
 
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> Delete([FromRoute] Guid id)
     {
-        try
-        {
-            var msg = await service.DeleteById(id);
-            return Ok(msg);
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
+        var msg = await _userService.DeleteById(id);
+        return Ok(msg);
     }
 
     [HttpPut]
     public async Task<IActionResult> Update(UserUpdateCommand request)
     {
-        try
-        {
-            var msg = await service.Update(request);
-            return Ok(msg);
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
+        var msg = await _userService.Update(request);
+        return Ok(msg);
     }
 
     [HttpPost("register")]
     public async Task<IActionResult> Register(UserCreateCommand request)
     {
-        try
-        {
-            var passwordHash = BCrypt.Net.BCrypt.HashPassword(request.Password);
-            request.Password = passwordHash;
+        var passwordHash = BCrypt.Net.BCrypt.HashPassword(request.Password);
+        request.Password = passwordHash;
 
-            var msg = await service.Create(request);
-            return Ok(msg);
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
+        var msg = await _userService.Create(request);
+        return Ok(msg);
     }
 
     [HttpGet("login")]
     public async Task<IActionResult> Login(string usernameOrEmail, string password)
     {
-        try
-        {
-            var user = await service.Login(usernameOrEmail, password);
+        var msg = await _userService.Login(usernameOrEmail, password);
 
-            if (user == null) return NotFound();
-
-            var token = await service.CreateToken(user);
-
-            return Ok(new
-            {
-                user, token
-            });
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
+        return Ok(msg);
     }
 }

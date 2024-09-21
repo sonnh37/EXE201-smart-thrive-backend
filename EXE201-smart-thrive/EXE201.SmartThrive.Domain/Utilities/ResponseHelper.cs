@@ -6,35 +6,60 @@ namespace EXE201.SmartThrive.Domain.Utilities;
 
 public static class ResponseHelper
 {
-    public static ItemListResponse<TResult> CreateItemList<TResult>(List<TResult>? results)
+    public static BusinessResult CreateResult<TResult>(TResult? result)
         where TResult : BaseResult
     {
-        if (results == null) return new ItemListResponse<TResult>(ConstantHelper.Fail, results);
+        if (result == null)
+        {
+            var response = new ResultResponse<TResult>(result);
+            return new BusinessResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG, response);
+        }
 
-        if (!results.Any()) return new ItemListResponse<TResult>(ConstantHelper.NotFound, results);
-
-        return new ItemListResponse<TResult>(ConstantHelper.Success, results);
+        var res = new ResultResponse<TResult>(result);
+        return new BusinessResult(Const.SUCCESS_CODE, Const.SUCCESS_READ_MSG, res);
     }
 
-    public static PagedResponse<TResult> CreatePaged<TResult>((List<TResult>?, int?) item, GetQueryableQuery pagedQuery)
+    public static BusinessResult CreateResult<TResult>(List<TResult>? results)
         where TResult : BaseResult
     {
-        if (item.Item1 == null) return new PagedResponse<TResult>(ConstantHelper.Fail, pagedQuery, item.Item1);
+        if (results == null || !results.Any())
+        {
+            var response = new ResultsResponse<TResult>(results);
+            return new BusinessResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG, response);
+        }
 
-        if (item.Item1.Count == 0) return new PagedResponse<TResult>(ConstantHelper.NotFound, pagedQuery, item.Item1);
-
-        return new PagedResponse<TResult>(ConstantHelper.Success, pagedQuery, item.Item1, item.Item2);
+        var res = new ResultsResponse<TResult>(results);
+        return new BusinessResult(Const.SUCCESS_CODE, Const.SUCCESS_READ_MSG, res);
     }
 
-    public static ItemResponse<TResult> CreateItem<TResult>(TResult? result)
+    public static BusinessResult CreateResult<TResult>((List<TResult>? List, int? TotalCount) item,
+        GetQueryableQuery pagedQuery)
         where TResult : BaseResult
     {
-        var message = result != null ? ConstantHelper.Success : ConstantHelper.Fail;
-        return new ItemResponse<TResult>(message, result);
+        if (item.List == null || !item.List.Any())
+        {
+            var response = new PagedResponse<TResult>(pagedQuery);
+            return new BusinessResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG, response);
+        }
+
+        var res = new PagedResponse<TResult>(pagedQuery, item.List, item.TotalCount);
+        return new BusinessResult(Const.SUCCESS_CODE, Const.SUCCESS_READ_MSG, res);
     }
 
-    public static MessageResponse CreateMessage(string message, bool isSuccess)
+    public static BusinessResult CreateResult(string e)
     {
-        return new MessageResponse(isSuccess, message);
+        return new BusinessResult(Const.ERROR_EXCEPTION_CODE, e);
+    }
+    
+    public static BusinessResult CreateResult(string? token, string? expiration, string? msg = null)
+    {
+        if (token == null && expiration == null && msg != null)
+        {
+            var response = new LoginResponse(null, null);
+            return new BusinessResult(Const.NOT_FOUND_CODE, msg, response);
+        }
+
+        var res = new LoginResponse(token, expiration);
+        return new BusinessResult(Const.SUCCESS_CODE, Const.SUCCESS_LOGIN_MSG, res);
     }
 }

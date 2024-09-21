@@ -6,7 +6,9 @@ using EXE201.SmartThrive.Domain.Contracts.Repositories;
 using EXE201.SmartThrive.Domain.Contracts.Services;
 using EXE201.SmartThrive.Domain.Contracts.UnitOfWorks;
 using EXE201.SmartThrive.Domain.Entities;
+using EXE201.SmartThrive.Domain.Models.Responses;
 using EXE201.SmartThrive.Domain.Models.Results;
+using EXE201.SmartThrive.Domain.Utilities;
 using EXE201.SmartThrive.Services.Base;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -16,15 +18,15 @@ namespace EXE201.SmartThrive.Services;
 public class UserService : BaseService<User>, IUserService
 {
     private readonly IConfiguration configuration;
-    private readonly IUserRepository repository;
-
+    private readonly IUserRepository _userRepository;
+    private readonly DateTime _expirationTime = ConstantHelper.ExpirationLogin;
     public UserService(IMapper mapper, IUnitOfWork unitOfWork, IConfiguration _configuration) : base(mapper, unitOfWork)
     {
-        repository = _unitOfWork.UserRepository;
+        _userRepository = _unitOfWork.UserRepository;
         configuration = _configuration;
     }
 
-    public async Task<string> CreateToken(UserResult user)
+    private (string token, string expiration) CreateToken(UserResult user)
     {
         var claims = new List<Claim>
         {
@@ -37,27 +39,31 @@ public class UserService : BaseService<User>, IUserService
 
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
 
+        
         var token = new JwtSecurityToken(
             claims: claims,
-            expires: DateTime.Now.AddDays(1),
+            expires: _expirationTime,
             signingCredentials: creds
         );
 
         var jwt = new JwtSecurityTokenHandler().WriteToken(token);
 
-        return jwt;
+        return (jwt, _expirationTime.ToString("o")); // Trả về token và thời gian hết hạn
     }
-
-    public async Task<UserResult> Login(string usernameOrEmail, string password)
+    public async Task<BusinessResult> Login(string usernameOrEmail, string password)
     {
-        var user = await repository.FindByEmailOrUsername(usernameOrEmail);
+        var user = await _userRepository.FindByEmailOrUsername(usernameOrEmail);
 
         //check username 
-        if (user == null) return null;
+        if (user == null) return ResponseHelper.CreateResult(null, null, Const.NOT_USERNAME_MSG);
 
         //check password
-        if (!BCrypt.Net.BCrypt.Verify(password, user.Password)) return null;
+        if (!BCrypt.Net.BCrypt.Verify(password, user.Password)) 
+            return ResponseHelper.CreateResult(null, null, Const.NOT_PASSWORD_MSG);
 
-        return _mapper.Map<UserResult>(user);
+        var userResult = _mapper.Map<UserResult>(user);
+        var (token, expiration) = CreateToken(userResult);
+
+        return ResponseHelper.CreateResult(token, expiration);
     }
 }

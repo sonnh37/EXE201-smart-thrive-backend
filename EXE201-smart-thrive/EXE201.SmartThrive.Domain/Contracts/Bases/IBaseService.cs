@@ -7,15 +7,15 @@ namespace EXE201.SmartThrive.Domain.Contracts.Bases;
 
 public interface IBaseService
 {
-    Task<ItemListResponse<TResult>> GetAll<TResult>() where TResult : BaseResult;
+    Task<BusinessResult> GetAll<TResult>() where TResult : BaseResult;
 
-    Task<PagedResponse<TResult>> GetAll<TResult>(GetQueryableQuery query) where TResult : BaseResult;
+    Task<BusinessResult> GetAll<TResult>(GetQueryableQuery query) where TResult : BaseResult;
 
-    Task<ItemResponse<TResult>> GetById<TResult>(Guid id) where TResult : BaseResult;
+    Task<BusinessResult> GetById<TResult>(Guid id) where TResult : BaseResult;
 
-    Task<MessageResponse> Create(CreateCommand tRequest);
+    Task<BusinessResult> Create(CreateCommand tRequest);
 
-    Task<MessageResponse> Update(UpdateCommand tRequest);
+    Task<BusinessResult> Update(UpdateCommand tRequest);
 
-    Task<MessageResponse> DeleteById(Guid id);
+    Task<BusinessResult> DeleteById(Guid id);
 }

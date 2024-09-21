@@ -21,71 +21,35 @@ public class ModuleController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetAll([FromQuery] ModuleGetAllQuery request)
     {
-        try
-        {
-            var msg = await _moduleService.GetAll<ModuleResult>(request);
-            return Ok(msg);
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
+        var msg = await _moduleService.GetAll<ModuleResult>(request);
+        return Ok(msg);
     }
 
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> Get(Guid id)
     {
-        try
-        {
-            var msg = await _moduleService.GetById<ModuleResult>(id);
-            return Ok(msg);
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
+        var msg = await _moduleService.GetById<ModuleResult>(id);
+        return Ok(msg);
     }
 
     [HttpPost]
     public async Task<IActionResult> Add(ModuleCreateCommand request)
     {
-        try
-        {
-            var msg = await _moduleService.Create(request);
-            return Ok(msg);
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
+        var msg = await _moduleService.Create(request);
+        return Ok(msg);
     }
 
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> Delete([FromRoute] Guid id)
     {
-        try
-        {
-            var msg = await _moduleService.DeleteById(id);
-            return Ok(msg);
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
+        var msg = await _moduleService.DeleteById(id);
+        return Ok(msg);
     }
-
 
     [HttpPut]
     public async Task<IActionResult> Update(ModuleUpdateCommand request)
     {
-        try
-        {
-            var msg = await _moduleService.Update(request);
-            return Ok(msg);
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
+        var msg = await _moduleService.Update(request);
+        return Ok(msg);
     }
 }

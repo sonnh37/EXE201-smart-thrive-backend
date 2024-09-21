@@ -17,102 +17,116 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Serilog;
 
-var builder = WebApplication.CreateBuilder(args);
+Log.Logger = new LoggerConfiguration()
+    .WriteTo.Console()
+    .CreateLogger();
 
-builder.Services.AddControllers().AddJsonOptions(x =>
-    x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
-
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(options =>
+try
 {
-    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    Log.Information("starting server.");
+    var builder = WebApplication.CreateBuilder(args);
+    
+    builder.Host.UseSerilog((context, loggerConfiguration) =>
     {
-        In = ParameterLocation.Header,
-        Description = "Please enter token",
-        Name = "Authorization",
-        Type = SecuritySchemeType.Http,
-        BearerFormat = "JWT",
-        Scheme = "bearer"
+        loggerConfiguration.WriteTo.Console();
+        loggerConfiguration.ReadFrom.Configuration(context.Configuration);
     });
-    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    
+    builder.Services.AddControllers().AddJsonOptions(x =>
+        x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+
+    builder.Services.AddEndpointsApiExplorer();
+    builder.Services.AddSwaggerGen(options =>
     {
+        options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
         {
-            new OpenApiSecurityScheme
+            In = ParameterLocation.Header,
+            Description = "Please enter token",
+            Name = "Authorization",
+            Type = SecuritySchemeType.Http,
+            BearerFormat = "JWT",
+            Scheme = "bearer"
+        });
+        options.AddSecurityRequirement(new OpenApiSecurityRequirement
+        {
             {
-                Reference = new OpenApiReference
+                new OpenApiSecurityScheme
                 {
-                    Type = ReferenceType.SecurityScheme,
-                    Id = "Bearer"
-                }
-            },
-            new string[] { }
-        }
+                    Reference = new OpenApiReference
+                    {
+                        Type = ReferenceType.SecurityScheme,
+                        Id = "Bearer"
+                    }
+                },
+                new string[] { }
+            }
+        });
     });
-});
 
-builder.Services.AddDbContext<STDbContext>(options =>
-{
-    options.UseSqlServer(builder.Configuration.GetConnectionString("SmartThrive"));
-    options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
-});
+    builder.Services.AddDbContext<STDbContext>(options =>
+    {
+        options.UseSqlServer(builder.Configuration.GetConnectionString("SmartThrive"));
+        options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+    });
 
-builder.Services.AddAutoMapper(typeof(MappingProfile));
+    builder.Services.AddAutoMapper(typeof(MappingProfile));
 
-#region Add-Scoped
+    #region Add-Scoped
 
-builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
+    builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+    builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
 
-builder.Services.AddScoped<ISubjectRepository, SubjectRepository>();
-builder.Services.AddScoped<ISubjectService, SubjectService>();
+    builder.Services.AddScoped<ISubjectRepository, SubjectRepository>();
+    builder.Services.AddScoped<ISubjectService, SubjectService>();
 
-builder.Services.AddScoped<IFeedbackRepository, FeedbackRepository>();
-builder.Services.AddScoped<IFeedbackService, FeedbackService>();
+    builder.Services.AddScoped<IFeedbackRepository, FeedbackRepository>();
+    builder.Services.AddScoped<IFeedbackService, FeedbackService>();
 
-builder.Services.AddScoped<IModuleRepository, ModuleRepository>();
-builder.Services.AddScoped<IModuleService, ModuleService>();
+    builder.Services.AddScoped<IModuleRepository, ModuleRepository>();
+    builder.Services.AddScoped<IModuleService, ModuleService>();
 
-builder.Services.AddScoped<IVoucherRepository, VoucherRepository>();
-builder.Services.AddScoped<IVoucherService, VoucherService>();
+    builder.Services.AddScoped<IVoucherRepository, VoucherRepository>();
+    builder.Services.AddScoped<IVoucherService, VoucherService>();
 
-builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
-builder.Services.AddScoped<ICategoryService, CategoryService>();
+    builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+    builder.Services.AddScoped<ICategoryService, CategoryService>();
 
-builder.Services.AddScoped<ICourseRepository, CourseRepository>();
-builder.Services.AddScoped<ICourseService, CourseService>();
+    builder.Services.AddScoped<ICourseRepository, CourseRepository>();
+    builder.Services.AddScoped<ICourseService, CourseService>();
 
-builder.Services.AddScoped<IOrderRepository, OrderRepository>();
-builder.Services.AddScoped<IOrderService, OrderService>();
+    builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+    builder.Services.AddScoped<IOrderService, OrderService>();
 
-builder.Services.AddScoped<IProviderRepository, ProviderRepository>();
-builder.Services.AddScoped<IProviderService, ProviderService>();
+    builder.Services.AddScoped<IProviderRepository, ProviderRepository>();
+    builder.Services.AddScoped<IProviderService, ProviderService>();
 
 // builder.Services.AddScoped<ICourseXPackageRepository, CourseXPackageRepository>();
 // builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 // builder.Services.AddScoped<IPackageRepository, PackageRepository>();
 // builder.Services.AddScoped<IProviderRepository, ProviderRepository>();
 // builder.Services.AddScoped<IRoleRepository, RoleRepository>();
-builder.Services.AddScoped<ISessionRepository, SessionRepository>();
-builder.Services.AddScoped<IStudentRepository, StudentRepository>();
-builder.Services.AddScoped<IStudentService, StudentService>();
+    builder.Services.AddScoped<ISessionRepository, SessionRepository>();
+    builder.Services.AddScoped<IStudentRepository, StudentRepository>();
+    builder.Services.AddScoped<IStudentService, StudentService>();
 
-builder.Services.AddScoped<IBlogRepository, BlogRepository>();
-builder.Services.AddScoped<IBlogService, BlogService>();
+    builder.Services.AddScoped<IBlogRepository, BlogRepository>();
+    builder.Services.AddScoped<IBlogService, BlogService>();
 
-builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IUserService, UserService>();
+    builder.Services.AddScoped<IUserRepository, UserRepository>();
+    builder.Services.AddScoped<IUserService, UserService>();
 
-builder.Services.AddScoped<ISessionMeetingRepository, SessionMeetingRepository>();
-
-
-builder.Services.AddScoped<ISessionOfflineRepository, SessionOfflineRepository>();
+    builder.Services.AddScoped<ISessionMeetingRepository, SessionMeetingRepository>();
 
 
-builder.Services.AddScoped<ISessionSelfLearnRepository, SessionSelfLearnRepository>();
+    builder.Services.AddScoped<ISessionOfflineRepository, SessionOfflineRepository>();
 
-builder.Services.AddScoped<ISessionRepository, SessionRepository>();
-builder.Services.AddScoped<ISessionService, SessionService>();
+
+    builder.Services.AddScoped<ISessionSelfLearnRepository, SessionSelfLearnRepository>();
+
+    builder.Services.AddScoped<ISessionRepository, SessionRepository>();
+    builder.Services.AddScoped<ISessionService, SessionService>();
 // builder.Services.AddScoped<IRoleService, RoleService>();
 //builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 
@@ -122,53 +136,53 @@ builder.Services.AddScoped<ISessionService, SessionService>();
 // builder.Services.AddScoped<IPackageRepository, PackageRepository>();
 // builder.Services.AddScoped<ISessionRepository, SessionRepository>();
 
-#endregion
+    #endregion
 
-builder.Services.AddHttpContextAccessor();
+    builder.Services.AddHttpContextAccessor();
 //Register session type
-SessionService.RegisterProductType("Meeting", typeof(SessionService.SessionMeetingService));
-SessionService.RegisterProductType("Offline", typeof(SessionService.SessionOfflineService));
-SessionService.RegisterProductType("SelfLearn", typeof(SessionService.SessionSelfLearnService));
+    SessionService.RegisterProductType("Meeting", typeof(SessionService.SessionMeetingService));
+    SessionService.RegisterProductType("Offline", typeof(SessionService.SessionOfflineService));
+    SessionService.RegisterProductType("SelfLearn", typeof(SessionService.SessionSelfLearnService));
 
-builder.Services.AddCors(options =>
-{
-    options.AddDefaultPolicy(policy =>
+    builder.Services.AddCors(options =>
     {
-        policy.AllowAnyOrigin()
-            .AllowAnyHeader()
-            .AllowAnyMethod();
-    });
-});
-
-#region Config_Authentication
-
-builder.Services.AddAuthentication(options =>
-    {
-        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-    })
-    .AddJwtBearer(options =>
-    {
-        options.SaveToken = true;
-        options.RequireHttpsMetadata = true;
-
-        options.TokenValidationParameters = new TokenValidationParameters
+        options.AddDefaultPolicy(policy =>
         {
-            ValidateIssuer = false,
-            ValidateAudience = false,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = false,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
-                builder.Configuration.GetValue<string>("JWT:Token") ?? string.Empty)),
-            ClockSkew = TimeSpan.Zero
-        };
-
-        options.Configuration = new OpenIdConnectConfiguration();
+            policy.AllowAnyOrigin()
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        });
     });
 
-builder.Services.AddAuthorization();
+    #region Config_Authentication
 
-#endregion
+    builder.Services.AddAuthentication(options =>
+        {
+            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        })
+        .AddJwtBearer(options =>
+        {
+            options.SaveToken = true;
+            options.RequireHttpsMetadata = true;
+
+            options.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuer = false,
+                ValidateAudience = false,
+                ValidateLifetime = true,
+                ValidateIssuerSigningKey = false,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
+                    builder.Configuration.GetValue<string>("JWT:Token") ?? string.Empty)),
+                ClockSkew = TimeSpan.Zero
+            };
+
+            options.Configuration = new OpenIdConnectConfiguration();
+        });
+
+    builder.Services.AddAuthorization();
+
+    #endregion
 
 // .AddGoogle(options =>
 // {
@@ -178,32 +192,41 @@ builder.Services.AddAuthorization();
 //     options.ClientSecret = googleAuthNSection["ClientSecret"];
 // });
 
-var app = builder.Build();
+    var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    if (app.Environment.IsDevelopment())
+    {
+        app.UseSwagger();
+        app.UseSwaggerUI();
+    }
+
+    app.UseMiddleware<RequestTokenUserMiddleware>();
+
+    using (var scope = app.Services.CreateScope())
+    {
+        var context = scope.ServiceProvider.GetRequiredService<STDbContext>();
+        DummyData.SeedDatabase(context);
+    }
+
+    app.UseRouting();
+
+    app.UseHttpsRedirection();
+
+    app.UseCors();
+
+    app.UseAuthentication();
+
+    app.UseAuthorization();
+
+    app.MapControllers();
+
+    app.Run();
 }
-
-app.UseMiddleware<RequestTokenUserMiddleware>();
-
-using (var scope = app.Services.CreateScope())
+catch (Exception ex)
 {
-    var context = scope.ServiceProvider.GetRequiredService<STDbContext>();
-    DummyData.SeedDatabase(context);
+    Log.Fatal(ex, "server terminated unexpectedly");
 }
-
-app.UseRouting();
-
-app.UseHttpsRedirection();
-
-app.UseCors();
-
-app.UseAuthentication();
-
-app.UseAuthorization();
-
-app.MapControllers();
-
-app.Run();
+finally
+{
+    Log.CloseAndFlush();
+}
