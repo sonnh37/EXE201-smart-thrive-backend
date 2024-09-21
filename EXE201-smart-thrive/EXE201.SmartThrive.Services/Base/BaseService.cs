@@ -32,13 +32,19 @@ public abstract class BaseService<TEntity> : BaseService, IBaseService
 
     public async Task<BusinessResult> GetById<TResult>(Guid id) where TResult : BaseResult
     {
-        var entity = await _baseRepository.GetById(id);
-        var result = _mapper.Map<TResult>(entity);
-        var businessResult = ResponseHelper.CreateResult(result);
-
-        return businessResult;
+        try
+        {
+            var entity = await _baseRepository.GetById(id);
+            var result = _mapper.Map<TResult>(entity);
+            return ResponseHelper.CreateResult(result);
+        }
+        catch (Exception ex)
+        {
+            string errorMessage = $"An error {typeof(TResult).Name}: {ex.Message}";
+            Log.Error(ex, errorMessage);
+            return ResponseHelper.CreateResult(errorMessage);
+        }
     }
-
 
     public async Task<BusinessResult> GetAll<TResult>() where TResult : BaseResult
     {
@@ -136,7 +142,7 @@ public abstract class BaseService<TEntity> : BaseService, IBaseService
             if (id == Guid.Empty) return new BusinessResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG);
 
             var entity = await DeleteEntity(id);
-            
+
             return new BusinessResult(
                 entity != null ? Const.SUCCESS_DELETE_CODE : Const.FAIL_DELETE_CODE,
                 entity != null ? Const.SUCCESS_DELETE_MSG : Const.FAIL_DELETE_MSG
