@@ -11,12 +11,10 @@ public static class ResponseHelper
     {
         if (result == null)
         {
-            var response = new ResultResponse<TResult>(result);
-            return new BusinessResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG, response);
+            return new BusinessResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG, null);
         }
 
-        var res = new ResultResponse<TResult>(result);
-        return new BusinessResult(Const.SUCCESS_CODE, Const.SUCCESS_READ_MSG, res);
+        return new BusinessResult(Const.SUCCESS_CODE, Const.SUCCESS_READ_MSG, result);
     }
 
     public static BusinessResult CreateResult<TResult>(List<TResult>? results)
