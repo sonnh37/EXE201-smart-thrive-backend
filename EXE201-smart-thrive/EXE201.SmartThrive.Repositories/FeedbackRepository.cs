@@ -13,18 +13,4 @@ public class FeedbackRepository : BaseRepository<Feedback>, IFeedbackRepository
     {
     }
 
-    public async Task<(List<Feedback>, int)> GetAllFiltered(FeedbackGetAllQuery query)
-    {
-        var queryable = GetQueryable();
-
-        // filter
-        queryable = FilterHelper.Feedback(queryable, query);
-
-        var totalOrigin = queryable.Count();
-
-        // sort & pagination
-        var results = await ApplySortingAndPaging(queryable, query);
-
-        return (results, totalOrigin);
-    }
 }

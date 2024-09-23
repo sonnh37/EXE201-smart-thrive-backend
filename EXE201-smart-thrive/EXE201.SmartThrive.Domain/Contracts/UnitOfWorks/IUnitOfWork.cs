@@ -26,4 +26,5 @@ public interface IUnitOfWork : IBaseUnitOfWork
     IUserRepository UserRepository { get; }
     IProviderRepository ProviderRepository { get; }
     IFeedbackRepository FeedbackRepository { get; }
+    IPackageRepository PackageRepository { get; }
 }

@@ -26,18 +26,4 @@ public class UserRepository : BaseRepository<User>, IUserRepository
         return user;
     }
 
-    public async Task<(List<User>, int)> GetAllFiltered(UserGetAllQuery query)
-    {
-        var queryable = GetQueryable();
-
-        // filter
-        queryable = FilterHelper.User(queryable, query);
-
-        var totalOrigin = queryable.Count();
-
-        // sort & pagination
-        var results = await ApplySortingAndPaging(queryable, query);
-
-        return (results, totalOrigin);
-    }
 }

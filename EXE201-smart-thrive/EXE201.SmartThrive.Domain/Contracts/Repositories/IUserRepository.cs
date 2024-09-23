@@ -6,6 +6,5 @@ namespace EXE201.SmartThrive.Domain.Contracts.Repositories;
 
 public interface IUserRepository : IBaseRepository<User>
 {
-    Task<(List<User>, int)> GetAllFiltered(UserGetAllQuery query);
     Task<User?> FindByEmailOrUsername(string keyword);
 }

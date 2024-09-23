@@ -13,18 +13,4 @@ public class CourseRepository : BaseRepository<Course>, ICourseRepository
     {
     }
 
-    public async Task<(List<Course>, int)> GetAllFiltered(CourseGetAllQuery query)
-    {
-        var queryable = GetQueryable();
-
-        // filter
-        queryable = FilterHelper.Course(queryable, query);
-
-        var totalOrigin = queryable.Count();
-
-        // sort & pagination
-        var results = await ApplySortingAndPaging(queryable, query);
-
-        return (results, totalOrigin);
-    }
 }
