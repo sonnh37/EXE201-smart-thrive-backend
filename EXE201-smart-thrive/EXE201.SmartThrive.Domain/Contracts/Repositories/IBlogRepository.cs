@@ -6,5 +6,4 @@ namespace EXE201.SmartThrive.Domain.Contracts.Repositories;
 
 public interface IBlogRepository : IBaseRepository<Blog>
 {
-    Task<(List<Blog>, int)> GetAllFiltered(BlogGetAllQuery query);
 }

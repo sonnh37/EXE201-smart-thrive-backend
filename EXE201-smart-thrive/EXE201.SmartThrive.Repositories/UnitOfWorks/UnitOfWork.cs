@@ -11,7 +11,9 @@ public class UnitOfWork : BaseUnitOfWork<STDbContext>, IUnitOfWork
     }
 
     public ISubjectRepository SubjectRepository => GetRepository<ISubjectRepository>();
+
     public IFeedbackRepository FeedbackRepository => GetRepository<IFeedbackRepository>();
+
     public ISessionRepository SessionRepository => GetRepository<ISessionRepository>();
     public ISessionMeetingRepository SessionMeetingRepository => GetRepository<ISessionMeetingRepository>();
     public ISessionOfflineRepository SessionOfflineRepository => GetRepository<ISessionOfflineRepository>();
@@ -20,6 +22,7 @@ public class UnitOfWork : BaseUnitOfWork<STDbContext>, IUnitOfWork
     public IBlogRepository BlogRepository => GetRepository<IBlogRepository>();
 
     public IVoucherRepository VoucherRepository => GetRepository<IVoucherRepository>();
+
     public IModuleRepository ModuleRepository => GetRepository<IModuleRepository>();
 
     public ICategoryRepository CategoryRepository => GetRepository<ICategoryRepository>();
@@ -31,5 +34,8 @@ public class UnitOfWork : BaseUnitOfWork<STDbContext>, IUnitOfWork
     public IProviderRepository ProviderRepository => GetRepository<IProviderRepository>();
 
     public IOrderRepository OrderRepository => GetRepository<IOrderRepository>();
+
     public IStudentRepository StudentRepository => GetRepository<IStudentRepository>();
+
+    public IPackageRepository PackageRepository => GetRepository<IPackageRepository>();
 }

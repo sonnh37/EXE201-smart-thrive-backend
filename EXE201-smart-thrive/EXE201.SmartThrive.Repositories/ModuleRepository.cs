@@ -13,18 +13,5 @@ public class ModuleRepository : BaseRepository<Module>, IModuleRepository
     {
     }
 
-    public async Task<(List<Module>, int)> GetAllFiltered(ModuleGetAllQuery query)
-    {
-        var queryable = GetQueryable();
-
-        // filter
-        queryable = FilterHelper.Module(queryable, query);
-
-        var totalOrigin = queryable.Count();
-
-        // sort & pagination
-        var results = await ApplySortingAndPaging(queryable, query);
-
-        return (results, totalOrigin);
-    }
+    
 }

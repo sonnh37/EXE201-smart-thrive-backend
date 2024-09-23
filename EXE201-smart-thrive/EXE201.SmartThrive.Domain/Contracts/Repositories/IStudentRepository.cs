@@ -6,5 +6,4 @@ namespace EXE201.SmartThrive.Domain.Contracts.Repositories;
 
 public interface IStudentRepository : IBaseRepository
 {
-    Task<(List<Student>, int)> GetAllFiltered(StudentGetAllQuery query);
 }

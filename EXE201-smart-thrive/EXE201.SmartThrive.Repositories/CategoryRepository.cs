@@ -13,18 +13,4 @@ public class CategoryRepository : BaseRepository<Category>, ICategoryRepository
     {
     }
 
-    public async Task<(List<Category>, int)> GetAllFiltered(CategoryGetAllQuery query)
-    {
-        var queryable = GetQueryable();
-
-        // filter
-        queryable = FilterHelper.Category(queryable, query);
-
-        var totalOrigin = queryable.Count();
-
-        // sort & pagination
-        var results = await ApplySortingAndPaging(queryable, query);
-
-        return (results, totalOrigin);
-    }
 }

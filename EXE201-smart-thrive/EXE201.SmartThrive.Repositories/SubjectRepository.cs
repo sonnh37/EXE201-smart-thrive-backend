@@ -14,19 +14,4 @@ public class SubjectRepository : BaseRepository<Subject>, ISubjectRepository
     {
     }
 
-    public async Task<(List<Subject>, int)> GetAllFiltered(SubjectGetAllQuery query)
-    {
-        var queryable = GetQueryable();
-
-        // filter
-        queryable = FilterHelper.Subject(queryable, query);
-        queryable = queryable.Include(m => m.Category);
-
-        var totalOrigin = queryable.Count();
-
-        // sort & pagination
-        var results = await ApplySortingAndPaging(queryable, query);
-
-        return (results, totalOrigin);
-    }
 }

@@ -1,16 +1,8 @@
-using System.Text;
-using System.Text.Json.Serialization;
+using EXE201.SmartThrive.API.Registrations;
 using EXE201.SmartThrive.Data;
 using EXE201.SmartThrive.Data.Context;
 using EXE201.SmartThrive.Domain.Configs.Mappings;
-using EXE201.SmartThrive.Domain.Contracts.Bases;
-using EXE201.SmartThrive.Domain.Contracts.Repositories;
-using EXE201.SmartThrive.Domain.Contracts.Services;
-using EXE201.SmartThrive.Domain.Contracts.UnitOfWorks;
 using EXE201.SmartThrive.Domain.Middleware;
-using EXE201.SmartThrive.Repositories;
-using EXE201.SmartThrive.Repositories.Base;
-using EXE201.SmartThrive.Repositories.UnitOfWorks;
 using EXE201.SmartThrive.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -18,6 +10,8 @@ using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Serilog;
+using System.Text;
+using System.Text.Json.Serialization;
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
@@ -27,13 +21,13 @@ try
 {
     Log.Information("starting server.");
     var builder = WebApplication.CreateBuilder(args);
-    
+
     builder.Host.UseSerilog((context, loggerConfiguration) =>
     {
         loggerConfiguration.WriteTo.Console();
         loggerConfiguration.ReadFrom.Configuration(context.Configuration);
     });
-    
+
     builder.Services.AddControllers().AddJsonOptions(x =>
         x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
@@ -73,73 +67,11 @@ try
 
     builder.Services.AddAutoMapper(typeof(MappingProfile));
 
-    #region Add-Scoped
-
-    builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-    builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
-
-    builder.Services.AddScoped<ISubjectRepository, SubjectRepository>();
-    builder.Services.AddScoped<ISubjectService, SubjectService>();
-
-    builder.Services.AddScoped<IFeedbackRepository, FeedbackRepository>();
-    builder.Services.AddScoped<IFeedbackService, FeedbackService>();
-
-    builder.Services.AddScoped<IModuleRepository, ModuleRepository>();
-    builder.Services.AddScoped<IModuleService, ModuleService>();
-
-    builder.Services.AddScoped<IVoucherRepository, VoucherRepository>();
-    builder.Services.AddScoped<IVoucherService, VoucherService>();
-
-    builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
-    builder.Services.AddScoped<ICategoryService, CategoryService>();
-
-    builder.Services.AddScoped<ICourseRepository, CourseRepository>();
-    builder.Services.AddScoped<ICourseService, CourseService>();
-
-    builder.Services.AddScoped<IOrderRepository, OrderRepository>();
-    builder.Services.AddScoped<IOrderService, OrderService>();
-
-    builder.Services.AddScoped<IProviderRepository, ProviderRepository>();
-    builder.Services.AddScoped<IProviderService, ProviderService>();
-
-// builder.Services.AddScoped<ICourseXPackageRepository, CourseXPackageRepository>();
-// builder.Services.AddScoped<IOrderRepository, OrderRepository>();
-// builder.Services.AddScoped<IPackageRepository, PackageRepository>();
-// builder.Services.AddScoped<IProviderRepository, ProviderRepository>();
-// builder.Services.AddScoped<IRoleRepository, RoleRepository>();
-    builder.Services.AddScoped<ISessionRepository, SessionRepository>();
-    builder.Services.AddScoped<IStudentRepository, StudentRepository>();
-    builder.Services.AddScoped<IStudentService, StudentService>();
-
-    builder.Services.AddScoped<IBlogRepository, BlogRepository>();
-    builder.Services.AddScoped<IBlogService, BlogService>();
-
-    builder.Services.AddScoped<IUserRepository, UserRepository>();
-    builder.Services.AddScoped<IUserService, UserService>();
-
-    builder.Services.AddScoped<ISessionMeetingRepository, SessionMeetingRepository>();
-
-
-    builder.Services.AddScoped<ISessionOfflineRepository, SessionOfflineRepository>();
-
-
-    builder.Services.AddScoped<ISessionSelfLearnRepository, SessionSelfLearnRepository>();
-
-    builder.Services.AddScoped<ISessionRepository, SessionRepository>();
-    builder.Services.AddScoped<ISessionService, SessionService>();
-// builder.Services.AddScoped<IRoleService, RoleService>();
-//builder.Services.AddScoped<IRoleRepository, RoleRepository>();
-
-// builder.Services.AddScoped<ICourseXPackageService, CouseXPackageService>();
-// builder.Services.AddScoped<ICourseXPackageRepository, CourseXPackageRepository>();
-
-// builder.Services.AddScoped<IPackageRepository, PackageRepository>();
-// builder.Services.AddScoped<ISessionRepository, SessionRepository>();
-
-    #endregion
+    builder.Services.AddCustomServices();
+    builder.Services.AddCustomRepositories();
 
     builder.Services.AddHttpContextAccessor();
-//Register session type
+    //Register session type
     SessionService.RegisterProductType("Meeting", typeof(SessionService.SessionMeetingService));
     SessionService.RegisterProductType("Offline", typeof(SessionService.SessionOfflineService));
     SessionService.RegisterProductType("SelfLearn", typeof(SessionService.SessionSelfLearnService));
@@ -184,13 +116,13 @@ try
 
     #endregion
 
-// .AddGoogle(options =>
-// {
-//     IConfigurationSection googleAuthNSection = builder.Configuration.GetSection("Authentication:Google");
-//
-//     options.ClientId = googleAuthNSection["ClientId"];
-//     options.ClientSecret = googleAuthNSection["ClientSecret"];
-// });
+    // .AddGoogle(options =>
+    // {
+    //     IConfigurationSection googleAuthNSection = builder.Configuration.GetSection("Authentication:Google");
+    //
+    //     options.ClientId = googleAuthNSection["ClientId"];
+    //     options.ClientSecret = googleAuthNSection["ClientSecret"];
+    // });
 
     var app = builder.Build();
 

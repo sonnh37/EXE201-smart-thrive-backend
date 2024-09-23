@@ -13,18 +13,4 @@ public class BlogRepository : BaseRepository<Blog>, IBlogRepository
     {
     }
 
-    public async Task<(List<Blog>, int)> GetAllFiltered(BlogGetAllQuery query)
-    {
-        var queryable = GetQueryable();
-
-        // filter
-        queryable = FilterHelper.Blog(queryable, query);
-
-        var totalOrigin = queryable.Count();
-
-        // sort & pagination
-        var results = await ApplySortingAndPaging(queryable, query);
-
-        return (results, totalOrigin);
-    }
 }

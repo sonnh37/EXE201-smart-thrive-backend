@@ -6,5 +6,4 @@ namespace EXE201.SmartThrive.Domain.Contracts.Repositories;
 
 public interface ICategoryRepository : IBaseRepository<Category>
 {
-    Task<(List<Category>, int)> GetAllFiltered(CategoryGetAllQuery query);
 }

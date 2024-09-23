@@ -59,6 +59,7 @@ public class ConstantHelper
     public const string Modules = "api/modules";
     public const string Feedbacks = "api/feedbacks";
     public const string Orders = "api/orders";
+    public const string Packages = "api/packages";
     public const string Courses = "api/courses";
     public const string Providers = "api/providers";
     public const string Sessions = "api/sessions";
@@ -68,6 +69,6 @@ public class ConstantHelper
     public const string SortFieldDefault = "CreatedDate";
     public const int PageNumberDefault = 1;
     public const int PageSizeDefault = 10;
-    public const SortOrder SortOrderDefault = SortOrder.Ascending;
+    public const SortOrder SortOrderDefault = SortOrder.Descending;
     public static readonly DateTime ExpirationLogin = DateTime.Now.AddHours(1);
 }
