@@ -1,8 +1,27 @@
+//                _ooOoo_                       NAM MÔ A DI ?À PH?T !
+//               o8888888o
+//               88" . "88      Thí ch? con tên là Lê T?n L?c, d??ng l?ch hai m??i tháng m??i n?m 2003
+//               (| -_- |)      
+//                O\ = /O
+//            ____/`---'\____         Con l?y chín ph??ng tr?i, con l?y m??i ph??ng ??t
+//            .' \\| |// `.             Ch? Ph?t m??i ph??ng, m??i ph??ng ch? Ph?t
+//           / \\||| : |||// \        Con ?n nh? Tr?i ??t ch? che, Thánh Th?n c?u ??
+//         / _||||| -:- |||||- \    Xin nh?t tâm kính l? Hoàng thiên H?u th?, Tiên Ph?t Thánh Th?n
+//           | | \\\ - /// | |              Giúp ?? con code s?ch ít bug
+//         | \_| ''\---/'' | |           ??ng nghi?p vui v?, s?p quý t?ng l??ng
+//         \ .-\__ `-` ___/-. /          S?c kho? d?i dào, ti?n vào nh? n??c
+//       ___`. .' /--.--\ `. . __
+//    ."" '< `.___\_<|>_/___.' >'"". NAM MÔ VIÊN THÔNG GIÁO CH? ??I T? ??I BI T?M THANH C?U KH? C?U N?N
+//   | | : `- \`.;`\ _ /`;.`/ - ` : | |  QU?NG ??I LINH C?M QUÁN TH? ÂM B? TÁT
+//     \ \ `-. \_ __\ /__ _/ .-` / /
+//======`-.____`-.___\_____/___.-`____.-'======
+//                `=---='
 using EXE201.SmartThrive.API.Registrations;
 using EXE201.SmartThrive.Data;
 using EXE201.SmartThrive.Data.Context;
 using EXE201.SmartThrive.Domain.Configs.Mappings;
 using EXE201.SmartThrive.Domain.Middleware;
+using EXE201.SmartThrive.Domain.Models;
 using EXE201.SmartThrive.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -123,7 +142,8 @@ try
     //     options.ClientId = googleAuthNSection["ClientId"];
     //     options.ClientSecret = googleAuthNSection["ClientSecret"];
     // });
-
+    IConfiguration configuration = builder.Configuration;
+    PayOsSettingModel.Instance = configuration.GetSection("PayOs").Get<PayOsSettingModel>();
     var app = builder.Build();
 
     if (app.Environment.IsDevelopment())

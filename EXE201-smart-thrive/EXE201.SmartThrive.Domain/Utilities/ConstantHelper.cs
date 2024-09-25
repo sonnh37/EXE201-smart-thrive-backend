@@ -65,6 +65,7 @@ public class ConstantHelper
     public const string Sessions = "api/sessions";
     public const string Users = "api/users";
     public const string Students = "api/students";
+    public const string Payments = "api/payments";
 
     public const string SortFieldDefault = "CreatedDate";
     public const int PageNumberDefault = 1;
