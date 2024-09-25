@@ -9,11 +9,11 @@ public class OrderGetAllQuery : GetAllQuery
 
     public Guid? VoucherId { get; set; }
 
-    public PaymentMethod? PaymentMethod { get; set; }
+    public List<PaymentMethod>? PaymentMethod { get; set; }
 
     public decimal? TotalPrice { get; set; }
 
     public string? Description { get; set; }
 
-    public OrderStatus? Status { get; set; }
+    public List<OrderStatus>? Status { get; set; }
 }

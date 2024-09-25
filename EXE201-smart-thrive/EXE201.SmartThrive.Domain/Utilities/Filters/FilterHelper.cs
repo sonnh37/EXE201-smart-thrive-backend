@@ -188,16 +188,19 @@ public static class FilterHelper
         if (query.VoucherId != null)
             queryable = queryable.Where(m => m.VoucherId == query.VoucherId);
 
-        if (!string.IsNullOrEmpty(query.PaymentMethod.ToString()))
-            queryable = queryable.Where(e => e.PaymentMethod == query.PaymentMethod);
-
+        if (query.PaymentMethod != null)
+        {
+            queryable = queryable.Where(m => query.PaymentMethod.Contains((Enums.PaymentMethod)m.PaymentMethod));
+        }
         if (query.TotalPrice.HasValue) queryable = queryable.Where(e => e.TotalPrice == query.TotalPrice);
 
         if (!string.IsNullOrEmpty(query.Description))
             queryable = queryable.Where(e => e.Description != null && e.Description.Contains(query.Description));
 
-        if (!string.IsNullOrEmpty(query.Status.ToString())) queryable = queryable.Where(e => e.Status == query.Status);
-
+        if (query.Status != null)
+        {
+            queryable = queryable.Where(m => query.Status.Contains((Enums.OrderStatus)m.Status));
+        }
         queryable = BaseFilterHelper.Base(queryable, query);
 
         return queryable;
