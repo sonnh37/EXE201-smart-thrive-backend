@@ -13,7 +13,7 @@ public class GetQueryableQuery : BaseQuery
 
     public DateTime? ToDate { get; set; }
 
-    public bool IsPagination { get; set; } = false;
+    public bool IsPagination { get; set; }
 
     public Guid? Id { get; set; }
 
@@ -21,8 +21,7 @@ public class GetQueryableQuery : BaseQuery
 
     public string? UpdatedBy { get; set; }
 
-    public bool? IsDeleted { get; set; }
-
+    public List<bool?>? IsDeleted { get; set; }
 
     public int PageNumber { get; set; } = ConstantHelper.PageNumberDefault;
 
