@@ -21,5 +21,6 @@ public static class ServiceRegistration
         services.AddScoped<IVoucherService, VoucherService>();
         services.AddScoped<IPackageService, PackageService>();
         services.AddScoped<ISessionService, SessionService>();
+        services.AddScoped<IPaymentService, PaymentService>();
     }
 }
