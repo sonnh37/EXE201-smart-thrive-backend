@@ -16,6 +16,7 @@
 //     \ \ `-. \_ __\ /__ _/ .-` / /
 //======`-.____`-.___\_____/___.-`____.-'======
 //                `=---='
+using EXE201.SmartThrive.API.HandleException;
 using EXE201.SmartThrive.API.Registrations;
 using EXE201.SmartThrive.Data;
 using EXE201.SmartThrive.Data.Context;
@@ -144,14 +145,21 @@ try
     // });
     IConfiguration configuration = builder.Configuration;
     PayOsSettingModel.Instance = configuration.GetSection("PayOs").Get<PayOsSettingModel>();
-    var app = builder.Build();
 
+    //Handle Exception
+    builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+    builder.Services.AddProblemDetails();
+    var app = builder.Build();
+    app.UseExceptionHandler(opt => { });
     if (app.Environment.IsDevelopment())
     {
         app.UseSwagger();
         app.UseSwaggerUI();
     }
-
+    app.MapGet("/weatherforecast", () =>
+    {
+        throw new NotfoundException("This is my exception", "Test exception detail"); 
+    });
     app.UseMiddleware<RequestTokenUserMiddleware>();
 
     using (var scope = app.Services.CreateScope())

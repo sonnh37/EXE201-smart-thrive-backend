@@ -21,7 +21,8 @@ public class OrderService : BaseService<Order>, IOrderService
 
     public async Task<string> OrderWithPayment(OrderCreateCommand order)
     {
-        await this.Create(order);
-        return "1111";
+        var orderModel = await this.CreateEntity(order);
+        var qr = await paymentService.CreateQrCode("Thanh toán đơn hàng Package", orderModel.Id);
+        return qr;
     }
 }
