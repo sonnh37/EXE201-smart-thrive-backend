@@ -6,5 +6,4 @@ namespace EXE201.SmartThrive.Domain.Contracts.Repositories;
 
 public interface IModuleRepository : IBaseRepository<Module>
 {
-    Task<(List<Module>, int)> GetAllFiltered(ModuleGetAllQuery query);
 }

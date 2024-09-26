@@ -1,6 +1,8 @@
-﻿namespace EXE201.SmartThrive.Domain.Models.Requests.Queries.Category;
+﻿using EXE201.SmartThrive.Domain.Models.Requests.Queries.Base;
 
-public class CategoryGetAllQuery : PagedQuery
+namespace EXE201.SmartThrive.Domain.Models.Requests.Queries.Category;
+
+public class CategoryGetAllQuery : GetAllQuery
 {
     public string? Name { get; set; }
 }

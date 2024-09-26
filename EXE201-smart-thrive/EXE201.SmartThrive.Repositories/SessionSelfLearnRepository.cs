@@ -2,24 +2,18 @@
 using EXE201.SmartThrive.Domain.Contracts.Repositories;
 using EXE201.SmartThrive.Domain.Entities;
 using EXE201.SmartThrive.Repositories.Base;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace EXE201.SmartThrive.Repositories
+namespace EXE201.SmartThrive.Repositories;
+
+public class SessionSelfLearnRepository : BaseRepository<SessionSelfLearn>, ISessionSelfLearnRepository
 {
-    public class SessionSelfLearnRepository : BaseRepository<SessionSelfLearn>, ISessionSelfLearnRepository
+    public SessionSelfLearnRepository(STDbContext context) : base(context)
     {
-        public SessionSelfLearnRepository(STDbContext context) : base(context)
-        {
+    }
 
-        }
-        public async Task<SessionSelfLearn> GetBySessionId(Guid sessionId)
-        {
-            var sessionList = await base.GetAll();
-            return sessionList.FirstOrDefault(x => x.SessionId == sessionId);
-        }
+    public async Task<SessionSelfLearn> GetBySessionId(Guid sessionId)
+    {
+        var sessionList = await GetAll();
+        return sessionList.FirstOrDefault(x => x.SessionId == sessionId);
     }
 }

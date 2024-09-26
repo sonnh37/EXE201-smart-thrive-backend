@@ -1,90 +1,89 @@
-﻿using AutoMapper;
-using EXE201.SmartThrive.Domain.Contracts.Services;
-using EXE201.SmartThrive.Domain.Entities;
+﻿using EXE201.SmartThrive.Domain.Contracts.Services;
 using EXE201.SmartThrive.Domain.Models.Requests.Commands.Session;
 using EXE201.SmartThrive.Domain.Models.Results;
 using EXE201.SmartThrive.Domain.Utilities;
-using EXE201.SmartThrive.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace EXE201.SmartThrive.API.Controllers
+namespace EXE201.SmartThrive.API.Controllers;
+
+[Route(ConstantHelper.Sessions)]
+[ApiController]
+public class SessionController : ControllerBase
 {
-    [Route(AppConstant.Sessions)]
-    [ApiController]
-    public class SessionController : ControllerBase
+    private readonly ISessionService _sessionService;
+
+    public SessionController(ISessionService sessionService)
     {
-        private readonly IMapper _mapper;
-        private readonly ISessionService _sessionService;
+        _sessionService = sessionService;
+    }
 
-        public SessionController(IMapper mapper, ISessionService sessionService)
+    [HttpGet]
+    public async Task<IActionResult> GetAll()
+    {
+        try
         {
-            _mapper = mapper;
-            _sessionService = sessionService;
+            var result = await _sessionService.GetAll<SessionResult>();
+            return Ok(result);
         }
-        [HttpGet]
-        public async Task<IActionResult> GetAll()
+        catch (Exception ex)
         {
-            try
-            {
-                var result = await _sessionService.GetAll<SessionResult>();
-                return Ok(result);
-            } catch(Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            return BadRequest(ex.Message);
         }
+    }
 
-        [HttpGet("{id:guid}")]
-        public async Task<IActionResult> Get(Guid id)
+    [HttpGet("{id:guid}")]
+    public async Task<IActionResult> Get(Guid id)
+    {
+        try
         {
-            try
-            {
-                var msg = await _sessionService.GetById<SessionResult>(id);
-                return Ok(msg);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            var msg = await _sessionService.GetById<SessionResult>(id);
+            return Ok(msg);
         }
-
-        [HttpPost]
-        public async Task<IActionResult> Add(SessionCreateCommand request)
+        catch (Exception ex)
         {
-            try
-            {
-                var result = await _sessionService.CreateSession(request.SessionType.ToString(), request);
-                return Ok(result);
-            } catch(Exception ex)
-            {
-                return BadRequest(ex.Message);  
-            }
+            return BadRequest(ex.Message);
         }
+    }
 
-        [HttpPut]
-        public async Task<IActionResult> Update(SessionUpdateCommand request)
+    [HttpPost]
+    public async Task<IActionResult> Add(SessionCreateCommand request)
+    {
+        try
         {
-            try
-            {
-                var result = await _sessionService.UpdateSession(request.SessionType.ToString(), request);
-                return Ok(result);
-            } catch(Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            var result = await _sessionService.CreateSession(request.SessionType.ToString(), request);
+            return Ok(result);
         }
-
-        [HttpDelete("{id:guid}")]
-        public async Task<IActionResult> Delete(Guid id)
+        catch (Exception ex)
         {
-            try
-            {
-                await _sessionService.DeleteSession(id);
-                return Ok();
-            } catch(Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpPut]
+    public async Task<IActionResult> Update(SessionUpdateCommand request)
+    {
+        try
+        {
+            var result = await _sessionService.UpdateSession(request.SessionType.ToString(), request);
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpDelete("{id:guid}")]
+    public async Task<IActionResult> Delete(Guid id)
+    {
+        try
+        {
+            await _sessionService.DeleteSession(id);
+            return Ok();
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
         }
     }
 }

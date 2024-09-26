@@ -1,6 +1,8 @@
-﻿namespace EXE201.SmartThrive.Domain.Models.Requests.Queries.Provider;
+﻿using EXE201.SmartThrive.Domain.Models.Requests.Queries.Base;
 
-public class ProviderGetAllQuery : PagedQuery
+namespace EXE201.SmartThrive.Domain.Models.Requests.Queries.Provider;
+
+public class ProviderGetAllQuery : GetAllQuery
 {
     public Guid? UserId { get; set; }
 

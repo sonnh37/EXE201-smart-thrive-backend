@@ -6,5 +6,4 @@ namespace EXE201.SmartThrive.Domain.Contracts.Repositories;
 
 public interface IFeedbackRepository : IBaseRepository<Feedback>
 {
-    Task<(List<Feedback>, int)> GetAllFiltered(FeedbackGetAllQuery query);
 }

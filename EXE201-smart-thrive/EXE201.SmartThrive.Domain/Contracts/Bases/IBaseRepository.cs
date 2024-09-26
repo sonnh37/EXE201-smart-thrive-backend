@@ -1,5 +1,5 @@
 ﻿using EXE201.SmartThrive.Domain.Entities;
-using EXE201.SmartThrive.Domain.Models.Requests.Queries;
+using EXE201.SmartThrive.Domain.Models.Requests.Queries.Base;
 
 namespace EXE201.SmartThrive.Domain.Contracts.Bases;
 
@@ -18,7 +18,10 @@ public interface IBaseRepository<TEntity> : IBaseRepository
 
     Task<IList<TEntity>> GetAll(CancellationToken cancellationToken = default);
 
-    Task<List<TEntity>> ApplySortingAndPaging(IQueryable<TEntity> queryable, PagedQuery pagedQuery);
+    Task<(List<TEntity>, int)> GetAll(GetQueryableQuery query);
+
+
+    Task<List<TEntity>> ApplySortingAndPaging(IQueryable<TEntity> queryable, GetQueryableQuery pagedQuery);
 
     Task<TEntity?> GetById(Guid id);
 

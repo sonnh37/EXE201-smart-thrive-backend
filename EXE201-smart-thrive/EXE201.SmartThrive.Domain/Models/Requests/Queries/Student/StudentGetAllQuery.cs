@@ -1,8 +1,9 @@
 ﻿using EXE201.SmartThrive.Domain.Enums;
+using EXE201.SmartThrive.Domain.Models.Requests.Queries.Base;
 
 namespace EXE201.SmartThrive.Domain.Models.Requests.Queries.Student;
 
-public class StudentGetAllQuery : PagedQuery
+public class StudentGetAllQuery : GetAllQuery
 {
     public Guid? UserId { get; set; }
 

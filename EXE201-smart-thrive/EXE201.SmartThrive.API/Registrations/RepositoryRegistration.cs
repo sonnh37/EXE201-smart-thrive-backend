@@ -22,5 +22,10 @@ public static class RepositoryRegistration
         services.AddScoped<ISubjectRepository, SubjectRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IVoucherRepository, VoucherRepository>();
+        services.AddScoped<IPackageRepository, PackageRepository>();
+        services.AddScoped<ISessionMeetingRepository, SessionMeetingRepository>();
+        services.AddScoped<ISessionOfflineRepository, SessionOfflineRepository>();
+        services.AddScoped<ISessionSelfLearnRepository, SessionSelfLearnRepository>();
+        services.AddScoped<ISessionRepository, SessionRepository>();
     }
 }

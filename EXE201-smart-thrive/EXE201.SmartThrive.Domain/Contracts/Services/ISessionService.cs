@@ -1,18 +1,12 @@
 ﻿using EXE201.SmartThrive.Domain.Contracts.Bases;
 using EXE201.SmartThrive.Domain.Entities;
 using EXE201.SmartThrive.Domain.Models.Requests.Commands.Session;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace EXE201.SmartThrive.Domain.Contracts.Services
+namespace EXE201.SmartThrive.Domain.Contracts.Services;
+
+public interface ISessionService : IBaseService
 {
-    public interface ISessionService : IBaseService
-    {
-        Task<Session> CreateSession(string type, SessionCreateCommand payload);
-        Task<Session> UpdateSession(string type, SessionUpdateCommand payload);
-        Task DeleteSession( Guid sessionId);
-    }
+    Task<Session> CreateSession(string type, SessionCreateCommand payload);
+    Task<Session> UpdateSession(string type, SessionUpdateCommand payload);
+    Task DeleteSession(Guid sessionId);
 }
