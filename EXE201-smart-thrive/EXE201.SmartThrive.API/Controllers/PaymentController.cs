@@ -29,9 +29,9 @@ namespace EXE201.SmartThrive.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> TestPayment(string description, int amount, string orderId)
+        public async Task<IActionResult> TestPayment(string description, Guid orderId)
         {
-            var msg = await _paymentService.CreateQrCode( description , orderId, 2000);
+            var msg = await _paymentService.CreateQrCode( description , orderId);
             return Ok(msg);
         } 
     }

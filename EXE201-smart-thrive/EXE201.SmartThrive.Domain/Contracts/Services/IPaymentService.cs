@@ -8,6 +8,6 @@ namespace EXE201.SmartThrive.Domain.Contracts.Services
 {
     public interface IPaymentService
     {
-        Task<string> CreateQrCode(string description, string orderId, int amount);
+        Task<string> CreateQrCode(string description, Guid orderId);
     }
 }
