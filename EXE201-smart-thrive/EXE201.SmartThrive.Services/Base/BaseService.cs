@@ -112,6 +112,17 @@ public abstract class BaseService<TEntity> : BaseService, IBaseService
         }
     }
 
+    public async Task<TEntity?> CreateEntity(CreateCommand tRequest)
+    {
+        var entity = _mapper.Map<TEntity>(tRequest);
+
+        SetBaseEntityCreate(entity);
+        _baseRepository.Add(entity);
+
+        var saveChanges = await _unitOfWork.SaveChanges();
+        return saveChanges ? entity : default;
+    }
+
     public async Task<BusinessResult> Create(CreateCommand tRequest)
     {
         try
