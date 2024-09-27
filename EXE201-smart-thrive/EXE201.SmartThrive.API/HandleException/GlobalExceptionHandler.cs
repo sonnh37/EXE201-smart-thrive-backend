@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Diagnostics;
+﻿using EXE201.SmartThrive.Domain.Models.Responses;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EXE201.SmartThrive.API.HandleException
@@ -9,21 +10,17 @@ namespace EXE201.SmartThrive.API.HandleException
         {
             var response = exception switch
             {
-                ApiException apiEx => new ProblemDetails
+                ApiException apiEx => new BusinessResult
                 {
                     Status = apiEx.StatusCode,
-                    Type = apiEx.GetType().Name,
-                    Title = apiEx.Message,
-                    Detail = apiEx.ExceptionMessage,
-                    Instance = $"{httpContext.Request.Method} {httpContext.Request.Path}"
+                    Message = apiEx.Message,
+                    Data = exception.Message,
                 },
-                _ => new ProblemDetails
+                _ => new BusinessResult
                 {
                     Status = StatusCodes.Status500InternalServerError,
-                    Type = exception.GetType().Name,
-                    Title = "Internal server error",
-                    Detail = "Internal server error",
-                    Instance = $"{httpContext.Request.Method} {httpContext.Request.Path}"
+                    Message = "Internal Error",
+                    Data = exception.Message,
                 }
 
             };

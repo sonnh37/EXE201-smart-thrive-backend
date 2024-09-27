@@ -156,10 +156,7 @@ try
         app.UseSwagger();
         app.UseSwaggerUI();
     }
-    app.MapGet("/weatherforecast", () =>
-    {
-        throw new NotfoundException("This is my exception", "Test exception detail"); 
-    });
+
     app.UseMiddleware<RequestTokenUserMiddleware>();
 
     using (var scope = app.Services.CreateScope())

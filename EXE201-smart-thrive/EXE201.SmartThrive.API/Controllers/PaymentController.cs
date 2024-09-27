@@ -21,7 +21,7 @@ namespace EXE201.SmartThrive.API.Controllers
         {
             return Ok(new { Message = "Payment Success", PaymentResponse = response });
         }
-
+                                                                        
         [HttpGet("/api/payments/fail")]
         public async Task<IActionResult> FailResponse([FromQuery] PaymentReturnModel response)
         {

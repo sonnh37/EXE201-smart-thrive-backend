@@ -3,8 +3,11 @@ using EXE201.SmartThrive.Domain.Contracts.Repositories;
 using EXE201.SmartThrive.Domain.Contracts.Services;
 using EXE201.SmartThrive.Domain.Contracts.UnitOfWorks;
 using EXE201.SmartThrive.Domain.Entities;
+using EXE201.SmartThrive.Domain.ExceptionHandler;
 using EXE201.SmartThrive.Domain.Models.Requests.Commands.Order;
 using EXE201.SmartThrive.Services.Base;
+using Microsoft.AspNetCore.WebUtilities;
+using System.Net;
 
 namespace EXE201.SmartThrive.Services;
 
@@ -22,7 +25,15 @@ public class OrderService : BaseService<Order>, IOrderService
     public async Task<string> OrderWithPayment(OrderCreateCommand order)
     {
         var orderModel = await this.CreateEntity(order);
-        var qr = await paymentService.CreateQrCode("Thanh toán đơn hàng Package", orderModel.Id);
+        if (orderModel is null)
+        {
+            throw new NotImplementException("Order not created");
+        }
+        var qr = await paymentService.CreateQrCode("Thanh toán Package", orderModel.Id);
+        if (qr is null)
+        {
+            throw new NotImplementException("Create QR payment fail");
+        }
         return qr;
     }
 }
