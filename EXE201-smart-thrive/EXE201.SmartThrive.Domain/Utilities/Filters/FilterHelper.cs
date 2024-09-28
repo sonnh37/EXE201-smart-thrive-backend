@@ -6,6 +6,7 @@ using EXE201.SmartThrive.Domain.Models.Requests.Queries.Course;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.Feedback;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.Module;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.Order;
+using EXE201.SmartThrive.Domain.Models.Requests.Queries.Package;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.Provider;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.Student;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.Subject;
@@ -27,6 +28,7 @@ public static class FilterHelper
             FeedbackGetAllQuery q => Feedback((queryable as IQueryable<Feedback>)!, q) as IQueryable<TEntity>,
             ModuleGetAllQuery q => Module((queryable as IQueryable<Module>)!, q) as IQueryable<TEntity>,
             OrderGetAllQuery q => Order((queryable as IQueryable<Order>)!, q) as IQueryable<TEntity>,
+            PackageGetAllQuery q => Package((queryable as IQueryable<Package>)!, q) as IQueryable<TEntity>,
             ProviderGetAllQuery q => Provider((queryable as IQueryable<Provider>)!, q) as IQueryable<TEntity>,
             StudentGetAllQuery q => Student((queryable as IQueryable<Student>)!, q) as IQueryable<TEntity>,
             SubjectGetAllQuery q => Subject((queryable as IQueryable<Subject>)!, q) as IQueryable<TEntity>,
@@ -55,6 +57,22 @@ public static class FilterHelper
             queryable = queryable.Where(m => m.CourseId == query.CourseId);
         if (!string.IsNullOrEmpty(query.Name))
             queryable = queryable.Where(m => m.Name != null && m.Name.Contains(query.Name));
+        queryable = BaseFilterHelper.Base(queryable, query);
+
+        return queryable;
+    }
+
+    public static IQueryable<Package> Package(IQueryable<Package> queryable, PackageGetAllQuery query)
+    {
+        if (!string.IsNullOrEmpty(query.Name))
+        {
+            queryable = queryable.Where(m => m.Name != null && m.Name.ToLower().Contains(query.Name.ToLower()));
+        }
+        if (query.IsActive != null && query.IsActive.Any())
+        {
+            queryable = queryable.Where(m => query.IsActive.Contains(m.IsActive));
+        }
+
         queryable = BaseFilterHelper.Base(queryable, query);
 
         return queryable;
