@@ -8,9 +8,11 @@ using EXE201.SmartThrive.Domain.Models.Requests.Commands.Feedback;
 using EXE201.SmartThrive.Domain.Models.Requests.Commands.Module;
 using EXE201.SmartThrive.Domain.Models.Requests.Commands.Order;
 using EXE201.SmartThrive.Domain.Models.Requests.Commands.Package;
+using EXE201.SmartThrive.Domain.Models.Requests.Commands.PackageXCourse;
 using EXE201.SmartThrive.Domain.Models.Requests.Commands.Provider;
 using EXE201.SmartThrive.Domain.Models.Requests.Commands.Session;
 using EXE201.SmartThrive.Domain.Models.Requests.Commands.Student;
+using EXE201.SmartThrive.Domain.Models.Requests.Commands.StudentXPackage;
 using EXE201.SmartThrive.Domain.Models.Requests.Commands.Subject;
 using EXE201.SmartThrive.Domain.Models.Requests.Commands.User;
 using EXE201.SmartThrive.Domain.Models.Requests.Commands.Voucher;
@@ -37,6 +39,8 @@ public class MappingProfile : Profile
         OrderMapping();
         SessionMapping();
         PackageMapping();
+        PackageXCourseMapping();
+        StudentXPackageMapping();
     }
 
     private void CourseMapping()
@@ -91,8 +95,6 @@ public class MappingProfile : Profile
         CreateMap<Package, PackageResult>().ReverseMap();
         CreateMap<Package, PackageCreateCommand>().ReverseMap();
         CreateMap<Package, PackageUpdateCommand>().ReverseMap();
-
-        CreateMap<PackageXCourse, PackageXCourseResult>().ReverseMap();
     }
 
     private void ProviderMapping()
@@ -116,7 +118,6 @@ public class MappingProfile : Profile
         CreateMap<Student, StudentCreateCommand>().ReverseMap();
         CreateMap<Student, StudentUpdateCommand>().ReverseMap();
 
-        CreateMap<StudentXPackage, StudentXPackageResult>().ReverseMap();
     }
 
     private void SubjectMapping()
@@ -139,4 +140,22 @@ public class MappingProfile : Profile
         CreateMap<Voucher, VoucherCreateCommand>().ReverseMap();
         CreateMap<Voucher, VoucherUpdateCommand>().ReverseMap();
     }
+
+    private void StudentXPackageMapping()
+    {
+        CreateMap<StudentXPackage, StudentXPackageResult>().ReverseMap();
+        CreateMap<StudentXPackage, StudentXPackageCreateCommand>().ReverseMap();
+        CreateMap<StudentXPackage, StudentXPackageUpdateCommand>().ReverseMap();
+
+
+    }
+
+    private void PackageXCourseMapping()
+    {
+        CreateMap<PackageXCourse, PackageXCourseResult>().ReverseMap();
+        CreateMap<PackageXCourse, PackageXCourseCreateCommand>().ReverseMap();
+        CreateMap<PackageXCourse, PackageXCourseUpdateCommand>().ReverseMap();
+    }
+
+
 }

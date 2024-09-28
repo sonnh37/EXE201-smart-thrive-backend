@@ -21,6 +21,8 @@ public static class IncludeHelper
             IQueryable<Subject> q => Subject(q) as IQueryable<TEntity>,
             IQueryable<User> q => User(q) as IQueryable<TEntity>,
             IQueryable<Voucher> q => Voucher(q) as IQueryable<TEntity>,
+            IQueryable<StudentXPackage> q => StudentXPackage(q) as IQueryable<TEntity>,
+            IQueryable<PackageXCourse> q => PackageXCourse(q) as IQueryable<TEntity>,
             _ => queryable
         })!;
     }
@@ -44,6 +46,8 @@ public static class IncludeHelper
 
     private static IQueryable<Blog> Blog(IQueryable<Blog> queryable)
     {
+        queryable = queryable.Include(m => m.User);
+
         return queryable;
     }
 
@@ -108,6 +112,16 @@ public static class IncludeHelper
     }
 
     private static IQueryable<Order> Order(IQueryable<Order> queryable)
+    {
+        return queryable;
+    }
+
+    private static IQueryable<StudentXPackage> StudentXPackage(IQueryable<StudentXPackage> queryable)
+    {
+        return queryable;
+    }
+
+    private static IQueryable<PackageXCourse> PackageXCourse(IQueryable<PackageXCourse> queryable)
     {
         return queryable;
     }
