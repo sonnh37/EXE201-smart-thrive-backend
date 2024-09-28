@@ -20,7 +20,7 @@ using EXE201.SmartThrive.API.HandleException;
 using EXE201.SmartThrive.API.Registrations;
 using EXE201.SmartThrive.Data;
 using EXE201.SmartThrive.Data.Context;
-using EXE201.SmartThrive.Domain.Configs.Mappings;
+using EXE201.SmartThrive.Domain.Configs;
 using EXE201.SmartThrive.Domain.Middleware;
 using EXE201.SmartThrive.Domain.Models;
 using EXE201.SmartThrive.Services;

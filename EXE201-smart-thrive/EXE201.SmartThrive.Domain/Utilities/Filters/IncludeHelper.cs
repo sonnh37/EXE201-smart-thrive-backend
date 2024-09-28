@@ -59,6 +59,36 @@ public static class IncludeHelper
 
     private static IQueryable<Course> Course(IQueryable<Course> queryable)
     {
+        if (queryable.Any())
+        {
+            queryable = queryable.Include(m => m.Subject);
+        }
+
+        if (queryable.Any())
+        {
+            queryable = queryable.Include(m => m.Provider);
+        }
+
+        if (queryable.Any())
+        {
+            queryable = queryable.Include(m => m.Modules);
+        }
+
+        if (queryable.Any())
+        {
+            queryable = queryable.Include(m => m.Feedbacks);
+        }
+
+        if (queryable.Any())
+        {
+            queryable = queryable.Include(m => m.PackageXCourses);
+        }
+
+        if (queryable.Any())
+        {
+            queryable = queryable.Include(m => m.DayInWeek);
+        }
+
         return queryable;
     }
 
