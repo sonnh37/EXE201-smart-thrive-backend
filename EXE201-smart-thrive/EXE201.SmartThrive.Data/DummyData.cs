@@ -509,7 +509,7 @@ public static class DummyData
                     f => f.PickRandom<CourseType>())
                 .RuleFor(c => c.Name, f => f.Commerce.ProductName())
                 .RuleFor(c => c.Code, f => f.Commerce.Ean8())
-                .RuleFor(c => c.CourseName, f => f.Commerce.ProductName())
+                .RuleFor(c => c.Name, f => f.Commerce.ProductName())
                 .RuleFor(c => c.Description, f => f.Lorem.Paragraph())
                 .RuleFor(c => c.BackgroundImage, f => f.Image.LoremFlickrUrl())
                 .RuleFor(c => c.Price, f => f.Finance.Amount(50, 500)) // Price range between 50 and 500

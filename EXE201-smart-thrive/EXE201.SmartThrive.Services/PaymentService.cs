@@ -42,7 +42,7 @@ namespace EXE201.SmartThrive.Services
             List<ItemData> data = new List<ItemData>();
             foreach(var items in courseFromPackage.Package.PackageXCourses)
             {
-                data.Add(new ItemData(items.Course.CourseName, 1, (int)items.Course.Price));
+                data.Add(new ItemData(items.Course.Name, 1, (int)items.Course.Price));
                 amount += (int)items.Course.Price;
             }
             // Init data for request
