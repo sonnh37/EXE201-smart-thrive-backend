@@ -11,7 +11,7 @@ public class CourseGetAllQuery : GetAllQuery
 
     public string? TeacherName { get; set; }
 
-    public CourseType? Type { get; set; }
+    public List<CourseType?>? Type { get; set; }
 
     public string? Name { get; set; }
 
@@ -35,9 +35,9 @@ public class CourseGetAllQuery : GetAllQuery
 
     public TimeSpan? EndTime { get; set; }
 
-    public CourseStatus? Status { get; set; }
+    public List<CourseStatus?>? Status { get; set; }
 
-    public bool IsActive { get; set; }
+    public List<bool?>? IsActive { get; set; }
 
     public DateTime? StartDate { get; set; }
 

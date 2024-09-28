@@ -12,6 +12,7 @@ using EXE201.SmartThrive.Domain.Models.Requests.Queries.Student;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.Subject;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.User;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.Voucher;
+using System.Linq;
 
 namespace EXE201.SmartThrive.Domain.Utilities.Filters;
 
@@ -138,6 +139,21 @@ public static class FilterHelper
 
         if (query.ProviderId != null)
             queryable = queryable.Where(m => m.ProviderId == query.ProviderId);
+
+        if (query.Status != null)
+        {
+            queryable = queryable.Where(m => query.Status.Contains((Enums.CourseStatus)m.Status));
+        }
+
+        if (query.Type != null)
+        {
+            queryable = queryable.Where(m => query.Type.Contains((Enums.CourseType)m.Type));
+        }
+
+        if (query.IsActive != null && query.IsActive.Any())
+        {
+            queryable = queryable.Where(m => query.IsActive.Contains(m.IsActive));
+        }
 
         queryable = BaseFilterHelper.Base(queryable, query);
 

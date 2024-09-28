@@ -42,11 +42,11 @@ public class CourseResult : BaseResult
 
     public DateTime? EndDate { get; set; }
 
-    public virtual DayInWeekResult? DayInWeek { get; set; }
+    public DayInWeekResult? DayInWeek { get; set; }
 
-    public virtual SubjectResult? Subject { get; set; }
+    public SubjectResult? Subject { get; set; }
 
-    public virtual ProviderResult? Provider { get; set; }
+    public ProviderResult? Provider { get; set; }
 
     public List<ModuleResult>? Modules { get; set; }
 
