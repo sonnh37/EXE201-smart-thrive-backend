@@ -1,5 +1,7 @@
 ﻿using EXE201.SmartThrive.Domain.Contracts.Services;
+using EXE201.SmartThrive.Domain.Contracts.UnitOfWorks;
 using EXE201.SmartThrive.Domain.Models;
+using EXE201.SmartThrive.Domain.Models.Results;
 using Microsoft.Extensions.Configuration;
 using Net.payOS;
 using Net.payOS.Types;
@@ -15,10 +17,12 @@ namespace EXE201.SmartThrive.Services
     {
         private readonly PayOS payos;
         private readonly IConfiguration _configuration;
+        protected readonly IUnitOfWork _unitOfWork;
 
-        public PaymentService(IConfiguration configuration)
+        public PaymentService(IConfiguration configuration, IUnitOfWork unitOfWork)
         {
             this._configuration = configuration;
+            this._unitOfWork = unitOfWork;
             payos = new PayOS(PayOsSettingModel.Instance.clientId, PayOsSettingModel.Instance.apiKey, PayOsSettingModel.Instance.checkSumKey);
         }
         private static string CreateHmacSha256(string data, string key)
@@ -30,8 +34,17 @@ namespace EXE201.SmartThrive.Services
             }
         }
 
-        public async Task<string> CreateQrCode(string description, string orderId, int amount )
+        public async Task<string> CreateQrCode(string description, Guid orderId )
         {
+            int amount = 0;
+            // Map for items detail
+            var courseFromPackage = await _unitOfWork.OrderRepository.GetItemsFromOrder(orderId);
+            List<ItemData> data = new List<ItemData>();
+            foreach(var items in courseFromPackage.Package.PackageXCourses)
+            {
+                data.Add(new ItemData(items.Course.CourseName, 1, (int)items.Course.Price));
+                amount += (int)items.Course.Price;
+            }
             // Init data for request
             var domain = _configuration.GetSection("Domain").Value;
             var successReturnUrl = domain + "/payments/success?orderId=" +orderId;
@@ -46,12 +59,12 @@ namespace EXE201.SmartThrive.Services
                     orderCode: orderCode,
                     amount: amount,
                     description,
-                    items: [new ItemData("Mì tôm hảo hảo ly", 1, 2000)],
+                    items: data,
                     returnUrl: successReturnUrl,
                     cancelUrl: failReturnUrl,
                     expiredAt: (int)(DateTimeOffset.UtcNow.AddMinutes(10).ToUnixTimeSeconds()),
                     signature: signature
-                );
+                ); 
             // Send the request to PayOs
             var response = await payos.createPaymentLink(paymentLinkRequest);
             return response.checkoutUrl;

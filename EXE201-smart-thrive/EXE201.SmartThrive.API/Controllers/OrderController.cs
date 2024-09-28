@@ -35,7 +35,7 @@ public class OrderController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Add(OrderCreateCommand request)
     {
-        var msg = await service.Create(request);
+        var msg = await service.OrderWithPayment(request);
         return Ok(msg);
     }
 

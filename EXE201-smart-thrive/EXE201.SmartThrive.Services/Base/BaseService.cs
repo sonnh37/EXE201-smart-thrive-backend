@@ -2,6 +2,8 @@
 using EXE201.SmartThrive.Domain.Contracts.Bases;
 using EXE201.SmartThrive.Domain.Contracts.UnitOfWorks;
 using EXE201.SmartThrive.Domain.Entities;
+using EXE201.SmartThrive.Domain.ExceptionHandler;
+using EXE201.SmartThrive.Domain.Exceptions;
 using EXE201.SmartThrive.Domain.Models;
 using EXE201.SmartThrive.Domain.Models.Requests.Commands.Base;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.Base;

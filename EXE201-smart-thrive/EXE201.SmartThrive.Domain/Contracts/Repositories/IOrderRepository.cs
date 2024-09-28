@@ -6,4 +6,5 @@ namespace EXE201.SmartThrive.Domain.Contracts.Repositories;
 
 public interface IOrderRepository : IBaseRepository<Order>
 {
+    Task<Order> GetItemsFromOrder(Guid id);
 }
