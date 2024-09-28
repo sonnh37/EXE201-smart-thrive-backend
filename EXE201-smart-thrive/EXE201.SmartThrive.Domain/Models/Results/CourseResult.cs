@@ -16,8 +16,6 @@ public class CourseResult : BaseResult
 
     public string? Code { get; set; }
 
-    public string? CourseName { get; set; }
-
     public string? Description { get; set; }
 
     public string? BackgroundImage { get; set; }
