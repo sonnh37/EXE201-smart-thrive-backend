@@ -35,12 +35,15 @@ public static class IncludeHelper
 
     private static IQueryable<Module> Module(IQueryable<Module> queryable)
     {
+
         return queryable;
     }
 
 
     private static IQueryable<Voucher> Voucher(IQueryable<Voucher> queryable)
     {
+        queryable = queryable.Include(m => m.VoucherType);
+
         return queryable;
     }
 
@@ -53,11 +56,19 @@ public static class IncludeHelper
 
     private static IQueryable<Feedback> Feedback(IQueryable<Feedback> queryable)
     {
+        queryable = queryable.Include(m => m.Student);
+
+        queryable = queryable.Include(m => m.Course);
+
+
         return queryable;
     }
 
     private static IQueryable<Student> Student(IQueryable<Student> queryable)
     {
+        queryable = queryable.Include(m => m.User);
+
+
         return queryable;
     }
 
@@ -98,6 +109,7 @@ public static class IncludeHelper
 
     private static IQueryable<Category> Category(IQueryable<Category> queryable)
     {
+
         return queryable;
     }
 
@@ -108,11 +120,17 @@ public static class IncludeHelper
 
     private static IQueryable<Provider> Provider(IQueryable<Provider> queryable)
     {
+        queryable = queryable.Include(m => m.User);
+        queryable = queryable.Include(m => m.Addresses);
+
         return queryable;
     }
 
     private static IQueryable<Order> Order(IQueryable<Order> queryable)
     {
+        queryable = queryable.Include(m => m.Voucher);
+
+
         return queryable;
     }
 
