@@ -131,8 +131,8 @@ public static class FilterHelper
 
     public static IQueryable<Course> Course(IQueryable<Course> queryable, CourseGetAllQuery query)
     {
-        if (!string.IsNullOrEmpty(query.CourseName))
-            queryable = queryable.Where(m => m.CourseName != null && m.CourseName.Contains(query.CourseName));
+        if (!string.IsNullOrEmpty(query.Name))
+            queryable = queryable.Where(m => m.Name != null && m.Name.Contains(query.Name));
 
         if (query.SubjectId != null)
             queryable = queryable.Where(m => m.SubjectId == query.SubjectId);
