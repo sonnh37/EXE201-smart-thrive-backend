@@ -83,6 +83,10 @@ public class ConstantHelper
 
     public const string Payments = $"{BaseApi}payments";
 
+    public const string StudentXPackage = $"{BaseApi}studentxpackages";
+
+    public const string PackageXCourse = $"{BaseApi}packagexcourses";
+
     public const string SortFieldDefault = "CreatedDate";
     #endregion
 
