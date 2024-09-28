@@ -11,7 +11,7 @@ namespace EXE201.SmartThrive.Domain.Models.Requests.Queries.Package
 
         public decimal? TotalPrice { get; set; }
 
-        public bool IsActive { get; set; }
+        public List<bool?>? IsActive { get; set; }
 
         public PackageStatus? Status { get; set; }
     }

@@ -13,7 +13,7 @@ public class GetQueryableQuery : BaseQuery
 
     public DateTime? ToDate { get; set; }
 
-    public bool IsPagination { get; set; }
+    public bool IsPagination { get; set; } = ConstantHelper.IsPagination;
 
     public Guid? Id { get; set; }
 
