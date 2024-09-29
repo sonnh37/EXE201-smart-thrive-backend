@@ -13,6 +13,6 @@ namespace EXE201.SmartThrive.Domain.Models.Requests.Queries.Package
 
         public List<bool?>? IsActive { get; set; }
 
-        public PackageStatus? Status { get; set; }
+        public List<PackageStatus?>? Status { get; set; }
     }
 }
