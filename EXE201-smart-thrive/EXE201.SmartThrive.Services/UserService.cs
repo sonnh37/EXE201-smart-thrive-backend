@@ -30,6 +30,7 @@ public class UserService : BaseService<User>, IUserService
     {
         var claims = new List<Claim>
         {
+            new(ClaimTypes.NameIdentifier, user.Id.ToString()),
             new(ClaimTypes.Name, user.Username),
             new(ClaimTypes.Role, user.Role.ToString())
         };
