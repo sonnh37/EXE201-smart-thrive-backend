@@ -555,6 +555,7 @@ public static class DummyData
                 .RuleFor(s => s.Dob,
                     f => f.Date.Past(20,
                         DateTime.Now.AddYears(-18))) // Date of Birth, ensuring students are at least 18
+                .RuleFor(b => b.ImageAvatar, f => f.Image.PicsumUrl()) // Tạo URL cho hình nền
                 .RuleFor(s => s.Status, f => f.PickRandom<UserStatus>())
                 .RuleFor(s => s.CreatedBy, f => "tsql@gmail.com") // Thay đổi nếu cần
                 .RuleFor(s => s.CreatedDate, f => f.Date.Past(2))

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace EXE201.SmartThrive.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class tester : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -203,6 +203,7 @@ namespace EXE201.SmartThrive.Data.Migrations
                     StudentName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Gender = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Dob = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ImageAvatar = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),

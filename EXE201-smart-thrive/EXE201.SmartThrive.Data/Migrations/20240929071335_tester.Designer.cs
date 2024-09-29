@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EXE201.SmartThrive.Data.Migrations
 {
     [DbContext(typeof(STDbContext))]
-    [Migration("20240928162056_Initial")]
-    partial class Initial
+    [Migration("20240929071335_tester")]
+    partial class tester
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -769,6 +769,9 @@ namespace EXE201.SmartThrive.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Gender")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ImageAvatar")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsDeleted")
