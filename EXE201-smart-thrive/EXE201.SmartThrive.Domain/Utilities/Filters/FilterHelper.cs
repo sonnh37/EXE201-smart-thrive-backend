@@ -7,8 +7,10 @@ using EXE201.SmartThrive.Domain.Models.Requests.Queries.Feedback;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.Module;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.Order;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.Package;
+using EXE201.SmartThrive.Domain.Models.Requests.Queries.PackageXCourse;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.Provider;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.Student;
+using EXE201.SmartThrive.Domain.Models.Requests.Queries.StudentXPackage;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.Subject;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.User;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.Voucher;
@@ -35,6 +37,8 @@ public static class FilterHelper
             SubjectGetAllQuery q => Subject((queryable as IQueryable<Subject>)!, q) as IQueryable<TEntity>,
             UserGetAllQuery q => User((queryable as IQueryable<User>)!, q) as IQueryable<TEntity>,
             VoucherGetAllQuery q => Voucher((queryable as IQueryable<Voucher>)!, q) as IQueryable<TEntity>,
+            StudentXPackageGetAllQuery q => StudentXPackage((queryable as IQueryable<StudentXPackage>)!, q) as IQueryable<TEntity>,
+            PackageXCourseGetAllQuery q => PackageXCourse((queryable as IQueryable<PackageXCourse>)!, q) as IQueryable<TEntity>,
             _ => BaseFilterHelper.Base(queryable, query)
         })!;
     }
@@ -78,7 +82,6 @@ public static class FilterHelper
 
         return queryable;
     }
-
 
     public static IQueryable<Voucher> Voucher(IQueryable<Voucher> queryable, VoucherGetAllQuery query)
     {
@@ -235,6 +238,32 @@ public static class FilterHelper
         {
             queryable = queryable.Where(m => query.Status.Contains((Enums.OrderStatus)m.Status));
         }
+        queryable = BaseFilterHelper.Base(queryable, query);
+
+        return queryable;
+    }
+
+    public static IQueryable<StudentXPackage> StudentXPackage(IQueryable<StudentXPackage> queryable, StudentXPackageGetAllQuery query)
+    {
+        if (query.PackageId != null)
+            queryable = queryable.Where(m => m.PackageId == query.PackageId);
+
+        if (query.StudentId != null)
+            queryable = queryable.Where(m => m.StudentId == query.StudentId);
+
+        queryable = BaseFilterHelper.Base(queryable, query);
+
+        return queryable;
+    }
+
+    public static IQueryable<PackageXCourse> PackageXCourse(IQueryable<PackageXCourse> queryable, PackageXCourseGetAllQuery query)
+    {
+        if (query.PackageId != null)
+            queryable = queryable.Where(m => m.PackageId == query.PackageId);
+
+        if (query.CourseId != null)
+            queryable = queryable.Where(m => m.CourseId == query.CourseId);
+
         queryable = BaseFilterHelper.Base(queryable, query);
 
         return queryable;
