@@ -136,6 +136,7 @@ public static class IncludeHelper
 
     private static IQueryable<StudentXPackage> StudentXPackage(IQueryable<StudentXPackage> queryable)
     {
+        queryable = queryable.Include(m => m.Package).ThenInclude(x => x.PackageXCourses).ThenInclude(y => y.Course);
         return queryable;
     }
 
