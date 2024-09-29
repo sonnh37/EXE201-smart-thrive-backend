@@ -52,24 +52,53 @@ public class Const
 public class ConstantHelper
 {
 
-    public const string Categories = "api/categories";
-    public const string Subjects = "api/subjects";
-    public const string Vouchers = "api/vouchers";
-    public const string Blogs = "api/blogs";
-    public const string Modules = "api/modules";
-    public const string Feedbacks = "api/feedbacks";
-    public const string Orders = "api/orders";
-    public const string Packages = "api/packages";
-    public const string Courses = "api/courses";
-    public const string Providers = "api/providers";
-    public const string Sessions = "api/sessions";
-    public const string Users = "api/users";
-    public const string Students = "api/students";
-    public const string Payments = "api/payments";
+    #region Url api
+    private const string BaseApi = "api/";
+
+    public const string Categories = $"{BaseApi}categories";
+
+    public const string Subjects = $"{BaseApi}subjects";
+
+    public const string Vouchers = $"{BaseApi}vouchers";
+
+    public const string Blogs = $"{BaseApi}blogs";
+
+    public const string Modules = $"{BaseApi}modules";
+
+    public const string Feedbacks = $"{BaseApi}feedbacks";
+
+    public const string Orders = $"{BaseApi}orders";
+
+    public const string Packages = $"{BaseApi}packages";
+
+    public const string Courses = $"{BaseApi}courses";
+
+    public const string Providers = $"{BaseApi}providers";
+
+    public const string Sessions = $"{BaseApi}sessions";
+
+    public const string Users = $"{BaseApi}users";
+
+    public const string Students = $"{BaseApi}students";
+
+    public const string Payments = $"{BaseApi}payments";
+
+    public const string StudentXPackage = $"{BaseApi}studentxpackages";
+
+    public const string PackageXCourse = $"{BaseApi}packagexcourses";
 
     public const string SortFieldDefault = "CreatedDate";
+    #endregion
+
+    #region Default get query
     public const int PageNumberDefault = 1;
+
+    public const bool IsPagination = false;
+
     public const int PageSizeDefault = 10;
+
     public const SortOrder SortOrderDefault = SortOrder.Descending;
+    #endregion
+
     public static readonly DateTime ExpirationLogin = DateTime.Now.AddHours(1);
 }

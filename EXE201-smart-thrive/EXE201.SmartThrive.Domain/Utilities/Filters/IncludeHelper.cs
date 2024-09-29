@@ -21,6 +21,8 @@ public static class IncludeHelper
             IQueryable<Subject> q => Subject(q) as IQueryable<TEntity>,
             IQueryable<User> q => User(q) as IQueryable<TEntity>,
             IQueryable<Voucher> q => Voucher(q) as IQueryable<TEntity>,
+            IQueryable<StudentXPackage> q => StudentXPackage(q) as IQueryable<TEntity>,
+            IQueryable<PackageXCourse> q => PackageXCourse(q) as IQueryable<TEntity>,
             _ => queryable
         })!;
     }
@@ -33,37 +35,81 @@ public static class IncludeHelper
 
     private static IQueryable<Module> Module(IQueryable<Module> queryable)
     {
+
         return queryable;
     }
 
 
     private static IQueryable<Voucher> Voucher(IQueryable<Voucher> queryable)
     {
+        queryable = queryable.Include(m => m.VoucherType);
+
         return queryable;
     }
 
     private static IQueryable<Blog> Blog(IQueryable<Blog> queryable)
     {
+        queryable = queryable.Include(m => m.User);
+
         return queryable;
     }
 
     private static IQueryable<Feedback> Feedback(IQueryable<Feedback> queryable)
     {
+        queryable = queryable.Include(m => m.Student);
+
+        queryable = queryable.Include(m => m.Course);
+
+
         return queryable;
     }
 
     private static IQueryable<Student> Student(IQueryable<Student> queryable)
     {
+        queryable = queryable.Include(m => m.User);
+
+
         return queryable;
     }
 
     private static IQueryable<Course> Course(IQueryable<Course> queryable)
     {
+        if (queryable.Any())
+        {
+            queryable = queryable.Include(m => m.Subject);
+        }
+
+        if (queryable.Any())
+        {
+            queryable = queryable.Include(m => m.Provider);
+        }
+
+        if (queryable.Any())
+        {
+            queryable = queryable.Include(m => m.Modules);
+        }
+
+        if (queryable.Any())
+        {
+            queryable = queryable.Include(m => m.Feedbacks);
+        }
+
+        if (queryable.Any())
+        {
+            queryable = queryable.Include(m => m.PackageXCourses);
+        }
+
+        if (queryable.Any())
+        {
+            queryable = queryable.Include(m => m.DayInWeek);
+        }
+
         return queryable;
     }
 
     private static IQueryable<Category> Category(IQueryable<Category> queryable)
     {
+
         return queryable;
     }
 
@@ -74,10 +120,26 @@ public static class IncludeHelper
 
     private static IQueryable<Provider> Provider(IQueryable<Provider> queryable)
     {
+        queryable = queryable.Include(m => m.User);
+        queryable = queryable.Include(m => m.Addresses);
+
         return queryable;
     }
 
     private static IQueryable<Order> Order(IQueryable<Order> queryable)
+    {
+        queryable = queryable.Include(m => m.Voucher);
+
+
+        return queryable;
+    }
+
+    private static IQueryable<StudentXPackage> StudentXPackage(IQueryable<StudentXPackage> queryable)
+    {
+        return queryable;
+    }
+
+    private static IQueryable<PackageXCourse> PackageXCourse(IQueryable<PackageXCourse> queryable)
     {
         return queryable;
     }

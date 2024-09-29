@@ -1,18 +1,18 @@
-//                _ooOoo_                       NAM M‘ A DI ?¿ PH?T !
+Ôªø//                _ooOoo_                       NAM M√î A DI ?√Ä PH?T !
 //               o8888888o
-//               88" . "88      ThÌ ch? con tÍn l‡ LÍ T?n L?c, d??ng l?ch hai m??i th·ng m??i n?m 2003
+//               88" . "88      Th√≠ ch? con t√™n l√† L√™ T?n L?c, d??ng l?ch hai m??i th√°ng m??i n?m 2003
 //               (| -_- |)      
 //                O\ = /O
-//            ____/`---'\____         Con l?y chÌn ph??ng tr?i, con l?y m??i ph??ng ??t
+//            ____/`---'\____         Con l?y ch√≠n ph??ng tr?i, con l?y m??i ph??ng ??t
 //            .' \\| |// `.             Ch? Ph?t m??i ph??ng, m??i ph??ng ch? Ph?t
-//           / \\||| : |||// \        Con ?n nh? Tr?i ??t ch? che, Th·nh Th?n c?u ??
-//         / _||||| -:- |||||- \    Xin nh?t t‚m kÌnh l? Ho‡ng thiÍn H?u th?, TiÍn Ph?t Th·nh Th?n
-//           | | \\\ - /// | |              Gi˙p ?? con code s?ch Ìt bug
-//         | \_| ''\---/'' | |           ??ng nghi?p vui v?, s?p qu˝ t?ng l??ng
-//         \ .-\__ `-` ___/-. /          S?c kho? d?i d‡o, ti?n v‡o nh? n??c
+//           / \\||| : |||// \        Con ?n nh? Tr?i ??t ch? che, Th√°nh Th?n c?u ??
+//         / _||||| -:- |||||- \    Xin nh?t t√¢m k√≠nh l? Ho√†ng thi√™n H?u th?, Ti√™n Ph?t Th√°nh Th?n
+//           | | \\\ - /// | |              Gi√∫p ?? con code s?ch √≠t bug
+//         | \_| ''\---/'' | |           ??ng nghi?p vui v?, s?p qu√Ω t?ng l??ng
+//         \ .-\__ `-` ___/-. /          S?c kho? d?i d√†o, ti?n v√†o nh? n??c
 //       ___`. .' /--.--\ `. . __
-//    ."" '< `.___\_<|>_/___.' >'"". NAM M‘ VI N TH‘NG GI¡O CH? ??I T? ??I BI T?M THANH C?U KH? C?U N?N
-//   | | : `- \`.;`\ _ /`;.`/ - ` : | |  QU?NG ??I LINH C?M QU¡N TH? ¬M B? T¡T
+//    ."" '< `.___\_<|>_/___.' >'"". NAM M√î VI√äN TH√îNG GI√ÅO CH? ??I T? ??I BI T?M THANH C?U KH? C?U N?N
+//   | | : `- \`.;`\ _ /`;.`/ - ` : | |  QU?NG ??I LINH C?M QU√ÅN TH? √ÇM B? T√ÅT
 //     \ \ `-. \_ __\ /__ _/ .-` / /
 //======`-.____`-.___\_____/___.-`____.-'======
 //                `=---='
@@ -20,7 +20,7 @@ using EXE201.SmartThrive.API.HandleException;
 using EXE201.SmartThrive.API.Registrations;
 using EXE201.SmartThrive.Data;
 using EXE201.SmartThrive.Data.Context;
-using EXE201.SmartThrive.Domain.Configs.Mappings;
+using EXE201.SmartThrive.Domain.Configs;
 using EXE201.SmartThrive.Domain.Middleware;
 using EXE201.SmartThrive.Domain.Models;
 using EXE201.SmartThrive.Services;
@@ -81,9 +81,11 @@ try
 
     builder.Services.AddDbContext<STDbContext>(options =>
     {
-        options.UseSqlServer(builder.Configuration.GetConnectionString("SmartThrive"));
+        options.UseSqlServer(builder.Configuration.GetConnectionString("SmartThrive"),
+            sqlOptions => sqlOptions.UseQuerySplittingBehavior(QuerySplittingBehavior.SplitQuery));
         options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
     });
+
 
     builder.Services.AddAutoMapper(typeof(MappingProfile));
 

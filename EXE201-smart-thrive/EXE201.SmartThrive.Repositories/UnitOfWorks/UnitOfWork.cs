@@ -38,4 +38,8 @@ public class UnitOfWork : BaseUnitOfWork<STDbContext>, IUnitOfWork
     public IStudentRepository StudentRepository => GetRepository<IStudentRepository>();
 
     public IPackageRepository PackageRepository => GetRepository<IPackageRepository>();
+
+    public IStudentXPackageRepository StudentXPackageRepository => GetRepository<IStudentXPackageRepository>();
+
+    public IPackageXCourseRepository PackageXCourseRepository => GetRepository<IPackageXCourseRepository>();
 }

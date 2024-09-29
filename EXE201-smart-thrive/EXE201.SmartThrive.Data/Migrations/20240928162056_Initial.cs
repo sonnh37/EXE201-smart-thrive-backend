@@ -20,7 +20,7 @@ namespace EXE201.SmartThrive.Data.Migrations
                     Phone = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
@@ -37,7 +37,7 @@ namespace EXE201.SmartThrive.Data.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWId()"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
@@ -58,7 +58,7 @@ namespace EXE201.SmartThrive.Data.Migrations
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
@@ -86,7 +86,7 @@ namespace EXE201.SmartThrive.Data.Migrations
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Role = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
@@ -108,7 +108,7 @@ namespace EXE201.SmartThrive.Data.Migrations
                     Condition = table.Column<int>(type: "int", nullable: true),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
@@ -126,7 +126,7 @@ namespace EXE201.SmartThrive.Data.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
@@ -153,7 +153,7 @@ namespace EXE201.SmartThrive.Data.Migrations
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     BackgroundImage = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
@@ -178,7 +178,7 @@ namespace EXE201.SmartThrive.Data.Migrations
                     CompanyName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Website = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
@@ -205,7 +205,7 @@ namespace EXE201.SmartThrive.Data.Migrations
                     Dob = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
@@ -233,7 +233,7 @@ namespace EXE201.SmartThrive.Data.Migrations
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
@@ -267,7 +267,7 @@ namespace EXE201.SmartThrive.Data.Migrations
                     Street = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     BuildingNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
@@ -294,7 +294,6 @@ namespace EXE201.SmartThrive.Data.Migrations
                     Type = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CourseName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     BackgroundImage = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
@@ -308,7 +307,7 @@ namespace EXE201.SmartThrive.Data.Migrations
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     EndDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
@@ -338,7 +337,7 @@ namespace EXE201.SmartThrive.Data.Migrations
                     StudentId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     PackageId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
@@ -374,7 +373,7 @@ namespace EXE201.SmartThrive.Data.Migrations
                     Saturday = table.Column<bool>(type: "bit", nullable: false),
                     Sunday = table.Column<bool>(type: "bit", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
@@ -400,7 +399,7 @@ namespace EXE201.SmartThrive.Data.Migrations
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Rating = table.Column<int>(type: "int", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
@@ -432,7 +431,7 @@ namespace EXE201.SmartThrive.Data.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
@@ -456,7 +455,7 @@ namespace EXE201.SmartThrive.Data.Migrations
                     CourseId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     PackageId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
@@ -490,7 +489,7 @@ namespace EXE201.SmartThrive.Data.Migrations
                     SessionType = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
@@ -517,7 +516,7 @@ namespace EXE201.SmartThrive.Data.Migrations
                     MeetingUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     MeetingPlatform = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
@@ -543,7 +542,7 @@ namespace EXE201.SmartThrive.Data.Migrations
                     Date = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Duration = table.Column<int>(type: "int", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
@@ -568,7 +567,7 @@ namespace EXE201.SmartThrive.Data.Migrations
                     SessionNumber = table.Column<int>(type: "int", nullable: true),
                     VideoUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)

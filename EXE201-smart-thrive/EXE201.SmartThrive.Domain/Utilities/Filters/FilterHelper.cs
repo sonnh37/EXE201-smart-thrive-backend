@@ -6,11 +6,13 @@ using EXE201.SmartThrive.Domain.Models.Requests.Queries.Course;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.Feedback;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.Module;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.Order;
+using EXE201.SmartThrive.Domain.Models.Requests.Queries.Package;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.Provider;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.Student;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.Subject;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.User;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.Voucher;
+using System.Linq;
 
 namespace EXE201.SmartThrive.Domain.Utilities.Filters;
 
@@ -27,6 +29,7 @@ public static class FilterHelper
             FeedbackGetAllQuery q => Feedback((queryable as IQueryable<Feedback>)!, q) as IQueryable<TEntity>,
             ModuleGetAllQuery q => Module((queryable as IQueryable<Module>)!, q) as IQueryable<TEntity>,
             OrderGetAllQuery q => Order((queryable as IQueryable<Order>)!, q) as IQueryable<TEntity>,
+            PackageGetAllQuery q => Package((queryable as IQueryable<Package>)!, q) as IQueryable<TEntity>,
             ProviderGetAllQuery q => Provider((queryable as IQueryable<Provider>)!, q) as IQueryable<TEntity>,
             StudentGetAllQuery q => Student((queryable as IQueryable<Student>)!, q) as IQueryable<TEntity>,
             SubjectGetAllQuery q => Subject((queryable as IQueryable<Subject>)!, q) as IQueryable<TEntity>,
@@ -55,6 +58,22 @@ public static class FilterHelper
             queryable = queryable.Where(m => m.CourseId == query.CourseId);
         if (!string.IsNullOrEmpty(query.Name))
             queryable = queryable.Where(m => m.Name != null && m.Name.Contains(query.Name));
+        queryable = BaseFilterHelper.Base(queryable, query);
+
+        return queryable;
+    }
+
+    public static IQueryable<Package> Package(IQueryable<Package> queryable, PackageGetAllQuery query)
+    {
+        if (!string.IsNullOrEmpty(query.Name))
+        {
+            queryable = queryable.Where(m => m.Name != null && m.Name.ToLower().Contains(query.Name.ToLower()));
+        }
+        if (query.IsActive != null && query.IsActive.Any())
+        {
+            queryable = queryable.Where(m => query.IsActive.Contains(m.IsActive));
+        }
+
         queryable = BaseFilterHelper.Base(queryable, query);
 
         return queryable;
@@ -112,14 +131,29 @@ public static class FilterHelper
 
     public static IQueryable<Course> Course(IQueryable<Course> queryable, CourseGetAllQuery query)
     {
-        if (!string.IsNullOrEmpty(query.CourseName))
-            queryable = queryable.Where(m => m.CourseName != null && m.CourseName.Contains(query.CourseName));
+        if (!string.IsNullOrEmpty(query.Name))
+            queryable = queryable.Where(m => m.Name != null && m.Name.Contains(query.Name));
 
         if (query.SubjectId != null)
             queryable = queryable.Where(m => m.SubjectId == query.SubjectId);
 
         if (query.ProviderId != null)
             queryable = queryable.Where(m => m.ProviderId == query.ProviderId);
+
+        if (query.Status != null)
+        {
+            queryable = queryable.Where(m => query.Status.Contains((Enums.CourseStatus)m.Status));
+        }
+
+        if (query.Type != null)
+        {
+            queryable = queryable.Where(m => query.Type.Contains((Enums.CourseType)m.Type));
+        }
+
+        if (query.IsActive != null && query.IsActive.Any())
+        {
+            queryable = queryable.Where(m => query.IsActive.Contains(m.IsActive));
+        }
 
         queryable = BaseFilterHelper.Base(queryable, query);
 
