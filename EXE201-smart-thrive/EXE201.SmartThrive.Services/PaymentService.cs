@@ -1,7 +1,11 @@
-﻿using EXE201.SmartThrive.Domain.Contracts.Services;
+﻿using AutoMapper;
+using EXE201.SmartThrive.Domain.Contracts.Services;
 using EXE201.SmartThrive.Domain.Contracts.UnitOfWorks;
+using EXE201.SmartThrive.Domain.Enums;
 using EXE201.SmartThrive.Domain.Models;
+using EXE201.SmartThrive.Domain.Models.Responses;
 using EXE201.SmartThrive.Domain.Models.Results;
+using EXE201.SmartThrive.Domain.Utilities;
 using Microsoft.Extensions.Configuration;
 using Net.payOS;
 using Net.payOS.Types;
@@ -18,11 +22,13 @@ namespace EXE201.SmartThrive.Services
         private readonly PayOS payos;
         private readonly IConfiguration _configuration;
         protected readonly IUnitOfWork _unitOfWork;
+        protected readonly IMapper _mapper;
 
-        public PaymentService(IConfiguration configuration, IUnitOfWork unitOfWork)
+        public PaymentService(IConfiguration configuration, IUnitOfWork unitOfWork, IMapper mapper)
         {
             this._configuration = configuration;
             this._unitOfWork = unitOfWork;
+            this._mapper = mapper;
             payos = new PayOS(PayOsSettingModel.Instance.clientId, PayOsSettingModel.Instance.apiKey, PayOsSettingModel.Instance.checkSumKey);
         }
         private static string CreateHmacSha256(string data, string key)
@@ -68,6 +74,32 @@ namespace EXE201.SmartThrive.Services
             // Send the request to PayOs
             var response = await payos.createPaymentLink(paymentLinkRequest);
             return response.checkoutUrl;
+        }
+
+        public async Task<BusinessResult> PaymentSuccess(PaymentReturnModel returnModel)
+        {
+            var order = await _unitOfWork.OrderRepository.GetById(returnModel.orderId);
+            if(order == null)
+            {
+                throw new NotImplementedException("Order Not Found");
+            }
+            order.Status = OrderStatus.Completed;
+            _unitOfWork.OrderRepository.Update(order);
+            var mapOrder = _mapper.Map<OrderResult>(order);
+            return new BusinessResult(Const.SUCCESS_CODE, Const.SUCCESS_UPDATE_MSG, mapOrder);
+        }
+
+        public async Task<BusinessResult> PaymentFailure(PaymentReturnModel returnModel)
+        {
+            var order = await _unitOfWork.OrderRepository.GetById(returnModel.orderId);
+            if (order == null)
+            {
+                throw new NotImplementedException("Order Not Found");
+            }
+            order.Status = OrderStatus.Cancelled;
+            _unitOfWork.OrderRepository.Update(order);
+            var mapOrder = _mapper.Map<OrderResult>(order);
+            return new BusinessResult(Const.SUCCESS_CODE, Const.SUCCESS_UPDATE_MSG, mapOrder);
         }
     }
 }
