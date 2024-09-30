@@ -16,7 +16,7 @@ namespace EXE201.SmartThrive.Domain.Models
     public class PaymentReturnModel
     {
 
-        public string orderId { get; set; } 
+        public Guid orderId { get; set; } 
         public int code { get; set; }   
         public string id { get; set; }      
         public bool cancel { get; set; }    
