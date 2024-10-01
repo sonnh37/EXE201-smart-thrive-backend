@@ -13,5 +13,7 @@ public class StudentCreateCommand : CreateCommand
 
     public DateTime? Dob { get; set; }
 
+    public string? ImageAvatar { get; set; }
+
     public UserStatus? Status { get; set; }
 }
