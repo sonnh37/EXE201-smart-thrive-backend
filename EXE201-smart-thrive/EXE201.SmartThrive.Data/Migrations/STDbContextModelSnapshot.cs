@@ -768,6 +768,9 @@ namespace EXE201.SmartThrive.Data.Migrations
                     b.Property<string>("Gender")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ImageAvatar")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -811,6 +814,9 @@ namespace EXE201.SmartThrive.Data.Migrations
 
                     b.Property<Guid?>("PackageId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.Property<Guid?>("StudentId")
                         .HasColumnType("uniqueidentifier");

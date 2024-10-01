@@ -87,7 +87,7 @@ public class STDbContext : BaseDbContext
                 .HasConversion(converterUserGender);
             e.Property(x => x.Status)
                 .HasConversion(converterUserStatus);
-
+            e.Property(x => x.ImageAvatar);
             e.HasOne(x => x.User)
                 .WithMany(x => x.Students)
                 .HasForeignKey(x => x.UserId)

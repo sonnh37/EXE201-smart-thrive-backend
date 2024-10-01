@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EXE201.SmartThrive.Data.Migrations
 {
     [DbContext(typeof(STDbContext))]
-    [Migration("20240928162056_Initial")]
-    partial class Initial
+    [Migration("20241001165725_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -771,6 +771,9 @@ namespace EXE201.SmartThrive.Data.Migrations
                     b.Property<string>("Gender")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ImageAvatar")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -814,6 +817,9 @@ namespace EXE201.SmartThrive.Data.Migrations
 
                     b.Property<Guid?>("PackageId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.Property<Guid?>("StudentId")
                         .HasColumnType("uniqueidentifier");

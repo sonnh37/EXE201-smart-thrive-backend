@@ -11,6 +11,8 @@ public class StudentUpdateCommand : UpdateCommand
 
     public Gender? Gender { get; set; }
 
+    public string? ImageAvatar { get; set; }
+
     public DateTime? Dob { get; set; }
 
     public UserStatus? Status { get; set; }
