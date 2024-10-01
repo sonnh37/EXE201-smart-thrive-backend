@@ -130,17 +130,30 @@ public static class IncludeHelper
     {
         queryable = queryable.Include(m => m.Voucher);
 
+        return queryable;
+    }
+
+    private static IQueryable<Package> Package(IQueryable<Package> queryable)
+    {
+        queryable = queryable.Include(m => m.PackageXCourses);
 
         return queryable;
     }
 
     private static IQueryable<StudentXPackage> StudentXPackage(IQueryable<StudentXPackage> queryable)
     {
+        queryable = queryable.Include(m => m.Package);
+        queryable = queryable.Include(m => m.Student);
+
+
         return queryable;
     }
 
     private static IQueryable<PackageXCourse> PackageXCourse(IQueryable<PackageXCourse> queryable)
     {
+        queryable = queryable.Include(m => m.Package);
+        queryable = queryable.Include(m => m.Course);
+
         return queryable;
     }
 }
