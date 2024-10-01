@@ -104,10 +104,7 @@ public static class FilterHelper
             queryable = queryable.Where(m => m.Title != null && m.Title.ToLower().Contains(query.Title.ToLower()));
         if (query.UserId != null)
             queryable = queryable.Where(m => m.UserId == query.UserId);
-        if (query.IsActive != null && query.IsActive.Any())
-        {
-            queryable = queryable.Where(m => query.IsActive.Contains(m.IsActive));
-        }
+      
         queryable = BaseFilterHelper.Base(queryable, query);
 
         return queryable;
