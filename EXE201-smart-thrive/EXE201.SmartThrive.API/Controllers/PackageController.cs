@@ -39,6 +39,13 @@ public class PackageController : ControllerBase
         return Ok(msg);
     }
 
+    [HttpPost("createWithStudent")]
+    public async Task<IActionResult> AddWithStudent(PackageCreateCommand request)
+    {
+        var msg = await _packageService.CreateWithStudentId(request);
+        return Ok(msg);
+    }
+
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> Delete([FromRoute] Guid id)
     {

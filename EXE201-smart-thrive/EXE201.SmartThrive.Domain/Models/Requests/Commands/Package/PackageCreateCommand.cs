@@ -5,6 +5,7 @@ namespace EXE201.SmartThrive.Domain.Models.Requests.Commands.Package
 {
     public class PackageCreateCommand : CreateCommand
     {
+        public Guid StudentId { get; set; }
         public string? Name { get; set; }
 
         public int? QuantityCourse { get; set; }
