@@ -71,12 +71,6 @@ public abstract class BaseService<TEntity> : BaseService, IBaseService
             List<TResult>? results;
             int totalItems = 0;
 
-            if(!x.IsPagination && !x.IsFilter)
-            {
-                return await GetAll<TResult>();
-            }
-
-            // Trường hợp không phân trang
             if (!x.IsPagination)
             {
                 var allData = await _baseRepository.GetAll(x);
@@ -84,7 +78,6 @@ public abstract class BaseService<TEntity> : BaseService, IBaseService
                 return ResponseHelper.CreateResult(results);
             }
 
-            // Trường hợp có phân trang
             var tuple = await _baseRepository.GetPaged(x);
             results = _mapper.Map<List<TResult>?>(tuple.Item1);
             totalItems = tuple.Item2;

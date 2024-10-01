@@ -14,9 +14,6 @@ public class GetQueryableQuery : BaseQuery
 
     public DateTime? ToDate { get; set; }
 
-    [Required]
-
-    public bool IsFilter {  get; set; } = ConstantHelper.IsFilter;
 
     [Required]
     public bool IsPagination { get; set; } = ConstantHelper.IsPagination;

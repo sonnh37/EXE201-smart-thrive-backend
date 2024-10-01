@@ -132,7 +132,7 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
     public async Task<(List<TEntity>, int)> GetPaged(GetQueryableQuery query)
     {
         var queryable = GetQueryable();
-        queryable = query.IsFilter ? FilterHelper.Apply(queryable, query) : queryable;
+        queryable = FilterHelper.Apply(queryable, query);
         queryable = IncludeHelper.Apply(queryable);
         var totalOrigin = queryable.Count();
         var results = await ApplySortingAndPaging(queryable, query);
@@ -144,7 +144,7 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
     public async Task<List<TEntity>> GetAll(GetQueryableQuery query)
     {
         var queryable = GetQueryable();
-        queryable = query.IsFilter ? FilterHelper.Apply(queryable, query) : queryable;
+        queryable = FilterHelper.Apply(queryable, query);
         queryable = IncludeHelper.Apply(queryable);
         var results = await queryable.ToListAsync();
 
