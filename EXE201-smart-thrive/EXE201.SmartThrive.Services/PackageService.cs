@@ -21,7 +21,7 @@ namespace EXE201.SmartThrive.Services
             _packageRepository = unitOfWork.PackageRepository;
         }
 
-        public async Task<BusinessResult> CreateWithStudentId(PackageCreateCommand request)
+        public async Task<BusinessResult> CreateWithStudentId(PackageCreateWithStudentCommand request)
         {
             var foundStudent = await this._unitOfWork.GetRepositoryByEntity<Student>().GetById(request.StudentId);
             if (foundStudent == null)

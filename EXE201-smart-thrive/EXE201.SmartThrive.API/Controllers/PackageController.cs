@@ -40,7 +40,7 @@ public class PackageController : ControllerBase
     }
 
     [HttpPost("createWithStudent")]
-    public async Task<IActionResult> AddWithStudent(PackageCreateCommand request)
+    public async Task<IActionResult> AddWithStudent(PackageCreateWithStudentCommand request)
     {
         var msg = await _packageService.CreateWithStudentId(request);
         return Ok(msg);

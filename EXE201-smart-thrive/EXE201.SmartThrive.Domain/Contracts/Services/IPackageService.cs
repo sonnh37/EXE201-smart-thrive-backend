@@ -7,6 +7,6 @@ namespace EXE201.SmartThrive.Domain.Contracts.Services
 {
     public interface IPackageService : IBaseService
     {
-        Task<BusinessResult> CreateWithStudentId(PackageCreateCommand request);
+        Task<BusinessResult> CreateWithStudentId(PackageCreateWithStudentCommand request);
     }
 }
