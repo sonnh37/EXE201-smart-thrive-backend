@@ -19,13 +19,15 @@ namespace EXE201.SmartThrive.API.Controllers
         [HttpGet("/api/payments/success")]
         public async Task<IActionResult> SuccessReponse([FromQuery] PaymentReturnModel response)
         {
-            return Ok(new { Message = "Payment Success", PaymentResponse = response });
+            await _paymentService.PaymentSuccess(response);
+            return Redirect("http://localhost:3000/payment/thanks");
         }
                                                                         
         [HttpGet("/api/payments/fail")]
         public async Task<IActionResult> FailResponse([FromQuery] PaymentReturnModel response)
         {
-            return Ok(new { Message = "Payment Fail", PaymentResponse = response });
+            await _paymentService.PaymentFailure(response);
+            return Redirect("http://localhost:3000/payment/fail");
         }
 
         [HttpPost]

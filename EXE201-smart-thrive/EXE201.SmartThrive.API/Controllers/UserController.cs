@@ -3,6 +3,7 @@ using EXE201.SmartThrive.Domain.Models.Requests.Commands.User;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.User;
 using EXE201.SmartThrive.Domain.Models.Results;
 using EXE201.SmartThrive.Domain.Utilities;
+using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EXE201.SmartThrive.API.Controllers;
@@ -64,10 +65,10 @@ public class UserController : ControllerBase
         return Ok(msg);
     }
 
-    [HttpGet("login")]
-    public async Task<IActionResult> Login(string usernameOrEmail, string password)
+    [HttpPost("login")]
+    public async Task<IActionResult> Login([FromBody] LoginRequest request)
     {
-        var msg = await _userService.Login(usernameOrEmail, password);
+        var msg = await _userService.Login(request.Email, request.Password);
 
         return Ok(msg);
     }
