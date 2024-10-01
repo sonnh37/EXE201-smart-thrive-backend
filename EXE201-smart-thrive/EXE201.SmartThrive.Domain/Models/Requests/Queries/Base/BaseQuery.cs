@@ -1,5 +1,6 @@
 ﻿using EXE201.SmartThrive.Domain.Enums;
 using EXE201.SmartThrive.Domain.Utilities;
+using System.ComponentModel.DataAnnotations;
 
 namespace EXE201.SmartThrive.Domain.Models.Requests.Queries.Base;
 
@@ -13,6 +14,11 @@ public class GetQueryableQuery : BaseQuery
 
     public DateTime? ToDate { get; set; }
 
+    [Required]
+
+    public bool IsFilter {  get; set; } = ConstantHelper.IsFilter;
+
+    [Required]
     public bool IsPagination { get; set; } = ConstantHelper.IsPagination;
 
     public Guid? Id { get; set; }

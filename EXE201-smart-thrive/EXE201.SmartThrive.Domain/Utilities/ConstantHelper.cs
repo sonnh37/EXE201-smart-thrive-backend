@@ -95,6 +95,8 @@ public class ConstantHelper
 
     public const bool IsPagination = false;
 
+    public const bool IsFilter = true;
+
     public const int PageSizeDefault = 10;
 
     public const SortOrder SortOrderDefault = SortOrder.Descending;
