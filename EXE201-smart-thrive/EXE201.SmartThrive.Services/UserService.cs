@@ -6,6 +6,7 @@ using EXE201.SmartThrive.Domain.Contracts.Repositories;
 using EXE201.SmartThrive.Domain.Contracts.Services;
 using EXE201.SmartThrive.Domain.Contracts.UnitOfWorks;
 using EXE201.SmartThrive.Domain.Entities;
+using EXE201.SmartThrive.Domain.Models.Requests.Commands.User;
 using EXE201.SmartThrive.Domain.Models.Responses;
 using EXE201.SmartThrive.Domain.Models.Results;
 using EXE201.SmartThrive.Domain.Utilities;
@@ -66,5 +67,19 @@ public class UserService : BaseService<User>, IUserService
         var (token, expiration) = CreateToken(userResult);
 
         return ResponseHelper.CreateResult(token, expiration);
+    }
+
+    public async Task<BusinessResult> AddUser(UserCreateCommand user)
+    {
+        var username = await _userRepository.FindByEmailOrUsername(user.Username);
+    //    var email = await _userRepository.FindByEmailOrUsername(user.Email);
+        if(username == null)
+        {
+            return await Create(user);
+        }
+        else
+        {
+            return new BusinessResult(Const.FAIL_CODE, "Username đã tồn tại");
+        }
     }
 }
