@@ -442,6 +442,7 @@ public static class DummyData
                 .RuleFor(sxp => sxp.Id, f => Guid.NewGuid())
                 .RuleFor(sxp => sxp.StudentId, f => f.PickRandom(studentIds)) // Liên kết với một sinh viên ngẫu nhiên
                 .RuleFor(sxp => sxp.PackageId, f => f.PickRandom(packageIds)) // Liên kết với một gói ngẫu nhiên
+                .RuleFor(sxp => sxp.Status, f => false)
                 .RuleFor(s => s.CreatedBy, f => "tsql@gmail.com") // Thay đổi nếu cần
                 .RuleFor(s => s.CreatedDate, f => f.Date.Past(2))
                 .RuleFor(s => s.UpdatedBy, f => "tsql@gmail.com") // Thay đổi nếu cần
@@ -551,6 +552,8 @@ public static class DummyData
                 .RuleFor(s => s.Id, f => Guid.NewGuid())
                 .RuleFor(s => s.UserId, f => f.PickRandom(userIds))
                 .RuleFor(s => s.StudentName, f => f.Name.FullName())
+                .RuleFor(s => s.FirstName, f => f.Name.FirstName())
+                .RuleFor(s => s.LastName, f => f.Name.LastName())
                 .RuleFor(s => s.Gender, f => f.PickRandom<Gender>())
                 .RuleFor(s => s.Dob,
                     f => f.Date.Past(20,

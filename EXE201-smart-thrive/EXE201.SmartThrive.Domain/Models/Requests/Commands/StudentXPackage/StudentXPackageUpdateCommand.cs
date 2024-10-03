@@ -12,5 +12,7 @@ namespace EXE201.SmartThrive.Domain.Models.Requests.Commands.StudentXPackage
         public Guid? StudentId { get; set; }
 
         public Guid? PackageId { get; set; }
+
+        public bool? Status { get; set; }
     }
 }

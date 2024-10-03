@@ -8,6 +8,9 @@ public class Student : BaseEntity
 
     public string? StudentName { get; set; }
 
+    public string? FirstName {  get; set; }
+    public string? LastName { get; set; }
+
     public Gender? Gender { get; set; }
 
     public DateTime? Dob { get; set; }

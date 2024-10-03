@@ -6,7 +6,7 @@ public class StudentXPackage : BaseEntity
 
     public Guid? PackageId { get; set; }
 
- //   public string? Status { get; set; } 
+    public bool? Status { get; set; } 
 
     public virtual Student? Student { get; set; }
 
