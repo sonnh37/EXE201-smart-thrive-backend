@@ -3,6 +3,7 @@ using EXE201.SmartThrive.Domain.Contracts.Repositories;
 using EXE201.SmartThrive.Domain.Contracts.Services;
 using EXE201.SmartThrive.Domain.Contracts.UnitOfWorks;
 using EXE201.SmartThrive.Domain.Entities;
+using EXE201.SmartThrive.Domain.Exceptions;
 using EXE201.SmartThrive.Domain.Models;
 using EXE201.SmartThrive.Domain.Models.Requests.Commands.Session;
 using EXE201.SmartThrive.Domain.Models.Responses;
@@ -35,31 +36,43 @@ public class SessionService : BaseService<Session>, ISessionService
     }
 
 
-    public async Task<Session> CreateSession(string type, SessionCreateCommand payload)
+    public async Task<BusinessResult> CreateSession(string type, SessionCreateCommand payload)
     {
         if (!SessionRegistry.TryGetValue(type, out var sessionClass)) throw new Exception("Session type not found");
         var sessionModel = _mapper.Map<SessionModel>(payload);
         var session = Activator.CreateInstance(sessionClass, sessionModel) as SessionBase;
-        return await session.CreateSession();
+        return new BusinessResult(Const.SUCCESS_CODE , Const.SUCCESS_CREATE_MSG, await session.CreateSession());
     }
 
-    public async Task<Session> UpdateSession(string type, SessionUpdateCommand payload)
+    public async Task<BusinessResult> UpdateSession(string type, SessionUpdateCommand payload)
     {
         if (!SessionRegistry.TryGetValue(type, out var sessionClass)) throw new Exception("Session type not found");
         var sessionModel = _mapper.Map<SessionModel>(payload);
         var session = Activator.CreateInstance(sessionClass, sessionModel) as SessionBase;
-        return await session.UpdateSession();
+        return new BusinessResult(Const.SUCCESS_CODE, Const.SUCCESS_UPDATE_MSG, await session.UpdateSession());
     }
 
-    public async Task DeleteSession(Guid sessionId)
+    public async Task<BusinessResult> DeleteSession(Guid sessionId)
     {
         var foundSession = await _sessionRepository.GetById(sessionId);
-        if (foundSession == null) throw new Exception($"Not found {sessionId}");
+        if (foundSession == null) throw new NotfoundException($"Not found {sessionId}");
         if (!SessionRegistry.TryGetValue(foundSession.SessionType.Value.ToString(), out var sessionClass))
             throw new Exception("Session type not found");
         var sessionModel = _mapper.Map<SessionModel>(foundSession);
         var session = Activator.CreateInstance(sessionClass, sessionModel) as SessionBase;
         await session.DeleteSession();
+        return new BusinessResult(Const.SUCCESS_CODE, Const.SUCCESS_DELETE_MSG);
+    }
+    public async Task<BusinessResult> GetById(Guid sessionId)
+    {
+        var foundSession = await _sessionRepository.GetById(sessionId);
+        if (foundSession == null) throw new NotfoundException($"Not found {sessionId}");
+        if (!SessionRegistry.TryGetValue(foundSession.SessionType.Value.ToString(), out var sessionClass))
+            throw new Exception("Session type not found");
+        var sessionModel = _mapper.Map<SessionModel>(foundSession);
+        var session = Activator.CreateInstance(sessionClass, sessionModel) as SessionBase;
+
+        return new BusinessResult(Const.SUCCESS_CODE, Const.SUCCESS_READ_MSG,await session.GetById());
     }
 
     public static void RegisterProductType(string type, Type classRef)
@@ -105,6 +118,8 @@ public class SessionService : BaseService<Session>, ISessionService
         public abstract Task<Session> CreateSession();
         public abstract Task<Session> UpdateSession();
         public abstract Task DeleteSession();
+        public abstract Task<Session> GetById();
+        
 
         protected async Task<Session> CreateSessionBase()
         {
@@ -150,9 +165,10 @@ public class SessionService : BaseService<Session>, ISessionService
         }
     }
 
-    //------------------------------------- Session Meeting Service --------------------------------------------//
+    #region Session Meeting Service
     public class SessionMeetingService : SessionBase
     {
+
         public SessionMeetingService(SessionModel payload) : base(payload)
         {
         }
@@ -210,15 +226,29 @@ public class SessionService : BaseService<Session>, ISessionService
             await _unitOfWork.SaveChanges();
             await DeleteSessionBase();
         }
-    }
 
-    //------------------------------------- Session Offline Service --------------------------------------------//
+
+        public override async Task<Session> GetById()
+        {
+            var session = await _sessionRepository.GetById((Guid) Model.Id);
+            session.SessionMeeting = await _sessionMeetingRepository.GetBySessionId((Guid)Model.Id);
+            return session;
+        }
+    }
+    #endregion
+    #region Session Offline Service
     public class SessionOfflineService : SessionBase
     {
         public SessionOfflineService(SessionModel payload) : base(payload)
         {
         }
-
+        public override async Task<Session> GetById()
+        {
+            var session = await _sessionRepository.GetById((Guid)Model.Id);
+            var sessionOffline =   await _sessionOfflineRepository.GetBySessionId((Guid)Model.Id);
+            session.SessionOffline = sessionOffline;
+            return session;
+        }
         public override async Task<Session> CreateSession()
         {
             var converted = JsonConvert.DeserializeObject<JObject>(Model.Detail.ToString());
@@ -268,14 +298,19 @@ public class SessionService : BaseService<Session>, ISessionService
             await DeleteSessionBase();
         }
     }
-
-    //------------------------------------- Session Self Learn Service --------------------------------------------//
+    #endregion
+    #region Session Self Learn Service
     public class SessionSelfLearnService : SessionBase
     {
         public SessionSelfLearnService(SessionModel payload) : base(payload)
         {
         }
-
+        public override async Task<Session> GetById()
+        {
+            var session = await _sessionRepository.GetById((Guid)Model.Id);
+            session.SessionSelfLearn = await _sessionSelfLearnRepository.GetBySessionId((Guid)Model.Id);
+            return session;
+        }
         public override async Task<Session> CreateSession()
         {
             var converted = JsonConvert.DeserializeObject<JObject>(Model.Detail.ToString());
@@ -325,4 +360,5 @@ public class SessionService : BaseService<Session>, ISessionService
             await DeleteSessionBase();
         }
     }
+    #endregion
 }
