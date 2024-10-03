@@ -61,7 +61,7 @@ public class UserController : ControllerBase
         var passwordHash = BCrypt.Net.BCrypt.HashPassword(request.Password);
         request.Password = passwordHash;
 
-        var msg = await _userService.Create(request);
+        var msg = await _userService.AddUser(request);
         return Ok(msg);
     }
 

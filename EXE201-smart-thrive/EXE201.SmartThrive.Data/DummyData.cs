@@ -11,23 +11,23 @@ public static class DummyData
 {
     public static void SeedDatabase(DbContext context)
     {
-        GenerateAssistants(context, 20);
+        GenerateAssistants(context, 40);
         GenerateCategories(context, 10);
         GenerateSubjects(context, 20);
-        GenerateUsers(context, 20);
+        GenerateUsers(context, 40);
         GenerateBlogs(context, 20);
-        GenerateProviders(context, 20);
-        GenerateAddresses(context, 20);
-        GenerateCourses(context, 20);
+        GenerateProviders(context, 10);
+        GenerateAddresses(context, 10);
+        GenerateCourses(context, 50);
         GenerateDayInWeeks(context, 20);
         GenerateModules(context, 5);
         GenerateStudents(context, 20);
         GenerateFeedbacks(context, 20);
         GeneratePackages(context, 20);
-        GeneratePackageXCourses(context, 20);
-        GenerateStudentXPackages(context, 20);
+        GeneratePackageXCourses(context, 50);
+        GenerateStudentXPackages(context, 150);
         GenerateVouchers(context, 20);
-        GenerateOrders(context, 20);
+        GenerateOrders(context, 70);
     }
 
     public static void GenerateAssistants(DbContext context, int count)
@@ -86,24 +86,24 @@ public static class DummyData
 
             var dayInWeekFaker = new Faker<DayInWeek>()
                 .RuleFor(d => d.Id, f => Guid.NewGuid())
-                .RuleFor(d => d.CourseId, f => f.PickRandom(courseIds)) // Chọn ngẫu nhiên CourseId
-                .RuleFor(d => d.Monday, f => f.Random.Bool()) // Chọn ngẫu nhiên giá trị cho các ngày trong tuần
+                .RuleFor(d => d.CourseId, f => f.PickRandom(courseIds))
+                .RuleFor(d => d.Monday, f => f.Random.Bool())
                 .RuleFor(d => d.Tuesday, f => f.Random.Bool())
                 .RuleFor(d => d.Wednesday, f => f.Random.Bool())
                 .RuleFor(d => d.Thursday, f => f.Random.Bool())
                 .RuleFor(d => d.Friday, f => f.Random.Bool())
                 .RuleFor(d => d.Saturday, f => f.Random.Bool())
                 .RuleFor(d => d.Sunday, f => f.Random.Bool())
-                .RuleFor(s => s.CreatedBy, f => "tsql@gmail.com") // Thay đổi nếu cần
+                .RuleFor(s => s.CreatedBy, f => "tsql@gmail.com")
                 .RuleFor(s => s.CreatedDate, f => f.Date.Past(2))
-                .RuleFor(s => s.UpdatedBy, f => "tsql@gmail.com") // Thay đổi nếu cần
+                .RuleFor(s => s.UpdatedBy, f => "tsql@gmail.com")
                 .RuleFor(s => s.UpdatedDate, f => f.Date.Recent())
                 .RuleFor(s => s.IsDeleted, f => false);
 
-            var daysInWeek = dayInWeekFaker.Generate(count); // Tạo dữ liệu DayInWeek
+            var daysInWeek = dayInWeekFaker.Generate(count);
 
-            context.Set<DayInWeek>().AddRange(daysInWeek); // Thêm vào cơ sở dữ liệu
-            context.SaveChanges(); // Lưu thay đổi
+            context.Set<DayInWeek>().AddRange(daysInWeek);
+            context.SaveChanges();
         }
     }
 
@@ -380,7 +380,7 @@ public static class DummyData
                 .RuleFor(o => o.VoucherId,
                     f => f.PickRandom(voucherIds.Concat(new[] { (Guid?)null }))) // Có thể không có voucher
                 .RuleFor(o => o.PaymentMethod, f => f.PickRandom<PaymentMethod>())
-                .RuleFor(o => o.TotalPrice, f => f.Finance.Amount(100)) // Số tiền từ 100 đến 1000
+                .RuleFor(o => o.TotalPrice, f => f.Finance.Amount(100000, 10000000)) // Số tiền từ 100 đến 1000
                 .RuleFor(o => o.Description, f => f.Lorem.Sentence())
                 .RuleFor(o => o.Status, f => f.PickRandom<OrderStatus>())
                 .RuleFor(s => s.CreatedBy, f => "tsql@gmail.com") // Thay đổi nếu cần
@@ -442,6 +442,7 @@ public static class DummyData
                 .RuleFor(sxp => sxp.Id, f => Guid.NewGuid())
                 .RuleFor(sxp => sxp.StudentId, f => f.PickRandom(studentIds)) // Liên kết với một sinh viên ngẫu nhiên
                 .RuleFor(sxp => sxp.PackageId, f => f.PickRandom(packageIds)) // Liên kết với một gói ngẫu nhiên
+                .RuleFor(sxp => sxp.Status, f => false)
                 .RuleFor(s => s.CreatedBy, f => "tsql@gmail.com") // Thay đổi nếu cần
                 .RuleFor(s => s.CreatedDate, f => f.Date.Past(2))
                 .RuleFor(s => s.UpdatedBy, f => "tsql@gmail.com") // Thay đổi nếu cần
@@ -470,7 +471,7 @@ public static class DummyData
                 .RuleFor(p => p.Id, f => Guid.NewGuid())
                 .RuleFor(p => p.Name, f => f.Commerce.ProductName())
                 .RuleFor(p => p.QuantityCourse, f => f.Random.Number(1, 10)) // Number of courses in the package
-                .RuleFor(p => p.TotalPrice, f => f.Finance.Amount(100)) // Total price range between 100 and 1000
+                .RuleFor(p => p.TotalPrice, f => f.Finance.Amount(100000, 10000000)) // Total price range between 100 and 1000
                 .RuleFor(p => p.IsActive, f => f.Random.Bool())
                 .RuleFor(p => p.Status, f => f.PickRandom<PackageStatus>())
                 .RuleFor(s => s.CreatedBy, f => "tsql@gmail.com") // Thay đổi nếu cần
@@ -512,7 +513,7 @@ public static class DummyData
                 .RuleFor(c => c.Name, f => f.Commerce.ProductName())
                 .RuleFor(c => c.Description, f => f.Lorem.Paragraph())
                 .RuleFor(c => c.BackgroundImage, f => f.Image.LoremFlickrUrl())
-                .RuleFor(c => c.Price, f => f.Finance.Amount(50, 500)) // Price range between 50 and 500
+                .RuleFor(c => c.Price, f => f.Finance.Amount(100000, 10000000)) // Price range between 50 and 500
                 .RuleFor(c => c.SoldCourses, f => f.Random.Number(0, 100))
                 .RuleFor(c => c.TotalSlots, f => f.Random.Number(10, 100))
                 .RuleFor(c => c.TotalSessions, f => f.Random.Number(1, 20))
@@ -551,6 +552,8 @@ public static class DummyData
                 .RuleFor(s => s.Id, f => Guid.NewGuid())
                 .RuleFor(s => s.UserId, f => f.PickRandom(userIds))
                 .RuleFor(s => s.StudentName, f => f.Name.FullName())
+                .RuleFor(s => s.FirstName, f => f.Name.FirstName())
+                .RuleFor(s => s.LastName, f => f.Name.LastName())
                 .RuleFor(s => s.Gender, f => f.PickRandom<Gender>())
                 .RuleFor(s => s.Dob,
                     f => f.Date.Past(20,

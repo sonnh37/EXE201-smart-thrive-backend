@@ -1,9 +1,5 @@
-﻿using EXE201.SmartThrive.Domain.Models.Requests.Commands.Base;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using EXE201.SmartThrive.Domain.Enums;
+using EXE201.SmartThrive.Domain.Models.Requests.Commands.Base;
 
 namespace EXE201.SmartThrive.Domain.Models.Requests.Commands.StudentXPackage
 {
@@ -12,5 +8,7 @@ namespace EXE201.SmartThrive.Domain.Models.Requests.Commands.StudentXPackage
         public Guid? StudentId { get; set; }
 
         public Guid? PackageId { get; set; }
+
+        public bool? Status { get; set; }
     }
 }

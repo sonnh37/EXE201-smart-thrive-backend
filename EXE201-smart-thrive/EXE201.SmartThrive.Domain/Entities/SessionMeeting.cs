@@ -8,6 +8,8 @@ public class SessionMeeting : BaseEntity
 
     public DateTime? Date { get; set; }
 
+    public int? Duration { get; set; }
+
     public string? MeetingUrl { get; set; }
 
     public string? MeetingPlatform { get; set; }

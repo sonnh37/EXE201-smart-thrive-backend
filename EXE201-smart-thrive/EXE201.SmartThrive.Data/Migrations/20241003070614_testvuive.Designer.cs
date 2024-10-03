@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EXE201.SmartThrive.Data.Migrations
 {
     [DbContext(typeof(STDbContext))]
-    [Migration("20240929071335_tester")]
-    partial class tester
+    [Migration("20241003070614_testvuive")]
+    partial class testvuive
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -639,6 +639,9 @@ namespace EXE201.SmartThrive.Data.Migrations
                     b.Property<DateTime?>("Date")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("Duration")
+                        .HasColumnType("int");
+
                     b.Property<string>("Host")
                         .HasColumnType("nvarchar(max)");
 
@@ -768,6 +771,9 @@ namespace EXE201.SmartThrive.Data.Migrations
                     b.Property<DateTime?>("Dob")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Gender")
                         .HasColumnType("nvarchar(max)");
 
@@ -776,6 +782,9 @@ namespace EXE201.SmartThrive.Data.Migrations
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Status")
                         .HasColumnType("nvarchar(max)");
@@ -817,6 +826,9 @@ namespace EXE201.SmartThrive.Data.Migrations
 
                     b.Property<Guid?>("PackageId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool?>("Status")
+                        .HasColumnType("bit");
 
                     b.Property<Guid?>("StudentId")
                         .HasColumnType("uniqueidentifier");

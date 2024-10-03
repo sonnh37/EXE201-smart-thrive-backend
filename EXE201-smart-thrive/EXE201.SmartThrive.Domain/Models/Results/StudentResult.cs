@@ -8,10 +8,16 @@ public class StudentResult : BaseResult
 
     public string? StudentName { get; set; }
 
+    public string? FirstName { get; set; }
+
+    public string? LastName { get; set; }
+
     public Gender? Gender { get; set; }
 
     public DateTime? Dob { get; set; }
+
     public string? ImageAvatar { get; set; }
+
     public string? Phone { get; set; }
 
     public UserStatus? Status { get; set; }

@@ -1,5 +1,6 @@
 ﻿using System.Linq.Expressions;
 using System.Reflection;
+using System.Threading;
 using AutoMapper;
 using EXE201.SmartThrive.Domain.Contracts.Bases;
 using EXE201.SmartThrive.Domain.Entities;
@@ -118,15 +119,17 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
 
     #region Queries
 
-    public async Task<IList<TEntity>> GetAll(CancellationToken cancellationToken = default)
+    // get all
+    public async Task<List<TEntity>> GetAll()
     {
-        var queryable = GetQueryable(cancellationToken);
+        var queryable = GetQueryable();
         queryable = IncludeHelper.Apply(queryable);
-        var result = await queryable.ToListAsync(cancellationToken);
+        var result = await queryable.ToListAsync();
         return result;
     }
 
-    public async Task<(List<TEntity>, int)> GetAll(GetQueryableQuery query)
+    // get with pagination ( filter )
+    public async Task<(List<TEntity>, int)> GetPaged(GetQueryableQuery query)
     {
         var queryable = GetQueryable();
         queryable = FilterHelper.Apply(queryable, query);
@@ -135,6 +138,17 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
         var results = await ApplySortingAndPaging(queryable, query);
 
         return (results, totalOrigin);
+    }
+
+    // get all with no pagination ( filter )
+    public async Task<List<TEntity>> GetAll(GetQueryableQuery query)
+    {
+        var queryable = GetQueryable();
+        queryable = FilterHelper.Apply(queryable, query);
+        queryable = IncludeHelper.Apply(queryable);
+        var results = await queryable.ToListAsync();
+
+        return results;
     }
 
     public virtual async Task<TEntity?> GetById(Guid id)

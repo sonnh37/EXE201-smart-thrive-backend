@@ -80,8 +80,32 @@ public class SessionService : BaseService<Session>, ISessionService
         SessionRegistry[type] = classRef;
     }
 
-   
+    public async Task<BusinessResult> GetSessionsByStudentId(Guid studentId)
+    {
+        var result = await _sessionRepository.GetSessionsByStudentId(studentId);
+        if (result != null)
+        {
+            return new BusinessResult(Const.SUCCESS_CODE, Const.SUCCESS_READ_MSG, result);
+        }
+        else
+        {
+            return new BusinessResult(Const.FAIL_CODE, Const.FAIL_READ_MSG, null);
+        }
 
+    }
+
+    public async Task<BusinessResult> Get4CommingSessionsByStudentId(Guid studentId)
+    {
+        var result = await _sessionRepository.Get4CommingSessionsByStudentId(studentId);
+        if (result != null)
+        {
+            return new BusinessResult(Const.SUCCESS_CODE, Const.SUCCESS_READ_MSG, result);
+        }
+        else
+        {
+            return new BusinessResult(Const.FAIL_CODE, Const.FAIL_READ_MSG, null);
+        }
+    }
     public abstract class SessionBase
     {
         protected SessionBase(SessionModel payload)
