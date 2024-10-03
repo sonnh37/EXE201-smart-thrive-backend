@@ -1,4 +1,5 @@
-﻿using EXE201.SmartThrive.Domain.Models.Requests.Commands.Base;
+﻿using EXE201.SmartThrive.Domain.Enums;
+using EXE201.SmartThrive.Domain.Models.Requests.Commands.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -68,19 +68,25 @@ public abstract class BaseService<TEntity> : BaseService, IBaseService
     {
         try
         {
+            List<TResult>? results;
+            int totalItems = 0;
+
             if (!x.IsPagination)
             {
-                return await GetAll<TResult>();
+                var allData = await _baseRepository.GetAll(x);
+                results = _mapper.Map<List<TResult>?>(allData);
+                return ResponseHelper.CreateResult(results);
             }
 
-            var tuple = await _baseRepository.GetAll(x);
-            var results = _mapper.Map<List<TResult>?>(tuple.Item1);
+            var tuple = await _baseRepository.GetPaged(x);
+            results = _mapper.Map<List<TResult>?>(tuple.Item1);
+            totalItems = tuple.Item2;
 
-            return ResponseHelper.CreateResult((results, tuple.Item2), x);
+            return ResponseHelper.CreateResult((results, totalItems), x);
         }
         catch (Exception ex)
         {
-            var errorMessage = $"An error {typeof(TResult).Name}: {ex.Message}";
+            var errorMessage = $"An error occurred in {typeof(TResult).Name}: {ex.Message}";
             Log.Error(ex, errorMessage);
             return ResponseHelper.CreateResult(errorMessage);
         }

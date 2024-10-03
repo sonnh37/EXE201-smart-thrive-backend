@@ -24,19 +24,22 @@ public enum OrderStatus
     Cancelled
 }
 
-// public enum BlogStatus
-// {
-//     Pending,
-//     Approved,
-//     Rejected
-// }
-
 public enum PackageStatus
 {
     Pending,
     Approved,
     Rejected
 }
+
+public enum StudentXPackageStatus
+{
+    Pending,
+    Paid,
+    Failed,
+    Canceled,
+    Refunded
+}
+
 
 public enum VoucherStatus
 {

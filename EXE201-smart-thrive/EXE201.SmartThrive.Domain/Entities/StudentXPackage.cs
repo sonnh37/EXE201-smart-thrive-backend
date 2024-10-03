@@ -1,4 +1,6 @@
-﻿namespace EXE201.SmartThrive.Domain.Entities;
+﻿using EXE201.SmartThrive.Domain.Enums;
+
+namespace EXE201.SmartThrive.Domain.Entities;
 
 public class StudentXPackage : BaseEntity
 {
