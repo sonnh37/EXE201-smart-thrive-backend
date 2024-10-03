@@ -45,6 +45,34 @@ public class SessionController : ControllerBase
         }
     }
 
+    [HttpGet("schedule/{studentId}")]
+    public async Task<IActionResult> GetSessionByStudentId(Guid studentId)
+    {
+        try
+        {
+            var result = await _sessionService.GetSessionsByStudentId(studentId);
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpGet("comming/{studentId}")]
+    public async Task<IActionResult> Get4CommingSessionsByStudentId(Guid studentId)
+    {
+        try
+        {
+            var result = await _sessionService.Get4CommingSessionsByStudentId(studentId);
+            return Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
     [HttpPost]
     public async Task<IActionResult> Add(SessionCreateCommand request)
     {

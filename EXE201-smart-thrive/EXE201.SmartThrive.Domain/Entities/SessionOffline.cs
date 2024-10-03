@@ -8,7 +8,7 @@ public class SessionOffline : BaseEntity
 
     public DateTime? Date { get; set; }
 
-    public int? Duration { get; set; }
+    public int? Duration { get; set; } // phut
 
     public virtual Session? Session { get; set; }
 }
