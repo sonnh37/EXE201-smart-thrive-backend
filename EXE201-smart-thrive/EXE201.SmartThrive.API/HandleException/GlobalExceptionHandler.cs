@@ -24,7 +24,9 @@ namespace EXE201.SmartThrive.API.HandleException
                 }
 
             };
-            await httpContext.Response.WriteAsJsonAsync(response);
+
+            httpContext.Response.StatusCode = response.Status;
+            await httpContext.Response.WriteAsJsonAsync(response, cancellationToken);
             return true;
         }
     }
