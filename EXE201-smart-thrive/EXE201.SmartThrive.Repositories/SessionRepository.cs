@@ -138,8 +138,7 @@ public class SessionRepository : BaseRepository<Session>, ISessionRepository
                   ? s.SessionMeeting.Date.Value.AddMinutes(s.SessionMeeting.Duration ?? 0)
                   : (DateTime?)null,
                    })
-                   //.Where(s => s.StartDate >= DateTime.Today) // Lọc các phiên có ngày bắt đầu từ hôm nay trở đi
-                   .Where(s => s.StartDate >= new DateTime(2020,09,01))
+                   .Where(s => s.StartDate >= DateTime.Now) //loc
                    .OrderBy(s => s.StartDate) // sap xep 
                    .Take(4)// Lay 4 phan tu
                    .ToListAsync();
