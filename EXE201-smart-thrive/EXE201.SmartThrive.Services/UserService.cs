@@ -86,13 +86,16 @@ public class UserService : BaseService<User>, IUserService
     public async Task<BusinessResult> GetByUsername(string username)
     {
         var user = await _userRepository.GetByUsername(username);
+
+        var userResult = _mapper.Map<UserResult>(user);
+
         if (user != null)
         {
-            return new BusinessResult(Const.SUCCESS_CODE, Const.SUCCESS_READ_MSG, user);
+            return new BusinessResult(Const.SUCCESS_CODE, Const.SUCCESS_READ_MSG, userResult);
         }
         else
         {
-            return new BusinessResult(Const.FAIL_CODE, "Username khong ton tai");
+            return new BusinessResult(Const.FAIL_CODE, "Username khong ton tai", userResult);
         }
     }
 }
