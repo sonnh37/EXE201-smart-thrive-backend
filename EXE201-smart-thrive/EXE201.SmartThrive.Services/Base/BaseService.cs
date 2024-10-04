@@ -120,17 +120,6 @@ public abstract class BaseService<TEntity> : BaseService, IBaseService
         }
     }
 
-    public async Task<TEntity?> CreateEntity(CreateCommand tRequest)
-    {
-        var entity = _mapper.Map<TEntity>(tRequest);
-
-        SetBaseEntityCreate(entity);
-        _baseRepository.Add(entity);
-
-        var saveChanges = await _unitOfWork.SaveChanges();
-        return saveChanges ? entity : default;
-    }
-
     public async Task<BusinessResult> Create(CreateCommand tRequest)
     {
         try
@@ -143,7 +132,8 @@ public abstract class BaseService<TEntity> : BaseService, IBaseService
             var saveChanges = await _unitOfWork.SaveChanges();
             return new BusinessResult(
                 saveChanges ? Const.SUCCESS_CODE : Const.FAIL_CODE,
-                saveChanges ? Const.SUCCESS_CREATE_MSG : Const.FAIL_CREATE_MSG
+                saveChanges ? Const.SUCCESS_CREATE_MSG : Const.FAIL_CREATE_MSG,
+                saveChanges ? entity : null
             );
         }
         catch (Exception ex)
