@@ -82,4 +82,17 @@ public class UserService : BaseService<User>, IUserService
             return new BusinessResult(Const.FAIL_CODE, "Username đã tồn tại");
         }
     }
+
+    public async Task<BusinessResult> GetByUsername(string username)
+    {
+        var user = await _userRepository.GetByUsername(username);
+        if (user != null)
+        {
+            return new BusinessResult(Const.SUCCESS_CODE, Const.SUCCESS_READ_MSG, user);
+        }
+        else
+        {
+            return new BusinessResult(Const.FAIL_CODE, "Username khong ton tai");
+        }
+    }
 }
