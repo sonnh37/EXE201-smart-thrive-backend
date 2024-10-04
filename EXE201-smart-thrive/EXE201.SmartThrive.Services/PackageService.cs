@@ -28,15 +28,19 @@ namespace EXE201.SmartThrive.Services
             {
                 throw new NotImplementException("Student not found");
             }
-            var package = await this.CreateEntity(request);
-            if (package == null)
+
+            var response = await Create(request);
+
+            if (response.Status != Const.SUCCESS_CODE)
             {
                 throw new NotImplementException("Package create fail");
             }
+
+            var package = response.Data as Package;
             var studentXPackage = new StudentXPackage
             {
                 StudentId = request.StudentId,
-                PackageId = package.Id
+                PackageId = package?.Id
             };
             _unitOfWork.GetRepositoryByEntity<StudentXPackage>().Add(studentXPackage);
             await _unitOfWork.SaveChanges();
