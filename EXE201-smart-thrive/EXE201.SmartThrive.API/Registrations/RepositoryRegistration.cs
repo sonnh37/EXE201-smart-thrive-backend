@@ -29,5 +29,6 @@ public static class RepositoryRegistration
         services.AddScoped<ISessionRepository, SessionRepository>();
         services.AddScoped<IStudentXPackageRepository, StudentXPackageRepository>();
         services.AddScoped<IPackageXCourseRepository, PackageXCourseRepository>();
+        services.AddScoped<IAssistantRepository, AssistantRepository>();
     }
 }

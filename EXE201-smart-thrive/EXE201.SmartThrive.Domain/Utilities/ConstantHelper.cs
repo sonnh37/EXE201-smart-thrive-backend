@@ -83,6 +83,9 @@ public class ConstantHelper
 
     public const string Payments = $"{BaseApi}payments";
 
+    public const string Assistants = $"{BaseApi}assistants";
+
+
     public const string StudentXPackage = $"{BaseApi}studentxpackages";
 
     public const string PackageXCourse = $"{BaseApi}packagexcourses";
