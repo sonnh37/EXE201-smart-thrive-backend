@@ -34,6 +34,13 @@ public class UserController : ControllerBase
         return Ok(msg);
     }
 
+    [HttpGet("{username}")]
+    public async Task<IActionResult> GetByUsername([FromRoute] string username)
+    {
+        var msg = await _userService.GetByUsername(username);
+        return Ok(msg);
+    }
+
     [HttpPost]
     public async Task<IActionResult> Add(UserCreateCommand request)
     {
