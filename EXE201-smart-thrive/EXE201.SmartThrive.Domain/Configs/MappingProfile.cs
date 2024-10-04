@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using EXE201.SmartThrive.Domain.Entities;
 using EXE201.SmartThrive.Domain.Models;
+using EXE201.SmartThrive.Domain.Models.Requests.Commands.Assistant;
 using EXE201.SmartThrive.Domain.Models.Requests.Commands.Blog;
 using EXE201.SmartThrive.Domain.Models.Requests.Commands.Category;
 using EXE201.SmartThrive.Domain.Models.Requests.Commands.Course;
@@ -41,8 +42,14 @@ public class MappingProfile : Profile
         PackageMapping();
         PackageXCourseMapping();
         StudentXPackageMapping();
+        AssistantMapping();
     }
 
+    private void AssistantMapping()
+    {
+        CreateMap<Assistant, AssistantResult>().ReverseMap();
+        CreateMap<Assistant, AssistantCreateCommand>().ReverseMap();
+    }
     private void CourseMapping()
     {
         CreateMap<Course, CourseResult>().ReverseMap();
