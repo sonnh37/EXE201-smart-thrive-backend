@@ -7,7 +7,7 @@ public interface IUnitOfWork : IBaseUnitOfWork
 {
     ISubjectRepository SubjectRepository { get; }
     IOrderRepository OrderRepository { get; }
-
+    IAssistantRepository AssistantRepository { get; }
     ISessionRepository SessionRepository { get; }
     ISessionMeetingRepository SessionMeetingRepository { get; }
     ISessionOfflineRepository SessionOfflineRepository { get; }
