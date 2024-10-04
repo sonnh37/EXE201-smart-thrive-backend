@@ -8,8 +8,7 @@ public class StudentXPackageResult : BaseResult
 
     public Guid? PackageId { get; set; }
 
-    public StudentXPackageStatus Status { get; set; }
-
+    public bool? Status { get; set; }
 
     public StudentResult? Student { get; set; }
 

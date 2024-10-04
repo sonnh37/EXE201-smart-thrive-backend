@@ -8,6 +8,8 @@ public class StudentCreateCommand : CreateCommand
     public Guid? UserId { get; set; }
 
     public string? StudentName { get; set; }
+    public string? FirstName { get; set; }
+    public string? LastName { get; set; }
 
     public Gender? Gender { get; set; }
 

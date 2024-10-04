@@ -36,7 +36,7 @@ public class SessionController : ControllerBase
     {
         try
         {
-            var msg = await _sessionService.GetById<SessionResult>(id);
+            var msg = await _sessionService.GetById(id);
             return Ok(msg);
         }
         catch (Exception ex)

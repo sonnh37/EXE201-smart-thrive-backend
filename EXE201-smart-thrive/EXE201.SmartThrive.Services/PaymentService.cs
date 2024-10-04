@@ -85,6 +85,7 @@ namespace EXE201.SmartThrive.Services
             }
             order.Status = OrderStatus.Completed;
             _unitOfWork.OrderRepository.Update(order);
+            await _unitOfWork.SaveChanges();
             var mapOrder = _mapper.Map<OrderResult>(order);
             return new BusinessResult(Const.SUCCESS_CODE, Const.SUCCESS_UPDATE_MSG, mapOrder);
         }
@@ -98,6 +99,7 @@ namespace EXE201.SmartThrive.Services
             }
             order.Status = OrderStatus.Cancelled;
             _unitOfWork.OrderRepository.Update(order);
+            await _unitOfWork.SaveChanges();
             var mapOrder = _mapper.Map<OrderResult>(order);
             return new BusinessResult(Const.SUCCESS_CODE, Const.SUCCESS_UPDATE_MSG, mapOrder);
         }
