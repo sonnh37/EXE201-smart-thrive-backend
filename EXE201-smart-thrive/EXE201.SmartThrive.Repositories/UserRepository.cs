@@ -26,6 +26,17 @@ public class UserRepository : BaseRepository<User>, IUserRepository
         return user;
     }
 
+    public async Task<User?> GetByEmail(string keyword)
+    {
+        var queryable = GetQueryable();
+
+        var user = await queryable.Where(e => e.Email!.ToLower() == keyword.ToLower())
+            .Include(e => e.Students)
+            .SingleOrDefaultAsync();
+
+        return user;
+    }
+
     public async Task<User?> GetByUsername(string username)
     {
         var queryable = GetQueryable();

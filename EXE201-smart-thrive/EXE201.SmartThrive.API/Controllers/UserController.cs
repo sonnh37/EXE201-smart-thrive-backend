@@ -4,8 +4,10 @@ using EXE201.SmartThrive.Domain.Models.Requests.Commands.User;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.User;
 using EXE201.SmartThrive.Domain.Models.Results;
 using EXE201.SmartThrive.Domain.Utilities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace EXE201.SmartThrive.API.Controllers;
 
@@ -14,6 +16,7 @@ namespace EXE201.SmartThrive.API.Controllers;
 public class UserController : ControllerBase
 {
     private readonly IUserService _userService;
+
 
     public UserController(IUserService __userService)
     {
@@ -93,6 +96,83 @@ public class UserController : ControllerBase
         catch (Exception ex)
         {
             return StatusCode(500, $"Internal server error: {ex.Message}");
+        }
+    }
+
+    [AllowAnonymous]
+    [HttpPost("send-email")]
+    public IActionResult SendOTP([FromBody] EmailRequest request)
+    {
+        try
+        {
+            var br = _userService.SendEmail(request.Email);
+            return Ok(br);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [AllowAnonymous]
+    [HttpPost("verify-otp")]
+    public IActionResult VerifyOTP([FromBody] VerifyOtpRequest request)
+    {
+        try
+        {
+            var response = _userService.ValidateOtp(request.Email.ToLower(), request.Otp);
+            return Ok(response);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+
+
+    [AllowAnonymous]
+    [HttpPost("find-account-registered-by-google")]
+    public async Task<IActionResult> FindAccountRegisteredByGoogle([FromBody] VerifyGoogleTokenRequest request)
+    {
+        try
+        {
+            var response = await _userService.FindAccountRegisteredByGoogle(request);
+            return Ok(response);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { Message = ex.Message });
+        }
+    }
+
+    [AllowAnonymous]
+    [HttpPost("login-by-google")]
+    public async Task<IActionResult> LoginByGoogle([FromBody] VerifyGoogleTokenRequest request)
+    {
+        try
+        {
+            var response = await _userService.LoginByGoogleTokenAsync(request);
+            return Ok(response);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { Message = ex.Message });
+        }
+    }
+
+    [AllowAnonymous]
+    [HttpPost("register-by-google")]
+    public async Task<IActionResult> RegisterByGoogle([FromBody] RegisterByGoogleRequest request)
+    {
+        try
+        {
+            var response = await _userService.RegisterByGoogleAsync(request);
+            return Ok(response);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { Message = ex.Message });
         }
     }
 }

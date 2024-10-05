@@ -16,6 +16,7 @@ public class Const
     public static int SUCCESS_CODE = 1;
     public static string SUCCESS_CREATE_MSG = "Save data success";
     public static string SUCCESS_READ_MSG = "Get data success";
+    public static string SUCCESS_READ_GOOGLE_TOKEN_MSG = "Email is verified";
     public static string SUCCESS_UPDATE_MSG = "Update data success";
     public static string SUCCESS_DELETE_MSG = "Delete data success";
     public static string SUCCESS_LOGIN_MSG = "Login success";
@@ -27,6 +28,7 @@ public class Const
 
     public static int FAIL_CODE = -1;
     public static string FAIL_CREATE_MSG = "Save data fail";
+    public static string FAIL_READ_GOOGLE_TOKEN_MSG = "Invalid Google Token";
     public static string FAIL_READ_MSG = "Get data fail";
     public static string FAIL_UPDATE_MSG = "Update data fail";
     public static string FAIL_DELETE_MSG = "Delete data fail";
@@ -44,6 +46,7 @@ public class Const
 
     public static int NOT_FOUND_CODE = -2; 
     public static string NOT_FOUND_MSG = "Not found";
+    public static string NOT_FOUND_USER_LOGIN_BY_GOOGLE_MSG = "Not found user that login by google";
     public static string NOT_USERNAME_MSG = "Not found username";
     public static string NOT_PASSWORD_MSG = "Not match password";
 

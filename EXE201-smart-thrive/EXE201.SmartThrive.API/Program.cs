@@ -110,7 +110,7 @@ try
 
     #region Config_Authentication
 
-    builder.Services.AddAuthentication(options =>
+    _ = builder.Services.AddAuthentication(options =>
         {
             options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
             options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -132,19 +132,21 @@ try
             };
 
             options.Configuration = new OpenIdConnectConfiguration();
-        });
+        })
+         .AddGoogle(options =>
+         {
+             IConfigurationSection googleAuthNSection = builder.Configuration.GetSection("Authentication:Google");
+
+             options.ClientId = googleAuthNSection["ClientId"];
+             options.ClientSecret = googleAuthNSection["ClientSecret"];
+         });
+
 
     builder.Services.AddAuthorization();
 
     #endregion
 
-    // .AddGoogle(options =>
-    // {
-    //     IConfigurationSection googleAuthNSection = builder.Configuration.GetSection("Authentication:Google");
-    //
-    //     options.ClientId = googleAuthNSection["ClientId"];
-    //     options.ClientSecret = googleAuthNSection["ClientSecret"];
-    // });
+
     IConfiguration configuration = builder.Configuration;
     PayOsSettingModel.Instance = configuration.GetSection("PayOs").Get<PayOsSettingModel>();
 

@@ -4,6 +4,7 @@ using EXE201.SmartThrive.Domain.Models;
 using EXE201.SmartThrive.Domain.Models.Requests.Commands.User;
 using EXE201.SmartThrive.Domain.Models.Responses;
 using EXE201.SmartThrive.Domain.Models.Results;
+using Microsoft.AspNetCore.Mvc;
 
 namespace EXE201.SmartThrive.Domain.Contracts.Services;
 
@@ -16,4 +17,11 @@ public interface IUserService : IBaseService
     Task<BusinessResult> GetByUsername(string username);
 
     BusinessResult DecodeToken(string token);
+
+    BusinessResult SendEmail(string email);
+
+    BusinessResult ValidateOtp(string email, string otpInput);
+    Task<BusinessResult> RegisterByGoogleAsync(RegisterByGoogleRequest request);
+    Task<BusinessResult> LoginByGoogleTokenAsync(VerifyGoogleTokenRequest request);
+    Task<BusinessResult> FindAccountRegisteredByGoogle(VerifyGoogleTokenRequest request);
 }
