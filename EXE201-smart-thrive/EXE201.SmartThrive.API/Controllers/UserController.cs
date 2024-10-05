@@ -1,4 +1,5 @@
 ﻿using EXE201.SmartThrive.Domain.Contracts.Services;
+using EXE201.SmartThrive.Domain.Models;
 using EXE201.SmartThrive.Domain.Models.Requests.Commands.User;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.User;
 using EXE201.SmartThrive.Domain.Models.Results;
@@ -78,5 +79,20 @@ public class UserController : ControllerBase
         var msg = await _userService.Login(request.Email, request.Password);
 
         return Ok(msg);
+    }
+
+    [HttpPost("decode-token")]
+    public IActionResult DecodeToken([FromBody] TokenRequest request)
+    {
+        try
+        {
+            var br = _userService.DecodeToken(request.Token);
+
+            return Ok(br);
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Internal server error: {ex.Message}");
+        }
     }
 }
