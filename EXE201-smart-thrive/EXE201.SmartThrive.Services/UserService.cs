@@ -6,6 +6,7 @@ using EXE201.SmartThrive.Domain.Contracts.Repositories;
 using EXE201.SmartThrive.Domain.Contracts.Services;
 using EXE201.SmartThrive.Domain.Contracts.UnitOfWorks;
 using EXE201.SmartThrive.Domain.Entities;
+using EXE201.SmartThrive.Domain.Models;
 using EXE201.SmartThrive.Domain.Models.Requests.Commands.User;
 using EXE201.SmartThrive.Domain.Models.Responses;
 using EXE201.SmartThrive.Domain.Models.Results;
@@ -27,13 +28,45 @@ public class UserService : BaseService<User>, IUserService
         configuration = _configuration;
     }
 
+    public BusinessResult DecodeToken(string token)
+    {
+        var handler = new JwtSecurityTokenHandler();
+
+        // Kiểm tra nếu token không hợp lệ
+        if (!handler.CanReadToken(token))
+        {
+            throw new ArgumentException("Token không hợp lệ", nameof(token));
+        }
+
+        // Giải mã token
+        var jwtToken = handler.ReadJwtToken(token);
+
+        // Truy xuất các thông tin từ token
+        var id = jwtToken.Claims.First(claim => claim.Type == ClaimTypes.NameIdentifier).Value;
+        var name = jwtToken.Claims.First(claim => claim.Type == ClaimTypes.Name).Value;
+        var role = jwtToken.Claims.First(claim => claim.Type == ClaimTypes.Role).Value;
+        var exp = jwtToken.Claims.First(claim => claim.Type == ClaimTypes.Expiration).Value;
+
+
+        // Tạo đối tượng DecodedToken
+        var decodedToken = new DecodedToken
+        {
+            Id = id,
+            Name = name,
+            Role = role,
+            Exp = long.Parse(exp),
+        };
+
+        return new BusinessResult(Const.SUCCESS_CODE, "Decoded to get user", decodedToken);
+    }
     private (string token, string expiration) CreateToken(UserResult user)
     {
         var claims = new List<Claim>
         {
-            new Claim("id", user.Id.ToString()),
+            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
             new Claim(ClaimTypes.Name, user.Username),
-            new Claim(ClaimTypes.Role, user.Role.ToString())
+            new Claim(ClaimTypes.Role, user.Role.ToString()),
+            new Claim(ClaimTypes.Expiration, new DateTimeOffset(_expirationTime).ToUnixTimeSeconds().ToString())
         };
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
@@ -41,7 +74,7 @@ public class UserService : BaseService<User>, IUserService
 
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
 
-        
+
         var token = new JwtSecurityToken(
             claims: claims,
             expires: _expirationTime,
@@ -60,7 +93,7 @@ public class UserService : BaseService<User>, IUserService
         if (user == null) return ResponseHelper.CreateResult(null, null, Const.NOT_USERNAME_MSG);
 
         //check password
-        if (!BCrypt.Net.BCrypt.Verify(password, user.Password)) 
+        if (!BCrypt.Net.BCrypt.Verify(password, user.Password))
             return ResponseHelper.CreateResult(null, null, Const.NOT_PASSWORD_MSG);
 
         var userResult = _mapper.Map<UserResult>(user);
@@ -72,8 +105,8 @@ public class UserService : BaseService<User>, IUserService
     public async Task<BusinessResult> AddUser(UserCreateCommand user)
     {
         var username = await _userRepository.FindByEmailOrUsername(user.Username);
-    //    var email = await _userRepository.FindByEmailOrUsername(user.Email);
-        if(username == null)
+        //    var email = await _userRepository.FindByEmailOrUsername(user.Email);
+        if (username == null)
         {
             return await Create(user);
         }
