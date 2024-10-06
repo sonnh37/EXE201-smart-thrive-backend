@@ -173,7 +173,12 @@ public abstract class BaseService<TEntity> : BaseService, IBaseService
         entity.UpdatedDate = DateTime.UtcNow;
         entity.IsDeleted = false;
 
-        SetUserInformation(entity);
+        var user = InformationUser.User;
+
+        if (user == null) return;
+
+        entity.UpdatedBy = user.Email;
+        entity.CreatedBy = user.Email;
     }
 
     private static void SetBaseEntityUpdate(TEntity? entity)
@@ -181,20 +186,11 @@ public abstract class BaseService<TEntity> : BaseService, IBaseService
         if (entity == null) return;
 
         entity.UpdatedDate = DateTime.UtcNow;
-        SetUserInformation(entity);
-    }
-
-    private static void SetUserInformation(TEntity entity)
-    {
         var user = InformationUser.User;
 
         if (user == null) return;
 
         entity.UpdatedBy = user.Email;
-        if (entity.CreatedDate == default)
-        {
-            entity.CreatedBy = user.Email;
-        }
     }
 
     private async Task<TEntity?> DeleteEntity(Guid id)

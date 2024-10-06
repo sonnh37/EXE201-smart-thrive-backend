@@ -1,9 +1,10 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using EXE201.SmartThrive.Domain.Contracts.UnitOfWorks;
 using EXE201.SmartThrive.Domain.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
-
+using Serilog;
 namespace EXE201.SmartThrive.Domain.Middleware;
 
 public class RequestTokenUserMiddleware
@@ -25,28 +26,30 @@ public class RequestTokenUserMiddleware
             var token = context.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
             if (!string.IsNullOrEmpty(token) && token != "null")
             {
-                var (email, username) = GetUserEmailWithUsernameFromToken(token);
-                if (!string.IsNullOrEmpty(email) && !string.IsNullOrEmpty(username))
+                var id = GetUserIdFromToken(token);
+                if (id != Guid.Empty)
+                {
                     using (var scope = _serviceScopeFactory.CreateScope())
                     {
+                        
                         var unitOfWork = scope.ServiceProvider.GetRequiredService<IUnitOfWork>();
-                        // var userRepository = unitOfWork.UserRepository;
-                        // var user = await userRepository.FindUsernameOrEmail(new AuthQuery
-                        //     { Email = email, Username = username });
-                        // StaticUser.User = user;
+                        var userRepository = unitOfWork.UserRepository;
+                        var user = await userRepository.GetById(id);
+                        InformationUser.User = user;
                     }
+                }
             }
         }
 
         await _next(context);
     }
 
-    private (string?, string?) GetUserEmailWithUsernameFromToken(string token)
+    private Guid GetUserIdFromToken(string token)
     {
         var handler = new JwtSecurityTokenHandler();
         var jwtToken = handler.ReadJwtToken(token);
-        var emailClaim = jwtToken.Claims.FirstOrDefault(claim => claim.Type == "email");
-        var usernameClaim = jwtToken.Claims.FirstOrDefault(claim => claim.Type == "sub");
-        return (emailClaim?.Value, usernameClaim?.Value);
+        //var emailClaim = jwtToken.Claims.FirstOrDefault(claim => claim.Type == "email");
+        var id = jwtToken.Claims.First(claim => claim.Type == ClaimTypes.NameIdentifier).Value;
+        return Guid.Parse(id);
     }
 }
