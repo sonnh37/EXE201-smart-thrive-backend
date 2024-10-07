@@ -1,10 +1,9 @@
-﻿using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using EXE201.SmartThrive.Domain.Contracts.UnitOfWorks;
+﻿using EXE201.SmartThrive.Domain.Contracts.UnitOfWorks;
 using EXE201.SmartThrive.Domain.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
-using Serilog;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 namespace EXE201.SmartThrive.Domain.Middleware;
 
 public class RequestTokenUserMiddleware
@@ -31,7 +30,7 @@ public class RequestTokenUserMiddleware
                 {
                     using (var scope = _serviceScopeFactory.CreateScope())
                     {
-                        
+
                         var unitOfWork = scope.ServiceProvider.GetRequiredService<IUnitOfWork>();
                         var userRepository = unitOfWork.UserRepository;
                         var user = await userRepository.GetById(id);

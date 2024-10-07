@@ -25,6 +25,6 @@ public static class ServiceRegistration
         services.AddScoped<IStudentXPackageService, StudentXPackageService>();
         services.AddScoped<IPackageXCourseService, PackageXCourseService>();
         services.AddScoped<IAssistantService, AssistantService>();
-       
+
     }
 }

@@ -16,6 +16,7 @@
 //     \ \ `-. \_ __\ /__ _/ .-` / /
 //======`-.____`-.___\_____/___.-`____.-'======
 //                `=---='
+using EXE201.SmartThrive.API;
 using EXE201.SmartThrive.API.HandleException;
 using EXE201.SmartThrive.API.Registrations;
 using EXE201.SmartThrive.Data;
@@ -40,13 +41,22 @@ Log.Logger = new LoggerConfiguration()
 try
 {
     Log.Information("starting server.");
+    DotNetEnv.Env.Load();
+    
     var builder = WebApplication.CreateBuilder(args);
+    var domainUrl = Environment.GetEnvironmentVariable("DOMAIN") ?? "https://localhost:9876";
+    builder.WebHost.UseUrls(domainUrl);
+    var swaggerUrl = $"{domainUrl}/swagger";
+
+    builder.Configuration.ConvertEnvToAppsettings();
 
     builder.Host.UseSerilog((context, loggerConfiguration) =>
     {
         loggerConfiguration.WriteTo.Console();
         loggerConfiguration.ReadFrom.Configuration(context.Configuration);
     });
+
+    
 
     builder.Services.AddControllers().AddJsonOptions(x =>
         x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
@@ -147,8 +157,8 @@ try
     #endregion
 
 
-    IConfiguration configuration = builder.Configuration;
-    PayOsSettingModel.Instance = configuration.GetSection("PayOs").Get<PayOsSettingModel>();
+    PayOsSettingModel.Instance = builder.Configuration.GetSection("PayOs")
+                                                      .Get<PayOsSettingModel>();
 
     //Handle Exception
     builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
@@ -180,6 +190,12 @@ try
     app.UseAuthorization();
 
     app.MapControllers();
+
+    System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
+    {
+        FileName = swaggerUrl,
+        UseShellExecute = true
+    });
 
     app.Run();
 }

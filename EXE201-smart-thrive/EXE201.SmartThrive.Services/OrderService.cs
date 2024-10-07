@@ -7,8 +7,6 @@ using EXE201.SmartThrive.Domain.ExceptionHandler;
 using EXE201.SmartThrive.Domain.Models.Requests.Commands.Order;
 using EXE201.SmartThrive.Domain.Utilities;
 using EXE201.SmartThrive.Services.Base;
-using Microsoft.AspNetCore.WebUtilities;
-using System.Net;
 
 namespace EXE201.SmartThrive.Services;
 

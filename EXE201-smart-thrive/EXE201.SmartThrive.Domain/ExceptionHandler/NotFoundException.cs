@@ -1,18 +1,7 @@
-﻿using EXE201.SmartThrive.API.HandleException;
-using EXE201.SmartThrive.Domain.Utilities;
-using Microsoft.AspNetCore.WebUtilities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Microsoft.AspNetCore.WebUtilities;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
-using System;
-using System.Net;
-using Microsoft.AspNetCore.WebUtilities;
-
-namespace EXE201.SmartThrive.Domain.Exceptions
+namespace EXE201.SmartThrive.Domain.ExceptionHandler
 {
     public class NotfoundException : ApiException
     {

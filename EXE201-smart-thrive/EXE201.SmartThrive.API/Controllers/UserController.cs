@@ -7,7 +7,6 @@ using EXE201.SmartThrive.Domain.Utilities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
-using System.IdentityModel.Tokens.Jwt;
 
 namespace EXE201.SmartThrive.API.Controllers;
 

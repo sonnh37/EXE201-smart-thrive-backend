@@ -3,12 +3,14 @@ using EXE201.SmartThrive.Domain.Models.Requests.Commands.Order;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.Order;
 using EXE201.SmartThrive.Domain.Models.Results;
 using EXE201.SmartThrive.Domain.Utilities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EXE201.SmartThrive.API.Controllers;
 
 [Route(ConstantHelper.Orders)]
 [ApiController]
+[Authorize]
 public class OrderController : ControllerBase
 {
     private readonly IOrderService service;

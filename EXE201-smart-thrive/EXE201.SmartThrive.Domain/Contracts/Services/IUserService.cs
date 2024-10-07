@@ -1,10 +1,7 @@
 ﻿using EXE201.SmartThrive.Domain.Contracts.Bases;
-using EXE201.SmartThrive.Domain.Entities;
 using EXE201.SmartThrive.Domain.Models;
 using EXE201.SmartThrive.Domain.Models.Requests.Commands.User;
 using EXE201.SmartThrive.Domain.Models.Responses;
-using EXE201.SmartThrive.Domain.Models.Results;
-using Microsoft.AspNetCore.Mvc;
 
 namespace EXE201.SmartThrive.Domain.Contracts.Services;
 

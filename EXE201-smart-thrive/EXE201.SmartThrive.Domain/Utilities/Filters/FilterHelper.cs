@@ -14,7 +14,6 @@ using EXE201.SmartThrive.Domain.Models.Requests.Queries.StudentXPackage;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.Subject;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.User;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.Voucher;
-using System.Linq;
 
 namespace EXE201.SmartThrive.Domain.Utilities.Filters;
 
@@ -104,7 +103,7 @@ public static class FilterHelper
             queryable = queryable.Where(m => m.Title != null && m.Title.ToLower().Contains(query.Title.ToLower()));
         if (query.UserId != null)
             queryable = queryable.Where(m => m.UserId == query.UserId);
-      
+
         queryable = BaseFilterHelper.Base(queryable, query);
 
         return queryable;

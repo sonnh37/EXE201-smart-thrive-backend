@@ -1,7 +1,4 @@
-﻿using EXE201.SmartThrive.Domain.Utilities;
-using System.Net;
-
-namespace EXE201.SmartThrive.API.HandleException
+﻿namespace EXE201.SmartThrive.Domain.ExceptionHandler
 {
     public class ApiException : Exception
     {

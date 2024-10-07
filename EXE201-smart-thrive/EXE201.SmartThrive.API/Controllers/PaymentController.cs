@@ -1,5 +1,4 @@
 ﻿using EXE201.SmartThrive.Domain.Contracts.Services;
-using EXE201.SmartThrive.Domain.Entities;
 using EXE201.SmartThrive.Domain.Models;
 using EXE201.SmartThrive.Domain.Utilities;
 using Microsoft.AspNetCore.Mvc;
@@ -22,7 +21,7 @@ namespace EXE201.SmartThrive.API.Controllers
             await _paymentService.PaymentSuccess(response);
             return Redirect("http://localhost:3000/payment/thanks");
         }
-                                                                        
+
         [HttpGet("/api/payments/fail")]
         public async Task<IActionResult> FailResponse([FromQuery] PaymentReturnModel response)
         {
@@ -33,8 +32,8 @@ namespace EXE201.SmartThrive.API.Controllers
         [HttpPost]
         public async Task<IActionResult> TestPayment(string description, Guid orderId)
         {
-            var msg = await _paymentService.CreateQrCode( description , orderId);
+            var msg = await _paymentService.CreateQrCode(description, orderId);
             return Ok(msg);
-        } 
+        }
     }
 }

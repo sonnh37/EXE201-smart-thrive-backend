@@ -21,7 +21,7 @@ public static class BaseFilterHelper
             queryable = queryable.Where(m => query.IsDeleted.Contains(m.IsDeleted));
         }
 
-        queryable = FromDateToDate(queryable, query);   
+        queryable = FromDateToDate(queryable, query);
 
         return queryable;
     }

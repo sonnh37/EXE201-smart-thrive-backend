@@ -9,11 +9,6 @@ using EXE201.SmartThrive.Domain.Utilities;
 using Microsoft.Extensions.Configuration;
 using Net.payOS;
 using Net.payOS.Types;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EXE201.SmartThrive.Services
 {
@@ -40,26 +35,26 @@ namespace EXE201.SmartThrive.Services
             }
         }
 
-        public async Task<string> CreateQrCode(string description, Guid orderId )
+        public async Task<string> CreateQrCode(string description, Guid orderId)
         {
             int amount = 0;
             // Map for items detail
             var courseFromPackage = await _unitOfWork.OrderRepository.GetItemsFromOrder(orderId);
             List<ItemData> data = new List<ItemData>();
-            foreach(var items in courseFromPackage.Package.PackageXCourses)
+            foreach (var items in courseFromPackage.Package.PackageXCourses)
             {
                 data.Add(new ItemData(items.Course.Name, 1, (int)items.Course.Price));
                 amount += (int)items.Course.Price;
             }
             // Init data for request
             var domain = _configuration.GetSection("Domain").Value;
-            var successReturnUrl = domain + "/payments/success?orderId=" +orderId;
+            var successReturnUrl = domain + "/payments/success?orderId=" + orderId;
             var failReturnUrl = domain + "/payments/fail?orderId=" + orderId;
             var orderCode = int.Parse(DateTimeOffset.Now.ToString("ffffff"));
             // Create signature
             var signatureData = $"amount={amount}&cancelUrl={failReturnUrl}&description={description}&orderCode={orderCode}&returnUrl={successReturnUrl}";
             var signature = CreateHmacSha256(signatureData, PayOsSettingModel.Instance.checkSumKey);
-            
+
             // Create data to request payment
             var paymentLinkRequest = new PaymentData(
                     orderCode: orderCode,
@@ -70,7 +65,7 @@ namespace EXE201.SmartThrive.Services
                     cancelUrl: failReturnUrl,
                     expiredAt: (int)(DateTimeOffset.UtcNow.AddMinutes(10).ToUnixTimeSeconds()),
                     signature: signature
-                ); 
+                );
             // Send the request to PayOs
             var response = await payos.createPaymentLink(paymentLinkRequest);
             return response.checkoutUrl;
@@ -79,7 +74,7 @@ namespace EXE201.SmartThrive.Services
         public async Task<BusinessResult> PaymentSuccess(PaymentReturnModel returnModel)
         {
             var order = await _unitOfWork.OrderRepository.GetById(returnModel.orderId);
-            if(order == null)
+            if (order == null)
             {
                 throw new NotImplementedException("Order Not Found");
             }
