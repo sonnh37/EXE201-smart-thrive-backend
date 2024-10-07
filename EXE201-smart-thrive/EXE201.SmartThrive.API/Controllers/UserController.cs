@@ -12,6 +12,7 @@ namespace EXE201.SmartThrive.API.Controllers;
 
 [Route(ConstantHelper.Users)]
 [ApiController]
+[Authorize]
 public class UserController : ControllerBase
 {
     private readonly IUserService _userService;
@@ -65,6 +66,7 @@ public class UserController : ControllerBase
         return Ok(msg);
     }
 
+    [AllowAnonymous]
     [HttpPost("register")]
     public async Task<IActionResult> Register(UserCreateCommand request)
     {
@@ -75,6 +77,7 @@ public class UserController : ControllerBase
         return Ok(msg);
     }
 
+    [AllowAnonymous]
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] LoginRequest request)
     {
@@ -84,6 +87,7 @@ public class UserController : ControllerBase
     }
 
     [HttpPost("decode-token")]
+   
     public IActionResult DecodeToken([FromBody] TokenRequest request)
     {
         try
