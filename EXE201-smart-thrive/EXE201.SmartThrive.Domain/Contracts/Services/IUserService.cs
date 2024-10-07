@@ -21,4 +21,5 @@ public interface IUserService : IBaseService
     Task<BusinessResult> RegisterByGoogleAsync(RegisterByGoogleRequest request);
     Task<BusinessResult> LoginByGoogleTokenAsync(VerifyGoogleTokenRequest request);
     Task<BusinessResult> FindAccountRegisteredByGoogle(VerifyGoogleTokenRequest request);
+    Task<BusinessResult> GetByUsernameOrEmail(string key);
 }

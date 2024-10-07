@@ -38,10 +38,18 @@ public class UserController : ControllerBase
         return Ok(msg);
     }
 
-    [HttpGet("{username}")]
-    public async Task<IActionResult> GetByUsername([FromRoute] string username)
+    //[HttpGet("{username}")]
+    //public async Task<IActionResult> GetByUsername([FromRoute] string username)
+    //{
+    //    var msg = await _userService.GetByUsername(username);
+    //    return Ok(msg);
+    //}
+
+    [HttpGet("username-or-email")]
+    [AllowAnonymous]
+    public async Task<IActionResult> GetByUsernameOrEmail([FromQuery] string key)
     {
-        var msg = await _userService.GetByUsername(username);
+        var msg = await _userService.GetByUsernameOrEmail(key);
         return Ok(msg);
     }
 
@@ -79,9 +87,9 @@ public class UserController : ControllerBase
 
     [AllowAnonymous]
     [HttpPost("login")]
-    public async Task<IActionResult> Login([FromBody] LoginRequest request)
+    public async Task<IActionResult> Login([FromBody] LoginRequestModel request)
     {
-        var msg = await _userService.Login(request.Email, request.Password);
+        var msg = await _userService.Login(request.UsernameOrEmail, request.Password);
 
         return Ok(msg);
     }
