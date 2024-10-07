@@ -1,11 +1,9 @@
-﻿using System.Text;
-using EXE201.SmartThrive.Domain.Contracts.Services;
+﻿using EXE201.SmartThrive.Domain.Contracts.Services;
 using EXE201.SmartThrive.Domain.Models.Requests.Commands.Provider;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.Provider;
 using EXE201.SmartThrive.Domain.Models.Results;
 using EXE201.SmartThrive.Domain.Utilities;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace EXE201.SmartThrive.API.Controllers;
 

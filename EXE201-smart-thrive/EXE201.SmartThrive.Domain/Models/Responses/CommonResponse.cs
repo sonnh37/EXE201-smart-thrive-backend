@@ -11,7 +11,7 @@ public class LoginResponse
     public LoginResponse()
     {
     }
-    
+
     public LoginResponse(string? token, string? expiration)
     {
         Token = token;
@@ -19,7 +19,7 @@ public class LoginResponse
     }
 }
 
-public class ResultResponse<TResult>  where TResult : class
+public class ResultResponse<TResult> where TResult : class
 {
 
     public TResult? Result { get; set; }
@@ -39,7 +39,7 @@ public class ResultsResponse<TResult> where TResult : class
     public List<TResult>? Results { get; set; }
 
     public int TotalRecords { get; set; }
-    
+
     public ResultsResponse()
     {
     }

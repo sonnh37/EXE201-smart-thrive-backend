@@ -1,6 +1,6 @@
-﻿using EXE201.SmartThrive.Domain.Models.Responses;
+﻿using EXE201.SmartThrive.Domain.ExceptionHandler;
+using EXE201.SmartThrive.Domain.Models.Responses;
 using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.AspNetCore.Mvc;
 
 namespace EXE201.SmartThrive.API.HandleException
 {

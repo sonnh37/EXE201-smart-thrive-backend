@@ -1,9 +1,8 @@
-﻿using EXE201.SmartThrive.Domain.Enums;
-using EXE201.SmartThrive.Domain.Models.Requests.Commands.Base;
+﻿using EXE201.SmartThrive.Domain.Models.Requests.Commands.Base;
 
 namespace EXE201.SmartThrive.Domain.Models.Requests.Commands.StudentXPackage
 {
-    public class StudentXPackageUpdateCommand: UpdateCommand
+    public class StudentXPackageUpdateCommand : UpdateCommand
     {
         public Guid? StudentId { get; set; }
 

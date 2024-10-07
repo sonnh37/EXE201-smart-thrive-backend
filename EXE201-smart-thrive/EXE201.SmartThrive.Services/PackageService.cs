@@ -4,7 +4,6 @@ using EXE201.SmartThrive.Domain.Contracts.Services;
 using EXE201.SmartThrive.Domain.Contracts.UnitOfWorks;
 using EXE201.SmartThrive.Domain.Entities;
 using EXE201.SmartThrive.Domain.ExceptionHandler;
-using EXE201.SmartThrive.Domain.Exceptions;
 using EXE201.SmartThrive.Domain.Models.Requests.Commands.Package;
 using EXE201.SmartThrive.Domain.Models.Responses;
 using EXE201.SmartThrive.Domain.Utilities;

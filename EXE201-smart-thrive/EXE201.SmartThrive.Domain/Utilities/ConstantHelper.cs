@@ -7,7 +7,7 @@ public class Const
     #region Error Codes
 
     public static int ERROR_EXCEPTION_CODE = -4;
-    
+
 
     #endregion
 
@@ -39,12 +39,12 @@ public class Const
 
     public static int WARNING_NO_DATA_CODE = 4;
     public static string WARNING_NO_DATA_MSG = "No data";
-    
+
     #endregion
-    
+
     #region Not Found Codes
 
-    public static int NOT_FOUND_CODE = -2; 
+    public static int NOT_FOUND_CODE = -2;
     public static string NOT_FOUND_MSG = "Not found";
     public static string NOT_FOUND_USER_LOGIN_BY_GOOGLE_MSG = "Not found user that login by google";
     public static string NOT_USERNAME_MSG = "Not found username";

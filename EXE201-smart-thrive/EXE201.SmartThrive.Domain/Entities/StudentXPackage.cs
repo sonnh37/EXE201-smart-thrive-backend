@@ -1,6 +1,4 @@
-﻿using EXE201.SmartThrive.Domain.Enums;
-
-namespace EXE201.SmartThrive.Domain.Entities;
+﻿namespace EXE201.SmartThrive.Domain.Entities;
 
 public class StudentXPackage : BaseEntity
 {
@@ -8,7 +6,7 @@ public class StudentXPackage : BaseEntity
 
     public Guid? PackageId { get; set; }
 
-    public bool? Status { get; set; } 
+    public bool? Status { get; set; }
 
     public virtual Student? Student { get; set; }
 

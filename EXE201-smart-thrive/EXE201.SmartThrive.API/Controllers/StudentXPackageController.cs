@@ -1,14 +1,8 @@
 ﻿using EXE201.SmartThrive.Domain.Contracts.Services;
-using EXE201.SmartThrive.Domain.Models.Requests.Commands.Category;
-using EXE201.SmartThrive.Domain.Models.Requests.Commands.PackageXCourse;
-using EXE201.SmartThrive.Domain.Models.Requests.Commands.Student;
 using EXE201.SmartThrive.Domain.Models.Requests.Commands.StudentXPackage;
-using EXE201.SmartThrive.Domain.Models.Requests.Queries.Category;
-using EXE201.SmartThrive.Domain.Models.Requests.Queries.PackageXCourse;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.StudentXPackage;
 using EXE201.SmartThrive.Domain.Models.Results;
 using EXE201.SmartThrive.Domain.Utilities;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EXE201.SmartThrive.API.Controllers

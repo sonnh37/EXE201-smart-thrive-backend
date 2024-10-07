@@ -402,3 +402,4 @@ FodyWeavers.xsd
 #
 /*/.vs/*/v17/DocumentLayout.json
 /EXE201-smart-thrive/EXE201.SmartThrive.API/appsettings.json
+/EXE201-smart-thrive/EXE201.SmartThrive.API/.env

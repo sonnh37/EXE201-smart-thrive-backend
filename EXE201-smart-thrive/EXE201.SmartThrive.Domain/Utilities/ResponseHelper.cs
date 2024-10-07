@@ -48,7 +48,7 @@ public static class ResponseHelper
     {
         return new BusinessResult(Const.ERROR_EXCEPTION_CODE, e);
     }
-    
+
     public static BusinessResult CreateResult(string? token, string? expiration, string? msg = null)
     {
         if (token == null && expiration == null && msg != null)

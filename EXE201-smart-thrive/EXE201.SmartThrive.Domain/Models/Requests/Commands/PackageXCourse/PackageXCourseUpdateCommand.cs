@@ -1,13 +1,8 @@
 ﻿using EXE201.SmartThrive.Domain.Models.Requests.Commands.Base;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EXE201.SmartThrive.Domain.Models.Requests.Commands.PackageXCourse
 {
-    public class PackageXCourseUpdateCommand: UpdateCommand
+    public class PackageXCourseUpdateCommand : UpdateCommand
     {
         public Guid? CourseId { get; set; }
 

@@ -1,25 +1,24 @@
-﻿using System.IdentityModel.Tokens.Jwt;
-using System.Net.Mail;
-using System.Net;
-using System.Security.Claims;
-using System.Text;
-using AutoMapper;
+﻿using AutoMapper;
 using EXE201.SmartThrive.Domain.Contracts.Repositories;
 using EXE201.SmartThrive.Domain.Contracts.Services;
 using EXE201.SmartThrive.Domain.Contracts.UnitOfWorks;
 using EXE201.SmartThrive.Domain.Entities;
+using EXE201.SmartThrive.Domain.Enums;
 using EXE201.SmartThrive.Domain.Models;
 using EXE201.SmartThrive.Domain.Models.Requests.Commands.User;
 using EXE201.SmartThrive.Domain.Models.Responses;
 using EXE201.SmartThrive.Domain.Models.Results;
 using EXE201.SmartThrive.Domain.Utilities;
 using EXE201.SmartThrive.Services.Base;
+using Google.Apis.Auth;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using OtpNet;
-using Microsoft.AspNetCore.Mvc;
-using Google.Apis.Auth;
-using EXE201.SmartThrive.Domain.Enums;
+using System.IdentityModel.Tokens.Jwt;
+using System.Net;
+using System.Net.Mail;
+using System.Security.Claims;
+using System.Text;
 
 namespace EXE201.SmartThrive.Services;
 
@@ -258,7 +257,7 @@ public class UserService : BaseService<User>, IUserService
     {
 
         var response = VerifyGoogleTokenAsync(request).Result;
-        
+
         if (response.Status != Const.SUCCESS_CODE)
         {
             return response;

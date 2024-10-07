@@ -3,7 +3,7 @@ using EXE201.SmartThrive.Domain.Contracts.Repositories;
 using EXE201.SmartThrive.Domain.Contracts.Services;
 using EXE201.SmartThrive.Domain.Contracts.UnitOfWorks;
 using EXE201.SmartThrive.Domain.Entities;
-using EXE201.SmartThrive.Domain.Exceptions;
+using EXE201.SmartThrive.Domain.ExceptionHandler;
 using EXE201.SmartThrive.Domain.Models;
 using EXE201.SmartThrive.Domain.Models.Requests.Commands.Session;
 using EXE201.SmartThrive.Domain.Models.Responses;
@@ -41,7 +41,7 @@ public class SessionService : BaseService<Session>, ISessionService
         if (!SessionRegistry.TryGetValue(type, out var sessionClass)) throw new Exception("Session type not found");
         var sessionModel = _mapper.Map<SessionModel>(payload);
         var session = Activator.CreateInstance(sessionClass, sessionModel) as SessionBase;
-        return new BusinessResult(Const.SUCCESS_CODE , Const.SUCCESS_CREATE_MSG, await session.CreateSession());
+        return new BusinessResult(Const.SUCCESS_CODE, Const.SUCCESS_CREATE_MSG, await session.CreateSession());
     }
 
     public async Task<BusinessResult> UpdateSession(string type, SessionUpdateCommand payload)
@@ -72,7 +72,7 @@ public class SessionService : BaseService<Session>, ISessionService
         var sessionModel = _mapper.Map<SessionModel>(foundSession);
         var session = Activator.CreateInstance(sessionClass, sessionModel) as SessionBase;
 
-        return new BusinessResult(Const.SUCCESS_CODE, Const.SUCCESS_READ_MSG,await session.GetById());
+        return new BusinessResult(Const.SUCCESS_CODE, Const.SUCCESS_READ_MSG, await session.GetById());
     }
 
     public static void RegisterProductType(string type, Type classRef)
@@ -119,7 +119,7 @@ public class SessionService : BaseService<Session>, ISessionService
         public abstract Task<Session> UpdateSession();
         public abstract Task DeleteSession();
         public abstract Task<Session> GetById();
-        
+
 
         protected async Task<Session> CreateSessionBase()
         {
@@ -230,7 +230,7 @@ public class SessionService : BaseService<Session>, ISessionService
 
         public override async Task<Session> GetById()
         {
-            var session = await _sessionRepository.GetById((Guid) Model.Id);
+            var session = await _sessionRepository.GetById((Guid)Model.Id);
             session.SessionMeeting = await _sessionMeetingRepository.GetBySessionId((Guid)Model.Id);
             return session;
         }
@@ -245,7 +245,7 @@ public class SessionService : BaseService<Session>, ISessionService
         public override async Task<Session> GetById()
         {
             var session = await _sessionRepository.GetById((Guid)Model.Id);
-            var sessionOffline =   await _sessionOfflineRepository.GetBySessionId((Guid)Model.Id);
+            var sessionOffline = await _sessionOfflineRepository.GetBySessionId((Guid)Model.Id);
             session.SessionOffline = sessionOffline;
             return session;
         }
