@@ -42,11 +42,8 @@ try
 {
     Log.Information("starting server.");
     DotNetEnv.Env.Load();
-    
+
     var builder = WebApplication.CreateBuilder(args);
-    var domainUrl = Environment.GetEnvironmentVariable("DOMAIN") ?? "https://localhost:9876";
-    builder.WebHost.UseUrls(domainUrl);
-    var swaggerUrl = $"{domainUrl}/swagger";
 
     builder.Configuration.ConvertEnvToAppsettings();
 
@@ -56,7 +53,7 @@ try
         loggerConfiguration.ReadFrom.Configuration(context.Configuration);
     });
 
-    
+
 
     builder.Services.AddControllers().AddJsonOptions(x =>
         x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
@@ -121,10 +118,10 @@ try
     #region Config_Authentication
 
     _ = builder.Services.AddAuthentication(options =>
-        {
-            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-        })
+    {
+        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    })
         .AddJwtBearer(options =>
         {
             options.SaveToken = true;
@@ -191,11 +188,6 @@ try
 
     app.MapControllers();
 
-    System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
-    {
-        FileName = swaggerUrl,
-        UseShellExecute = true
-    });
 
     app.Run();
 }
