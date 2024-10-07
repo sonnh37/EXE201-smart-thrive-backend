@@ -45,8 +45,6 @@ try
 
     var builder = WebApplication.CreateBuilder(args);
 
-    builder.Configuration.ConvertEnvToAppsettings();
-
     builder.Host.UseSerilog((context, loggerConfiguration) =>
     {
         loggerConfiguration.WriteTo.Console();
