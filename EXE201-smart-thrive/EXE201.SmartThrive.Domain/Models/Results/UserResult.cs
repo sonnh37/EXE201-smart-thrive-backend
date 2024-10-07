@@ -34,3 +34,18 @@ public class UserResult : BaseResult
 
     public List<StudentResult>? Students { get; set; }
 }
+
+
+public class UserLoginResult
+{
+    public string? Username { get; set; }
+
+    //public string? Password { get; set; }
+
+    public string? FirstName { get; set; }
+
+    public string? ImageUrl { get; set; }
+
+    public string? Email { get; set; }
+
+}

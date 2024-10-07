@@ -137,6 +137,7 @@ public class MappingProfile : Profile
     private void UserMapping()
     {
         CreateMap<User, UserResult>().ReverseMap();
+        CreateMap<User, UserLoginResult>().ReverseMap();
         CreateMap<User, UserCreateCommand>().ReverseMap();
         CreateMap<User, UserUpdateCommand>().ReverseMap();
     }

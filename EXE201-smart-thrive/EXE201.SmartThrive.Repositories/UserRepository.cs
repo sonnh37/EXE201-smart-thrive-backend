@@ -16,8 +16,8 @@ public class UserRepository : BaseRepository<User>, IUserRepository
     {
         var queryable = GetQueryable();
 
-        var user = await queryable.Where(e => e.Email!.ToLower() == keyword.ToLower()
-                                              || e.Username!.ToLower() == keyword.ToLower())
+        var user = await queryable.Where(e => e.Email!.ToLower().Trim() == keyword.ToLower().Trim()
+                                              || e.Username!.ToLower().Trim() == keyword.ToLower().Trim())
             .Include(e => e.Students)
             .SingleOrDefaultAsync();
 

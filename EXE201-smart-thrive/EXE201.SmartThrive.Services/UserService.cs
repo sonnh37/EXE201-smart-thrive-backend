@@ -214,6 +214,22 @@ public class UserService : BaseService<User>, IUserService
         }
     }
 
+    public async Task<BusinessResult> GetByUsernameOrEmail(string key)
+    {
+        var user = await _userRepository.FindByEmailOrUsername(key);
+
+        var userResult = _mapper.Map<UserLoginResult>(user);
+
+        if (user != null)
+        {
+            return new BusinessResult(Const.SUCCESS_CODE, Const.SUCCESS_READ_MSG, userResult);
+        }
+        else
+        {
+            return new BusinessResult(Const.FAIL_CODE, "No find account", userResult);
+        }
+    }
+
     #endregion
 
     private async Task<string> GetBase64ImageFromUrl(string imageUrl)
