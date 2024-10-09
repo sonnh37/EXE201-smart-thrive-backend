@@ -102,6 +102,7 @@ public class MappingProfile : Profile
         CreateMap<Package, PackageResult>().ReverseMap();
         CreateMap<Package, PackageCreateCommand>().ReverseMap();
         CreateMap<Package, PackageUpdateCommand>().ReverseMap();
+        CreateMap<Package, PackageCreateWithStudentCommand>().ReverseMap();
     }
 
     private void ProviderMapping()
