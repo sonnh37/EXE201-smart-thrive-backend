@@ -3,12 +3,14 @@ using EXE201.SmartThrive.Domain.Models.Requests.Commands.Provider;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.Provider;
 using EXE201.SmartThrive.Domain.Models.Results;
 using EXE201.SmartThrive.Domain.Utilities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EXE201.SmartThrive.API.Controllers;
 
 [Route(ConstantHelper.Providers)]
 [ApiController]
+[Authorize]
 public class ProviderController : ControllerBase
 {
     private readonly IProviderService _providerService;

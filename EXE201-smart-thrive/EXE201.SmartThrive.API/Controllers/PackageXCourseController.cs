@@ -3,12 +3,14 @@ using EXE201.SmartThrive.Domain.Models.Requests.Commands.PackageXCourse;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.PackageXCourse;
 using EXE201.SmartThrive.Domain.Models.Results;
 using EXE201.SmartThrive.Domain.Utilities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EXE201.SmartThrive.API.Controllers
 {
     [Route(ConstantHelper.PackageXCourse)]
     [ApiController]
+    [Authorize]
     public class PackageXCourseController : ControllerBase
     {
         private readonly IPackageXCourseService _service;
@@ -19,6 +21,7 @@ namespace EXE201.SmartThrive.API.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> GetAll([FromQuery] PackageXCourseGetAllQuery getAllQuery)
         {
             var msg = await _service.GetAll<PackageXCourseResult>(getAllQuery);
@@ -26,6 +29,7 @@ namespace EXE201.SmartThrive.API.Controllers
         }
 
         [HttpGet("{id:guid}")]
+        [AllowAnonymous]
         public async Task<IActionResult> Get(Guid id)
         {
             var msg = await _service.GetById<PackageXCourseResult>(id);

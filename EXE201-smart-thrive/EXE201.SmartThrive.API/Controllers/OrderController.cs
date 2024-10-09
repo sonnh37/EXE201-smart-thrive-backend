@@ -21,6 +21,7 @@ public class OrderController : ControllerBase
     }
 
     [HttpGet]
+    [AllowAnonymous]
     public async Task<IActionResult> GetAll([FromQuery] OrderGetAllQuery query)
     {
         var msg = await service.GetAll<OrderResult>(query);
@@ -28,6 +29,7 @@ public class OrderController : ControllerBase
     }
 
     [HttpGet("{id:guid}")]
+    [AllowAnonymous]
     public async Task<IActionResult> Get(Guid id)
     {
         var msg = await service.GetById<OrderResult>(id);

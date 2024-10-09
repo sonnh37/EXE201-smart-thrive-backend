@@ -3,12 +3,14 @@ using EXE201.SmartThrive.Domain.Models.Requests.Commands.Subject;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.Subject;
 using EXE201.SmartThrive.Domain.Models.Results;
 using EXE201.SmartThrive.Domain.Utilities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EXE201.SmartThrive.API.Controllers;
 
 [Route(ConstantHelper.Subjects)]
 [ApiController]
+[Authorize]
 public class SubjectController : ControllerBase
 {
     private readonly ISubjectService _subjectService;
@@ -19,6 +21,7 @@ public class SubjectController : ControllerBase
     }
 
     [HttpGet]
+    [AllowAnonymous]
     public async Task<IActionResult> GetAll([FromQuery] SubjectGetAllQuery subjectGetAllQuery)
     {
         var msg = await _subjectService.GetAll<SubjectResult>(subjectGetAllQuery);
@@ -26,6 +29,7 @@ public class SubjectController : ControllerBase
     }
 
     [HttpGet("{id:guid}")]
+    [AllowAnonymous]
     public async Task<IActionResult> Get(Guid id)
     {
         var msg = await _subjectService.GetById<SubjectResult>(id);

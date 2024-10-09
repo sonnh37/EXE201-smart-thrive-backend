@@ -3,12 +3,14 @@ using EXE201.SmartThrive.Domain.Models.Requests.Commands.Blog;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.Blog;
 using EXE201.SmartThrive.Domain.Models.Results;
 using EXE201.SmartThrive.Domain.Utilities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EXE201.SmartThrive.API.Controllers;
 
 [Route(ConstantHelper.Blogs)]
 [ApiController]
+[Authorize]
 public class BlogController : ControllerBase
 {
     private readonly IBlogService _blogService;
@@ -19,6 +21,7 @@ public class BlogController : ControllerBase
     }
 
     [HttpGet]
+    [AllowAnonymous]
     public async Task<IActionResult> GetAll([FromQuery] BlogGetAllQuery blogGetAllQuery)
     {
         var msg = await _blogService.GetAll<BlogResult>(blogGetAllQuery);
@@ -26,6 +29,7 @@ public class BlogController : ControllerBase
     }
 
     [HttpGet("{id:guid}")]
+    [AllowAnonymous]
     public async Task<IActionResult> Get(Guid id)
     {
         var msg = await _blogService.GetById<BlogResult>(id);

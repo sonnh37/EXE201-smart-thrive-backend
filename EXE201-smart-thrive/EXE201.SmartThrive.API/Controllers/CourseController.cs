@@ -3,12 +3,14 @@ using EXE201.SmartThrive.Domain.Models.Requests.Commands.Course;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.Course;
 using EXE201.SmartThrive.Domain.Models.Results;
 using EXE201.SmartThrive.Domain.Utilities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EXE201.SmartThrive.API.Controllers;
 
 [Route(ConstantHelper.Courses)]
 [ApiController]
+[Authorize]
 public class CourseController : ControllerBase
 {
     private readonly ICourseService _courseService;
@@ -19,6 +21,7 @@ public class CourseController : ControllerBase
     }
 
     [HttpGet]
+    [AllowAnonymous]
     public async Task<IActionResult> GetAll([FromQuery] CourseGetAllQuery courseGetAllQuery)
     {
         var msg = await _courseService.GetAll<CourseResult>(courseGetAllQuery);
@@ -26,6 +29,7 @@ public class CourseController : ControllerBase
     }
 
     [HttpGet("{id:guid}")]
+    [AllowAnonymous]
     public async Task<IActionResult> Get(Guid id)
     {
         var msg = await _courseService.GetById<CourseResult>(id);
