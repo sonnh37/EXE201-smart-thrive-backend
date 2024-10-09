@@ -3,12 +3,14 @@ using EXE201.SmartThrive.Domain.Models.Requests.Commands.Module;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.Module;
 using EXE201.SmartThrive.Domain.Models.Results;
 using EXE201.SmartThrive.Domain.Utilities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EXE201.SmartThrive.API.Controllers;
 
 [Route(ConstantHelper.Modules)]
 [ApiController]
+[Authorize]
 public class ModuleController : ControllerBase
 {
     private readonly IModuleService _moduleService;
@@ -19,6 +21,7 @@ public class ModuleController : ControllerBase
     }
 
     [HttpGet]
+    [AllowAnonymous]
     public async Task<IActionResult> GetAll([FromQuery] ModuleGetAllQuery request)
     {
         var msg = await _moduleService.GetAll<ModuleResult>(request);
@@ -26,6 +29,7 @@ public class ModuleController : ControllerBase
     }
 
     [HttpGet("{id:guid}")]
+    [AllowAnonymous]
     public async Task<IActionResult> Get(Guid id)
     {
         var msg = await _moduleService.GetById<ModuleResult>(id);

@@ -1,6 +1,7 @@
 ﻿using EXE201.SmartThrive.Domain.Contracts.Services;
 using EXE201.SmartThrive.Domain.Models;
 using EXE201.SmartThrive.Domain.Utilities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EXE201.SmartThrive.API.Controllers
@@ -8,6 +9,7 @@ namespace EXE201.SmartThrive.API.Controllers
 
     [Route(ConstantHelper.Payments)]
     [ApiController]
+
     public class PaymentController : ControllerBase
     {
         private readonly IPaymentService _paymentService;

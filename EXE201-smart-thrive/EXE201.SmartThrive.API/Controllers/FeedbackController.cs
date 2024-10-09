@@ -3,12 +3,14 @@ using EXE201.SmartThrive.Domain.Models.Requests.Commands.Feedback;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.Feedback;
 using EXE201.SmartThrive.Domain.Models.Results;
 using EXE201.SmartThrive.Domain.Utilities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EXE201.SmartThrive.API.Controllers;
 
 [Route(ConstantHelper.Feedbacks)]
 [ApiController]
+[Authorize]
 public class FeedbackController : ControllerBase
 {
     private readonly IFeedbackService _feedbackService;
@@ -19,6 +21,7 @@ public class FeedbackController : ControllerBase
     }
 
     [HttpGet]
+    [AllowAnonymous]
     public async Task<IActionResult> GetAll([FromQuery] FeedbackGetAllQuery request)
     {
         var msg = await _feedbackService.GetAll<FeedbackResult>(request);
@@ -26,6 +29,7 @@ public class FeedbackController : ControllerBase
     }
 
     [HttpGet("{id:guid}")]
+    [AllowAnonymous]
     public async Task<IActionResult> Get(Guid id)
     {
         var msg = await _feedbackService.GetById<FeedbackResult>(id);

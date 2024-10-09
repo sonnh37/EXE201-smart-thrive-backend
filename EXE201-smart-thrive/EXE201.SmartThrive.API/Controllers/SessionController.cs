@@ -2,12 +2,14 @@
 using EXE201.SmartThrive.Domain.Models.Requests.Commands.Session;
 using EXE201.SmartThrive.Domain.Models.Results;
 using EXE201.SmartThrive.Domain.Utilities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EXE201.SmartThrive.API.Controllers;
 
 [Route(ConstantHelper.Sessions)]
 [ApiController]
+[Authorize]
 public class SessionController : ControllerBase
 {
     private readonly ISessionService _sessionService;
@@ -18,6 +20,7 @@ public class SessionController : ControllerBase
     }
 
     [HttpGet]
+    [AllowAnonymous]
     public async Task<IActionResult> GetAll()
     {
         try
@@ -32,6 +35,7 @@ public class SessionController : ControllerBase
     }
 
     [HttpGet("{id:guid}")]
+    [AllowAnonymous]
     public async Task<IActionResult> Get(Guid id)
     {
         try
