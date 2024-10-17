@@ -109,7 +109,7 @@ public static class IncludeHelper
 
     private static IQueryable<Category> Category(IQueryable<Category> queryable)
     {
-
+        queryable = queryable.Include(x => x.Subjects);
         return queryable;
     }
 
