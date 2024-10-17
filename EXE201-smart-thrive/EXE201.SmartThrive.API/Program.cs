@@ -189,9 +189,10 @@ try
 
     app.Run();
 }
-catch (Exception ex)
+catch (Exception ex) when (ex is not HostAbortedException && ex.Source != "Microsoft.EntityFrameworkCore.Design")
 {
     Log.Fatal(ex, "server terminated unexpectedly");
+   
 }
 finally
 {
