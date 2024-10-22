@@ -94,6 +94,7 @@ public class UserController : ControllerBase
         return Ok(msg);
     }
 
+    [AllowAnonymous]
     [HttpPost("decode-token")]
    
     public IActionResult DecodeToken([FromBody] TokenRequest request)

@@ -11,23 +11,23 @@ public static class DummyData
 {
     public static void SeedDatabase(DbContext context)
     {
-        GenerateAssistants(context, 40);
-        GenerateCategories(context, 10);
-        GenerateSubjects(context, 20);
-        GenerateUsers(context, 40);
-        GenerateBlogs(context, 20);
-        GenerateProviders(context, 10);
-        GenerateAddresses(context, 10);
-        GenerateCourses(context, 50);
-        GenerateDayInWeeks(context, 20);
-        GenerateModules(context, 5);
-        GenerateStudents(context, 20);
-        GenerateFeedbacks(context, 20);
-        GeneratePackages(context, 20);
-        GeneratePackageXCourses(context, 50);
-        GenerateStudentXPackages(context, 150);
-        GenerateVouchers(context, 20);
-        GenerateOrders(context, 70);
+        //GenerateAssistants(context, 20);
+        //GenerateCategories(context, 10);
+        //GenerateSubjects(context, 20);
+        //GenerateUsers(context, 40);
+        //GenerateBlogs(context, 20);
+        //GenerateProviders(context, 10);
+        //GenerateAddresses(context, 10);
+        //GenerateCourses(context, 40);
+        //GenerateDayInWeeks(context, 20);
+        //GenerateModules(context, 5);
+        //GenerateStudents(context, 20);
+        //GenerateFeedbacks(context, 20);
+        //GeneratePackages(context, 20);
+        //GeneratePackageXCourses(context, 40);
+        //GenerateStudentXPackages(context, 100);
+        //GenerateVouchers(context, 20);
+        //GenerateOrders(context, 50);
     }
 
     public static void GenerateAssistants(DbContext context, int count)
