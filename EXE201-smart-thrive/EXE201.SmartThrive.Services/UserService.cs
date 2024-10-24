@@ -127,8 +127,10 @@ public class UserService : BaseService<User>, IUserService
         var id = jwtToken.Claims.First(claim => claim.Type == ClaimTypes.NameIdentifier).Value;
         var name = jwtToken.Claims.First(claim => claim.Type == ClaimTypes.Name).Value;
         var role = jwtToken.Claims.First(claim => claim.Type == ClaimTypes.Role).Value;
-        var exp = jwtToken.Claims.First(claim => claim.Type == ClaimTypes.Expiration).Value;
 
+        // Lấy giá trị exp từ claims
+        var expClaim = jwtToken.Claims.FirstOrDefault(claim => claim.Type == JwtRegisteredClaimNames.Exp);
+        long exp = expClaim != null ? long.Parse(expClaim.Value) : 0;
 
         // Tạo đối tượng DecodedToken
         var decodedToken = new DecodedToken
@@ -136,11 +138,12 @@ public class UserService : BaseService<User>, IUserService
             Id = id,
             Name = name,
             Role = role,
-            Exp = long.Parse(exp),
+            Exp = exp,
         };
 
         return new BusinessResult(Const.SUCCESS_CODE, "Decoded to get user", decodedToken);
     }
+
     private (string token, string expiration) CreateToken(UserResult user)
     {
         var claims = new List<Claim>
@@ -148,7 +151,6 @@ public class UserService : BaseService<User>, IUserService
             new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
             new Claim(ClaimTypes.Name, user.Username),
             new Claim(ClaimTypes.Role, user.Role.ToString()),
-            new Claim(ClaimTypes.Expiration, new DateTimeOffset(_expirationTime).ToUnixTimeSeconds().ToString())
         };
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
