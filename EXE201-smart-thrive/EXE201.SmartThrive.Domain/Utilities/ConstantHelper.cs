@@ -106,5 +106,5 @@ public class ConstantHelper
     public const SortOrder SortOrderDefault = SortOrder.Descending;
     #endregion
 
-    public static readonly DateTime ExpirationLogin = DateTime.Now.AddHours(1);
+    //public static readonly DateTime ExpirationLogin = DateTime.UtcNow.AddHours(1);
 }

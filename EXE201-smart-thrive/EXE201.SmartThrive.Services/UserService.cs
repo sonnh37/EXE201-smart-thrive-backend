@@ -26,7 +26,7 @@ public class UserService : BaseService<User>, IUserService
 {
     private readonly IConfiguration configuration;
     private readonly IUserRepository _userRepository;
-    private readonly DateTime _expirationTime = ConstantHelper.ExpirationLogin;
+    private readonly DateTime _expirationTime = DateTime.Now.AddHours(1);
     private readonly Dictionary<string, string> _otpStorage = new(); // Lưu OTP
     private readonly Dictionary<string, DateTime> _expiryStorage = new();
     private readonly string _clientId;
