@@ -11,6 +11,7 @@ public static class IncludeHelper
         return (queryable switch
         {
             IQueryable<Blog> q => Blog(q) as IQueryable<TEntity>,
+            IQueryable<Package> q => Package(q) as IQueryable<TEntity>,
             IQueryable<Category> q => Category(q) as IQueryable<TEntity>,
             IQueryable<Course> q => Course(q) as IQueryable<TEntity>,
             IQueryable<Feedback> q => Feedback(q) as IQueryable<TEntity>,

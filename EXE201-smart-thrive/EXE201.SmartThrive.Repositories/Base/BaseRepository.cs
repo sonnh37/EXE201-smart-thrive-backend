@@ -25,7 +25,7 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
         Mapper = mapper;
     }
 
-    private DbSet<TEntity> DbSet
+    public DbSet<TEntity> DbSet
     {
         get
         {
@@ -105,6 +105,16 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
     {
         entity.IsDeleted = true;
         DbSet.Update(entity);
+    }
+    
+    public void Remove(TEntity entity)
+    {
+        DbSet.Remove(entity);
+    }
+    
+    public void RemoveRange(IEnumerable<TEntity> entity)
+    {
+        DbSet.RemoveRange(entity);
     }
 
     public void DeleteRange(IEnumerable<TEntity> entities)
@@ -189,7 +199,7 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
         return queryable;
     }
 
-    private DbSet<T> GetDbSet<T>() where T : BaseEntity
+    public DbSet<T> GetDbSet<T>() where T : BaseEntity
     {
         var dbSet = _dbContext.Set<T>();
         return dbSet;

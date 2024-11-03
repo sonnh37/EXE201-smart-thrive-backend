@@ -21,7 +21,6 @@ public class OrderController : ControllerBase
     }
 
     [HttpGet]
-    [AllowAnonymous]
     public async Task<IActionResult> GetAll([FromQuery] OrderGetAllQuery query)
     {
         var msg = await service.GetAll<OrderResult>(query);

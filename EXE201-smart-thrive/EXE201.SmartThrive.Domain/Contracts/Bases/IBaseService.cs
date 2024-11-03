@@ -18,4 +18,5 @@ public interface IBaseService
     Task<BusinessResult> Update(UpdateCommand tRequest);
 
     Task<BusinessResult> DeleteById(Guid id);
+    Task<BusinessResult> RemoveById(Guid id);
 }
