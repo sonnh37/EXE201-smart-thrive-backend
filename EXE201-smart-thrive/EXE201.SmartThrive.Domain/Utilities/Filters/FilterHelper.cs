@@ -161,6 +161,13 @@ public static class FilterHelper
         {
             queryable = queryable.Where(m => query.IsActive.Contains(m.IsActive));
         }
+        
+        // Lọc những 
+        if (query.PackageId != null)
+        {
+            queryable = queryable.Where(course => 
+                course.PackageXCourses.Any(packageXCourse => packageXCourse.PackageId != query.PackageId));
+        }
 
         queryable = BaseFilterHelper.Base(queryable, query);
 

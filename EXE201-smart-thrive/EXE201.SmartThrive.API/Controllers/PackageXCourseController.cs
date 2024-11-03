@@ -44,9 +44,9 @@ namespace EXE201.SmartThrive.API.Controllers
         }
 
         [HttpDelete("{id:guid}")]
-        public async Task<IActionResult> Delete([FromRoute] Guid id)
+        public async Task<IActionResult> Remove([FromRoute] Guid id)
         {
-            var msg = await _service.DeleteById(id);
+            var msg = await _service.RemoveById(id);
             return Ok(msg);
         }
 

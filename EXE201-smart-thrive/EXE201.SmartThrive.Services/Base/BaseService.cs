@@ -162,8 +162,29 @@ public abstract class BaseService<TEntity> : BaseService, IBaseService
             return ResponseHelper.CreateResult(errorMessage);
         }
     }
+    
+    public async Task<BusinessResult> RemoveById(Guid id)
+    {
+        try
+        {
+            if (id == Guid.Empty) return new BusinessResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG);
 
-    private static void SetBaseEntityCreate(TEntity? entity)
+            var entity = await RemoveEntity(id);
+
+            return new BusinessResult(
+                entity != null ? Const.SUCCESS_CODE : Const.FAIL_CODE,
+                entity != null ? Const.SUCCESS_DELETE_MSG : Const.FAIL_DELETE_MSG
+            );
+        }
+        catch (Exception ex)
+        {
+            var errorMessage = $"An error occurred while deleting {typeof(TEntity).Name} with ID {id}: {ex.Message}";
+            Log.Error(ex, errorMessage);
+            return ResponseHelper.CreateResult(errorMessage);
+        }
+    }
+
+    protected static void SetBaseEntityCreate(TEntity? entity)
     {
         if (entity == null) return;
 
@@ -179,7 +200,7 @@ public abstract class BaseService<TEntity> : BaseService, IBaseService
         entity.CreatedBy = user.Email;
     }
 
-    private static void SetBaseEntityUpdate(TEntity? entity)
+    protected static void SetBaseEntityUpdate(TEntity? entity)
     {
         if (entity == null) return;
 
@@ -197,6 +218,17 @@ public abstract class BaseService<TEntity> : BaseService, IBaseService
         if (entity == null) return null;
 
         _baseRepository.Delete(entity);
+
+        var saveChanges = await _unitOfWork.SaveChanges();
+        return saveChanges ? entity : default;
+    }
+    
+    private async Task<TEntity?> RemoveEntity(Guid id)
+    {
+        var entity = await _baseRepository.GetById(id);
+        if (entity == null) return null;
+
+        _baseRepository.Remove(entity);
 
         var saveChanges = await _unitOfWork.SaveChanges();
         return saveChanges ? entity : default;

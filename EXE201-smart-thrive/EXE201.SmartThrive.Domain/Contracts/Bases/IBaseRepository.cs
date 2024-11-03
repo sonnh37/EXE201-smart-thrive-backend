@@ -1,5 +1,6 @@
 ﻿using EXE201.SmartThrive.Domain.Entities;
 using EXE201.SmartThrive.Domain.Models.Requests.Queries.Base;
+using Microsoft.EntityFrameworkCore;
 
 namespace EXE201.SmartThrive.Domain.Contracts.Bases;
 
@@ -34,6 +35,9 @@ public interface IBaseRepository<TEntity> : IBaseRepository
     void Update(TEntity entity);
     void UpdateRange(IEnumerable<TEntity> entities);
     void Delete(TEntity entity);
+    void Remove(TEntity entity);
+    void RemoveRange(IEnumerable<TEntity> entity);
     void DeleteRange(IEnumerable<TEntity> entities);
     void CheckCancellationToken(CancellationToken cancellationToken = default);
+    DbSet<T> GetDbSet<T>() where T : BaseEntity;
 }
