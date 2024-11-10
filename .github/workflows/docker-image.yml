@@ -28,7 +28,7 @@ jobs:
 
     # Build Docker image
     - name: Build the Docker image
-      run: docker build . --file EXE201-smart-thrive/Dockerfile --tag sonnh37/exe201smartthriveapi:latest
+      run: docker build -f EXE201-smart-thrive/Dockerfile EXE201-smart-thrive/ --tag sonnh37/exe201smartthriveapi:latest
 
     # Push Docker image lên Docker Hub
     - name: Push Docker image
