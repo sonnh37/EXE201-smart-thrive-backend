@@ -47,7 +47,9 @@ namespace EXE201.SmartThrive.Services
                 amount += (int)items.Course.Price;
             }
             // Init data for request
-            var domain = _configuration.GetSection("Domain").Value;
+            //https://localhost:9876/api
+            //var domain = _configuration.GetSection("Domain").Value;
+            var domain = "https://smartthrive-api-frggf8gchbfbgneh.southeastasia-01.azurewebsites.net/api";
             var successReturnUrl = domain + "/payments/success?orderId=" + orderId;
             var failReturnUrl = domain + "/payments/fail?orderId=" + orderId;
             var orderCode = int.Parse(DateTimeOffset.Now.ToString("ffffff"));
