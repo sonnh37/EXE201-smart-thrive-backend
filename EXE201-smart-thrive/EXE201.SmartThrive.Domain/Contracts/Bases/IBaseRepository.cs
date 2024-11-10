@@ -13,6 +13,8 @@ public interface IBaseRepository<TEntity> : IBaseRepository
 {
     Task<bool> IsExistById(Guid id);
 
+    DbContext Context();
+
     IQueryable<TEntity> GetQueryable(CancellationToken cancellationToken = default);
 
     Task<long> GetTotalCount();

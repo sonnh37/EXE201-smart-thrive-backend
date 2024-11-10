@@ -24,6 +24,8 @@ public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : 
     {
         Mapper = mapper;
     }
+    
+    public DbContext Context() => _dbContext;
 
     public DbSet<TEntity> DbSet
     {
