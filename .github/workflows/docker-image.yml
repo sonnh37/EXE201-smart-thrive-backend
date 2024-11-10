@@ -14,5 +14,22 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+
+    # Cài đặt Docker Buildx
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+
+    # Đăng nhập vào Docker Hub
+    - name: Log in to Docker Hub
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    # Build Docker image
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag sonnh37/exe201smartthriveapi:latest
+      run: docker build . --file EXE201-smart-thrive/Dockerfile --tag sonnh37/exe201smartthriveapi:latest
+
+    # Push Docker image lên Docker Hub
+    - name: Push Docker image
+      run: docker push sonnh37/exe201smartthriveapi:latest
