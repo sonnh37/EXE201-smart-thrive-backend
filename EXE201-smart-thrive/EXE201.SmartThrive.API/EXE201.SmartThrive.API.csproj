@@ -35,10 +35,4 @@
         <ProjectReference Include="..\EXE201.SmartThrive.Services\EXE201.SmartThrive.Services.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Content Include="..\.dockerignore">
-        <Link>.dockerignore</Link>
-      </Content>
-    </ItemGroup>
-
 </Project>
