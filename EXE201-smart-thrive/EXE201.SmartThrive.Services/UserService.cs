@@ -286,7 +286,14 @@ public class UserService : BaseService<User>, IUserService
 
         if (user == null)
         {
-            return new BusinessResult(Const.FAIL_CODE, Const.NOT_FOUND_USER_LOGIN_BY_GOOGLE_MSG);
+            //register now
+            var response_ = await RegisterByGoogleAsync(new RegisterByGoogleRequest()
+            {
+                Token = request.Token,
+                Password = null,
+            });
+
+            return response_;
         }
 
         var userResult = _mapper.Map<UserResult>(user);
@@ -344,12 +351,11 @@ public class UserService : BaseService<User>, IUserService
         }
 
         //string base64Image = await GetBase64ImageFromUrl(payload.Picture);
-        var passwordHash = BCrypt.Net.BCrypt.HashPassword(request.Password);
         UserCreateCommand _user = new UserCreateCommand
         {
             Username = payload.Subject,
             Email = payload.Email,
-            Password = passwordHash,
+            Password = request.Password != null ? BCrypt.Net.BCrypt.HashPassword(request.Password) : null,
             FirstName = payload.GivenName,
             LastName = payload.FamilyName,
             Role = Role.Customer,

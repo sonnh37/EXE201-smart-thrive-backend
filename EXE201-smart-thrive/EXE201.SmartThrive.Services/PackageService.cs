@@ -6,6 +6,7 @@ using EXE201.SmartThrive.Domain.Contracts.UnitOfWorks;
 using EXE201.SmartThrive.Domain.Entities;
 using EXE201.SmartThrive.Domain.ExceptionHandler;
 using EXE201.SmartThrive.Domain.Models.Requests.Commands.Package;
+using EXE201.SmartThrive.Domain.Models.Requests.Commands.PackageXCourse;
 using EXE201.SmartThrive.Domain.Models.Responses;
 using EXE201.SmartThrive.Domain.Utilities;
 using EXE201.SmartThrive.Services.Base;
@@ -18,13 +19,11 @@ namespace EXE201.SmartThrive.Services
     {
         private readonly IPackageRepository _packageRepository;
         private readonly IPackageXCourseRepository _packageXCourseRepository;
-        private readonly STDbContext _stDbContext;
 
-        public PackageService(IMapper mapper, IUnitOfWork unitOfWork, STDbContext _context) : base(mapper, unitOfWork)
+        public PackageService(IMapper mapper, IUnitOfWork unitOfWork) : base(mapper, unitOfWork)
         {
             _packageRepository = unitOfWork.PackageRepository;
             _packageXCourseRepository = unitOfWork.PackageXCourseRepository;
-            _stDbContext = _context;
         }
 
         public async Task<BusinessResult> CreateWithStudentId(PackageCreateWithStudentCommand request)
@@ -53,69 +52,67 @@ namespace EXE201.SmartThrive.Services
             return new BusinessResult(Const.SUCCESS_CODE, Const.SUCCESS_CREATE_MSG, studentXPackage);
         }
 
-        public async Task<BusinessResult> Update(PackageUpdateCommand tRequest)
-        {
-            try
-            {
-                // Lấy entity từ repository
-        var entity = await _packageRepository.GetById(tRequest.Id);
-        if (entity == null) return new BusinessResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG);
-
-        // Lấy danh sách CourseId mới từ tRequest
-        var newCourseIds = tRequest.PackageXCourses.Select(x => x.CourseId);
-
-        // Tìm các bản ghi cần xóa khỏi entity.PackageXCourses
-        var toRemove = entity.PackageXCourses
-            .Where(existing => !newCourseIds.Contains(existing.CourseId));
-            
-
-        foreach (var item in toRemove)
-        {
-            _stDbContext.Entry(item).State = EntityState.Detached; // Tách thực thể khỏi tracking
-            _packageXCourseRepository.Remove(item); // Gọi Remove cho từng item
-        }
-
-        // Thêm hoặc cập nhật các bản ghi mới
-        foreach (var newItem in tRequest.PackageXCourses)
-        {
-            var existingCourse = entity.PackageXCourses
-                .SingleOrDefault(existing => existing.CourseId == newItem.CourseId);
-                
-            if (existingCourse != null)
-            {
-                // Nếu thực thể đã tồn tại, chỉ cần cập nhật nó
-                _mapper.Map(newItem, existingCourse);
-            }
-            else
-            {
-                // Nếu chưa tồn tại, thêm mới
-                var packageXCourse = new PackageXCourse
-                {
-                    CourseId = newItem.CourseId,
-                    PackageId = tRequest.Id
-                };
-                entity.PackageXCourses.Add(packageXCourse);
-            }
-        }
-
-        // Cập nhật các thuộc tính khác của entity
-        _mapper.Map(tRequest, entity);
-        SetBaseEntityUpdate(entity);
-        _packageRepository.Update(entity);
-
-        // Lưu thay đổi
-        var saveChanges = await _unitOfWork.SaveChanges();
-        return new BusinessResult(
-            saveChanges ? Const.SUCCESS_CODE : Const.FAIL_CODE,
-            saveChanges ? Const.SUCCESS_UPDATE_MSG : Const.FAIL_UPDATE_MSG
-        );
-            }
-            catch (Exception ex)
-            {
-                var errorMessage = $"An error occurred while updating {typeof(Package).Name}: {ex.Message}";
-                Log.Error(ex, errorMessage);
-                return ResponseHelper.CreateResult(errorMessage);
-            }
-        }
+        // public async Task<BusinessResult> Update(PackageUpdateCommand tRequest)
+        // {
+        //     try
+        //     {
+        //         // Lấy entity từ repository
+        //         var entity = await _packageRepository.GetById(tRequest.Id);
+        //         if (entity == null) return new BusinessResult(Const.WARNING_NO_DATA_CODE, Const.WARNING_NO_DATA_MSG);
+        //
+        //         // Xử lý các CourseXPackage
+        //         var existingCourses = entity.PackageXCourses.ToList();
+        //
+        //         // Xóa các CourseXPackage không còn trong tRequest
+        //         foreach (var course in existingCourses)
+        //         {
+        //             if (!tRequest.PackageXCourses.Any(c => c.CourseId == course.CourseId))
+        //             {
+        //                 _packageXCourseRepository.Remove(course);
+        //             }
+        //         }
+        //
+        //         // Thêm mới các CourseXPackage từ tRequest
+        //         foreach (var course in tRequest.PackageXCourses)
+        //         {
+        //             // Kiểm tra xem đã tồn tại trong entity chưa
+        //             var existingCourse = existingCourses.FirstOrDefault(c => c.CourseId == course.CourseId);
+        //             if (existingCourse == null)
+        //             {
+        //                 var newPackageXCourse = new PackageXCourse
+        //                 {
+        //                     CourseId = course.CourseId,
+        //                     PackageId = tRequest.Id
+        //                 };
+        //
+        //                 // Detach nếu cần thiết
+        //                 var localEntry = await _packageXCourseRepository.GetById(course.CourseId.Value);
+        //                 if (localEntry != null)
+        //                 {
+        //                     _packageXCourseRepository.Context().Entry(localEntry).State = EntityState.Detached;
+        //                 }
+        //
+        //                 _packageXCourseRepository.Add(newPackageXCourse);
+        //             }
+        //         }
+        //
+        //         // Cập nhật entity Package
+        //         _mapper.Map(tRequest, entity);
+        //         SetBaseEntityUpdate(entity);
+        //         _packageRepository.Update(entity);
+        //
+        //         var saveChanges = await _unitOfWork.SaveChanges();
+        //         return new BusinessResult(
+        //             saveChanges ? Const.SUCCESS_CODE : Const.FAIL_CODE,
+        //             saveChanges ? Const.SUCCESS_UPDATE_MSG : Const.FAIL_UPDATE_MSG
+        //         );
+        //     }
+        //     catch (Exception ex)
+        //     {
+        //         var errorMessage = $"An error occurred while updating {typeof(Package).Name}: {ex.Message}";
+        //         Log.Error(ex, errorMessage);
+        //         return ResponseHelper.CreateResult(errorMessage);
+        //     }
+        // }
     }
 }
