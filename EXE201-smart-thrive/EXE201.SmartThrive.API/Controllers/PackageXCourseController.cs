@@ -39,14 +39,14 @@ namespace EXE201.SmartThrive.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(PackageXCourseCreateCommand request)
         {
-            var msg = await _service.Create(request);
+            var msg = await _service.AddToUpdatePackagePrice(request);
             return Ok(msg);
         }
 
         [HttpDelete("{id:guid}")]
         public async Task<IActionResult> Remove([FromRoute] Guid id)
         {
-            var msg = await _service.RemoveById(id);
+            var msg = await _service.DeleteToUpdatePackagePrice(id);
             return Ok(msg);
         }
 
