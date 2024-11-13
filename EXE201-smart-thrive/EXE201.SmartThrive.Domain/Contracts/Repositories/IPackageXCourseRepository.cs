@@ -5,5 +5,7 @@ namespace EXE201.SmartThrive.Domain.Contracts.Repositories
 {
     public interface IPackageXCourseRepository : IBaseRepository<PackageXCourse>
     {
+        int AddToUpdatePackagePrice(PackageXCourse packageXCourse);
+        int DeleteToUpdatePackagePrice(Guid id);
     }
 }
