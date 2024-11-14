@@ -21,14 +21,14 @@ namespace EXE201.SmartThrive.API.Controllers
         public async Task<IActionResult> SuccessReponse([FromQuery] PaymentReturnModel response)
         {
             await _paymentService.PaymentSuccess(response);
-            return Redirect("https://exe-201-smart-thrive-frontend.vercel.app/payment/thanks");
+            return Redirect("https://smartthrive.id.vn/payment/thanks");
         }
 
         [HttpGet("/api/payments/fail")]
         public async Task<IActionResult> FailResponse([FromQuery] PaymentReturnModel response)
         {
             await _paymentService.PaymentFailure(response);
-            return Redirect("https://exe-201-smart-thrive-frontend.vercel.app/payment/fail");
+            return Redirect("https://smartthrive.id.vn/payment/fail");
         }
 
         [HttpPost]
