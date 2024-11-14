@@ -28,7 +28,7 @@ namespace EXE201.SmartThrive.API.Controllers
         public async Task<IActionResult> FailResponse([FromQuery] PaymentReturnModel response)
         {
             await _paymentService.PaymentFailure(response);
-            return Redirect("https://exe-201-smart-thrive-frontend.vercel.app/fail");
+            return Redirect("https://exe-201-smart-thrive-frontend.vercel.app/payment/fail");
         }
 
         [HttpPost]
